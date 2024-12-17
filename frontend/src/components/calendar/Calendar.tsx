@@ -7,10 +7,16 @@ import './styles.css'
 
 const ExtCalendar = ReactCalendar.Calendar;
 
-export const Calendar: FC<ICalendarProps> = ({currentDate,onChange}) => {
+export const Calendar: FC<ICalendarProps> = ({forwardRef, currentDate,onChange}) => {
     return (
-        <Box p={6} borderRadius={'10px'} boxShadow={'sm'} maxW={'400px'}>
-            <ExtCalendar activeStartDate={new Date(new Date().getTime() + (24 * 60 * 60 * 1000))} className={'calendar'} value={currentDate} onChange={(value)=>onChange&&onChange(value as Date)}/>
+        <Box ref={forwardRef} p={6} borderRadius={'10px'} backgroundColor={'white'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">
+            <ExtCalendar
+              locale={"en-EN"}
+              className={'calendar'}
+              value={currentDate}
+              onChange={(value)=> onChange && onChange(value as Date)}
+              minDate={new Date()}
+            />
         </Box>
     );
 };

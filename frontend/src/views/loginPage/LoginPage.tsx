@@ -5,7 +5,7 @@ import {GoogleIcon} from "@/assets/icons/icons.tsx";
 export const LoginPage = () => {
 
     const onLoginClick = () => {
-        window.document.location = "http://localhost:8080/api/auth/google"
+        window.document.location = "http://localhost:8000/api/auth/google"
     }
 
     return (

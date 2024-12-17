@@ -13,8 +13,9 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
   function SelectTrigger(props, ref) {
     const { children, clearable, ...rest } = props
     return (
-      <ChakraSelect.Control {...rest}>
-        <ChakraSelect.Trigger ref={ref}>{children}</ChakraSelect.Trigger>
+      <ChakraSelect.Control>
+        {/*// @ts-ignore*/}
+        <ChakraSelect.Trigger {...rest} ref={ref}>{children}</ChakraSelect.Trigger>
         <ChakraSelect.IndicatorGroup>
           {clearable && <SelectClearTrigger />}
           <ChakraSelect.Indicator />
@@ -82,7 +83,7 @@ export const SelectValueText = forwardRef<
 >(function SelectValueText(props, ref) {
   const { children, ...rest } = props
   return (
-    <ChakraSelect.ValueText {...rest} ref={ref}>
+    <ChakraSelect.ValueText _placeholder={{ color: 'rgba(30, 30, 30, 0.4)' }} {...rest} ref={ref}>
       <ChakraSelect.Context>
         {(select) => {
           const items = select.selectedItems

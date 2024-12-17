@@ -1,13 +1,11 @@
 import {Box, Button, Flex} from "@chakra-ui/react";
-import {ColorModeButton, useColorMode} from "@/components/ui/color-mode.tsx";
+import {useColorMode} from "@/components/ui/color-mode.tsx";
 import {useCallback, useMemo} from "react";
 import {Logo} from "@/components/logo";
 import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
-
     const navigation = useNavigate();
-
 
     const onLogIn = useCallback(() => {
         navigation('/login')
@@ -17,9 +15,12 @@ export const Header = () => {
 
     const isDark = useMemo(() => colorMode === 'dark', [colorMode])
 
-
     const goCreateEvent = () => {
         navigation('/create')
+    }
+
+    const goHome = () => {
+        navigation('/')
     }
 
     return (
@@ -33,7 +34,7 @@ export const Header = () => {
           zIndex={1000}
           display="flex"
           justifyContent="center"
-          py={5}
+          py="14px"
           px="30px"
           boxShadow="md"
           w={'100%'}
@@ -41,13 +42,16 @@ export const Header = () => {
         >
             <Flex w={'100%'} maxW={1440} justifyContent='center' alignItems="center">
                 <Flex w='full' justify="space-between" align="center">
-                    <Logo/>
-                    <Flex mr={10} gap={4}>
-                        <Button onClick={goCreateEvent} borderRadius={10} colorScheme="gray" variant="outline">
+                    <Box cursor="pointer" onClick={goHome}>
+                        <Logo />
+                    </Box>
+
+                    <Flex gap={4}>
+                        <Button display={{ base: 'none', md: 'block' }} onClick={goCreateEvent} borderRadius={10} colorScheme="gray" variant="outline">
                             Add event
                         </Button>
                         <Button onClick={onLogIn} borderRadius={10} colorPalette="blue">Sign up / Log in</Button>
-                        <ColorModeButton/>
+                        {/*<ColorModeButton/>*/}
                     </Flex>
                 </Flex>
             </Flex>

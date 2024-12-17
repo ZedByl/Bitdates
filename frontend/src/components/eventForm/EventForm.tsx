@@ -1,20 +1,22 @@
+import {useState} from "react";
 import {
     Box,
-    Button,
     Flex,
-    Heading,
-    Input,
-    Text,
     VStack
-} from "@chakra-ui/react";
-import {CategorySelect} from "@/components/categorySelect";
-import {useState} from "react";
-
+} from '@chakra-ui/react';
+import { FirstStep } from '@/components/eventForm/components/FirstStep.tsx';
+import { SecondStep } from '@/components/eventForm/components/SecondStep.tsx';
 
 export const EventForm = () => {
-
     const [title, setTitle] = useState<string>();
     const [category, setCategory] = useState<number>();
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [text, setText] = useState("");
+    const [eventLink, setEventLink] = useState("");
+    const [step, setStep] = useState(1);
+
+    const handleNext = () => setStep((prev) => prev + 1);
+    // const handlePrev = () => setStep((prev) => prev - 1);
 
     const onCreateEvent = () => {
         fetch('/api/events/create', {
@@ -38,26 +40,38 @@ export const EventForm = () => {
         setCategory(value.value)
     }
 
+    const onSelectDate = (value: Date | null) => {
+        setSelectedDate(value)
+    }
+
     return (
-        <Flex w={'100%'} bg="gray.50" h="100%" display="flex" alignItems="center" justifyContent="center" p={6}>
-            <Box bg="white" rounded="lg">
-                <VStack align="stretch">
-                    <Heading fontWeight={'bold'} as="h1" size="7xl" textAlign="center">
-                        Add new event
-                    </Heading>
-                    <Text fontSize="lg" color="gray.500" textAlign="center">
-                        Start Points
-                    </Text>
-                    <Input onChange={(ev) => setTitle(ev.target.value)} placeholder="Event title" size="lg"/>
+        <Flex
+          display="flex"
+          justifyContent="center"
+          w="100%"
+          pt={{ base: '120px' }}
+        >
+            <Box w="100%" maxW="710px">
+                <VStack align="stretch" gap="16px" px={{ base: '20px', md: 0 }}>
+                    {step === 1 && (
+                      <FirstStep
+                        selectedDate={selectedDate}
+                        setTitle={setTitle}
+                        onSelectDate={onSelectDate}
+                        onChangeCategory={onChangeCategory}
+                        handleNext={handleNext}
+                      />
+                    )}
 
-                    <Input placeholder="Event date" size="lg" type="date"/>
-                    <Box maxH={'40px'}>
-                        <CategorySelect onChange={onChangeCategory}/>
-                    </Box>
-
-                    <Button mt={10} onClick={onCreateEvent} colorPalette="blue" size="lg">
-                        Continue
-                    </Button>
+                    {step === 2 && (
+                      <SecondStep
+                        text={text}
+                        eventLink={eventLink}
+                        setText={setText}
+                        setEventLink={setEventLink}
+                        onCreateEvent={onCreateEvent}
+                      />
+                    )}
                 </VStack>
             </Box>
         </Flex>

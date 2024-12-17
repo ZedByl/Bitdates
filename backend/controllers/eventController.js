@@ -1,6 +1,8 @@
 const Event = require('../models/event');
 const Coin = require('../models/coin');
 const axios = require('axios');
+const helper = require('../helpers/getQuery');
+
 // Создание события
 exports.createEvent = async (req, res) => {
     try {
@@ -67,11 +69,10 @@ exports.getEvents = async (req, res) => {
 };
 
 
-exports. getExternalEvents = async (req, res) => {
+exports.getExternalEvents = async (req, res) => {
     try {
-        const category = req.query.category || '1';
-        console.log(category, 'category')
-        const response = await axios.get(`https://developers.coinmarketcal.com/v1/events?categories=${category}`, {
+        const query = helper.queryHelper(req.query);
+        const response = await axios.get(`https://developers.coinmarketcal.com/v1/events${query}`, {
             headers: {
                 Accept: 'application/json',
                 'Accept-Encoding': 'deflate, gzip',

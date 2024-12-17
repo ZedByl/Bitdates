@@ -9,7 +9,7 @@ module.exports.login = (req, res) => {
 
     res.cookie('authToken', token, { httpOnly: true, secure: true });
 
-    res.redirect(`http://localhost:8080`);
+    res.redirect(`http://localhost:8000`);
 };
 
 module.exports.logout = (req, res) => {

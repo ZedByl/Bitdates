@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const authenticateUser = (req, res, next) => {
     const token = req.cookies.authToken;
 
-    console.log(token,req);
+    // console.log(token, req);
 
     if (!token) {
         return res.status(401).json({ message: 'Требуется авторизация' });

@@ -6,7 +6,7 @@ const eventController = require('../controllers/eventController');
 router.post('/create', eventController.createEvent);
 
 // Маршрут для получения событий с фильтрацией
-router.get('/', eventController.getEvents);
+router.get('/', eventController.getExternalEvents);
 
 router.get('/external-events', eventController.getExternalEvents)
 

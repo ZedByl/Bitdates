@@ -4,7 +4,7 @@ import {EventForm} from "@/components/eventForm";
 
 export const CreateEventPage = () => {
     return (
-        <Box w={'100%'} h={'100vh'}>
+        <Box w={'100%'}>
             <Header/>
             <EventForm/>
         </Box>

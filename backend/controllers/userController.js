@@ -8,7 +8,7 @@ exports.createSubscription = async (req, res) => {
     try {
         const {email} = req.body;
 
-        console.log(req.body);
+        // console.log(req.body);
 
         const subscription = new Subscription({
             email: email,

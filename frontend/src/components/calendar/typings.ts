@@ -1,4 +1,7 @@
+import { RefObject } from 'react';
+
 export interface ICalendarProps {
-    currentDate?: Date;
-    onChange?: (value?: Date) => void;
+    currentDate: Date | null;
+    onChange: (value: Date | null) => void;
+    forwardRef?: RefObject<HTMLDivElement>
 }

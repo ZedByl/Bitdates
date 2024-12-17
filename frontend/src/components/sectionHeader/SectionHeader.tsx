@@ -2,9 +2,8 @@ import {Box, Heading, Text} from "@chakra-ui/react";
 import {FC} from "react";
 import {SectionHeaderProps} from "./typings.ts";
 
-const options = {
+const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
-    year: "numeric",
     month: "long",
     day: "numeric",
 };
@@ -15,7 +14,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({title, date}) => {
                 {title}
             </Heading>
             <Text color="gray.500">
-                {date.map(dt => dt.toLocaleDateString('us', options as any) + (date.length > 1 ? '->' : ""))}
+                {date.map((dt, index) => dt.toLocaleDateString('en-EN', options as any) + (date.length > 1 && !index ? ' -> ' : ""))}
             </Text>
         </Box>
     );
