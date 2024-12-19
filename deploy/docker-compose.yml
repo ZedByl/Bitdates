@@ -3,7 +3,7 @@ services:
     image: mongo:latest
     restart: always
     env_file:
-      - ../backend/.env
+      - ../backend/.env.prod
     networks:
       - web
     ports:
@@ -17,7 +17,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ../backend/.env
+      - ../backend/.env.prod
     depends_on:
       - mongo
     networks:
@@ -50,7 +50,7 @@ services:
     depends_on:
       - frontend
       - backend
-      - postgres
+      - mongo
     restart: always
     ports:
       - "80:80"
@@ -78,3 +78,4 @@ networks:
 
 volumes:
   frontend-build:
+  mongo-data:
