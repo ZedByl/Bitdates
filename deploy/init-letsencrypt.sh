@@ -6,7 +6,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # set domains
-domains=(botflex.io)
+domains=(bitdates.io)
 rsa_key_size=4096
 data_path="./certbot"
 email="blackjug87@gmail.com" # Adding a valid address is strongly recommended
@@ -68,7 +68,7 @@ docker-compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
       --preferred-challenges http \
       --email blackjug87@gmail.com \
-      -d botflex.io \
+      -d bitdates.io \
       --rsa-key-size 4096 \
       --agree-tos \
       --force-renewal" certbot
