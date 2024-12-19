@@ -53,7 +53,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
                       </HStack>
                     )}
 
-                    <Box>
+                    <Box w={{ base: '100%', md: 'auto' }}>
                         <Button display={{ base: 'block', md: 'none' }} size={'xl'} w={'100%'} color={'black'} borderRadius={'10px'} backgroundColor={'#EFF2F4'}>
                             Add to calendar
                             <CalendarIcon w={'50px'} h={'50px'} />

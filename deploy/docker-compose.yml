@@ -1,15 +1,15 @@
 services:
-  postgres:
-    image: postgres
+  mongo:
+    image: mongo:latest
     restart: always
     env_file:
-      - ../backend/.env.prod
-    ports:
-      - "25432:5432"
+      - ../backend/.env
     networks:
       - web
+    ports:
+      - '27017:27017'
     volumes:
-      - ../backend/db/data:/var/lib/postgresql/data
+      - mongo-data:/data/db
 
   backend:
     image: node:22.4.0
@@ -17,20 +17,17 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ../backend/.env.prod
+      - ../backend/.env
     depends_on:
-      - postgres
+      - mongo
     networks:
       - web
     working_dir: /usr/src/app
     volumes:
       - ../backend:/usr/src/app
-      - ../backend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
-      - ../backend/.yarn:/usr/src/app/.yarn
     command: bash -c "
-      yarn install
-      && yarn build
-      && yarn start:prod"
+      npm install
+      && npm run dev"
 
   frontend:
     image: node:22.4.0
@@ -42,15 +39,11 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
-      - ../frontend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
-      - ../frontend/.yarn:/usr/src/app/.yarn
-      - frontend-build:/usr/src/app/build
     ports:
-      - "5000:5000"
+      - "5050:5050"
     command: bash -c "
-      yarn install
-      && yarn build
-      && yarn dev --host 0.0.0.0"
+      npm install
+      && npm run dev"
 
   nginx:
     build: nginx

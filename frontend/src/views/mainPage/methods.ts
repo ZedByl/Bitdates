@@ -46,12 +46,12 @@ export const getNextDateRange = (type: "week" | "month"): { start: string; end: 
 		throw new Error("Invalid type. Use 'week' or 'month'.");
 	}
 
-	// Преобразуем даты в формат YYYY-MM-DD
-	const formatDate = (date: Date): string =>
-		date.toISOString().split("T")[0];
-
 	return {
-		start: formatDate(startDate),
-		end: formatDate(endDate),
+		start: formatDateForApi(startDate),
+		end: formatDateForApi(endDate),
 	};
 }
+
+// Преобразуем даты в формат YYYY-MM-DD
+export const formatDateForApi = (date: Date): string =>
+	date.toISOString().split("T")[0];

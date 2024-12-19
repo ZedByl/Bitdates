@@ -13,14 +13,15 @@ import {EventCard} from "@/components/eventCard";
 import {useEffect, useState} from "react";
 import {CategorySelect} from "@/components/categorySelect";
 import { EventAPI } from '@/models/event.ts';
-import { formatDate, getNextDateRange } from '@/views/mainPage/methods.ts';
+import {formatDate, formatDateForApi, getNextDateRange} from '@/views/mainPage/methods.ts';
+import {CategorySelectState} from "@/components/categorySelect/typings.ts";
 
 export const MainPage = () => {
     const [eventsDay, setEventsDay] = useState<EventAPI[]>([]);
     const [eventsWeek, setEventsWeek] = useState<EventAPI[]>([]);
     const [eventsMonth, setEventsMonth] = useState<EventAPI[]>([]);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-    const [selectedCategory, setSelectedCategory] = useState<number>();
+    const [selectedCategory, setSelectedCategory] = useState<CategorySelectState>();
     const [search, setSearch] = useState<string>();
 
     const nextWeek = getNextDateRange('week');
@@ -36,8 +37,8 @@ export const MainPage = () => {
               searchParams.append('q', search)
           }
 
-          if (selectedCategory && searchParams) {
-              searchParams.append('categories', selectedCategory.toString())
+          if (selectedCategory?.value && searchParams) {
+              searchParams.append('categories', selectedCategory.value.toString())
           }
 
           return await fetch(`/api/events${searchParams ? '?' + searchParams.toString() : ''}`, {
@@ -53,6 +54,11 @@ export const MainPage = () => {
     const getEventsDay = async () => {
       try {
           const searchParams = new URLSearchParams();
+
+          const date = formatDateForApi(selectedDate || new Date())
+
+          searchParams.append('dateRangeStart', date)
+          searchParams.append('dateRangeEnd', date)
 
           const events = await fetchEvents(searchParams)
           setEventsDay(events)
@@ -98,13 +104,19 @@ export const MainPage = () => {
     useEffect(() => {
         (async () => {
             await getEventsDay()
+        })()
+    }, [search, selectedCategory]);
+
+    useEffect(() => {
+        (async () => {
+            await getEventsDay()
             await getEventsWeek()
             await getEventsMonth()
         })()
     }, [search, selectedCategory]);
 
-    const onChangeSelect = (val: any) => {
-        setSelectedCategory(val.value)
+    const onChangeSelect = (e: CategorySelectState) => {
+        setSelectedCategory(e)
     }
 
 
@@ -119,7 +131,7 @@ export const MainPage = () => {
             <Box
               position={'relative'}
               px={{ base: '20px', md: '30px', lg: 0 }}
-              pb={{ base: '60px', md: '120px' }}
+              pb={{ base: '60px', md: '80px' }}
             >
                 <MainContent
                   currentDate={selectedDate}
@@ -157,7 +169,7 @@ export const MainPage = () => {
                             {!!eventsDay.length && (
                               <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
                                   {eventsDay?.map((item, key) => (
-                                    <EventCard categoryId={selectedCategory} key={key} {...item} />
+                                    <EventCard key={key} {...item} />
                                   ))}
                               </VStack>
                             )}
@@ -179,7 +191,7 @@ export const MainPage = () => {
                             {!!eventsWeek.length && (
                               <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
                                   {eventsWeek?.map((item, key) => (
-                                    <EventCard categoryId={selectedCategory} key={key} {...item} />
+                                    <EventCard key={key} {...item} />
                                   ))}
                               </VStack>
                             )}
@@ -201,7 +213,7 @@ export const MainPage = () => {
                             {!!eventsMonth.length && (
                               <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
                                   {eventsMonth?.map((item, key) => (
-                                    <EventCard categoryId={selectedCategory} key={key} {...item} />
+                                    <EventCard key={key} {...item} />
                                   ))}
                               </VStack>
                             )}
@@ -219,7 +231,7 @@ export const MainPage = () => {
                       h={'full'}
                     >
                         <Calendar currentDate={selectedDate} onChange={onSelectDate} />
-                        <SubscriptionCard/>
+                        <SubscriptionCard />
                     </Stack>
                 </Stack>
             </Box>

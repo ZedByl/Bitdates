@@ -14,7 +14,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({title, date}) => {
                 {title}
             </Heading>
             <Text color="gray.500">
-                {date.map((dt, index) => dt.toLocaleDateString('en-EN', options as any) + (date.length > 1 && !index ? ' -> ' : ""))}
+                {date.map((dt, index) => dt.toLocaleDateString('en-EN', options) + (date.length > 1 && !index ? ' -> ' : ""))}
             </Text>
         </Box>
     );

@@ -6,63 +6,105 @@ const helper = require('../helpers/getQuery');
 // Создание события
 exports.createEvent = async (req, res) => {
     try {
-        const {title, category, eventDate, description, eventLink, imageUrl} = req.body;
+        const {
+            title,
+            description,
+            proof,
+            date_event,
+            categories,
+        } = req.body;
 
-        if (!title || !category || !eventDate) {
-            return res.status(400).json({message: 'Поля title, category и eventDate обязательны'});
+        // Validate required fields
+        if (!title || !categories || !date_event) {
+            return res.status(400).json({ message: 'Поля title, category и eventDate обязательны' });
         }
 
+        // Handle `image` file
+        const imageUrl = req.file ? req.file.path : null;
+
+        let parsedCategories;
+        try {
+            parsedCategories = JSON.parse(categories); // Convert stringified JSON to array
+            if (!Array.isArray(parsedCategories)) {
+                throw new Error('Categories must be an array');
+            }
+        } catch (err) {
+            return res.status(400).json({ message: 'Invalid categories format', error: err.message });
+        }
+
+        // Create new event
         const newEvent = new Event({
-            title,
-            category,
-            eventDate,
-            description,
-            eventLink,
-            imageUrl
+            title: { en: title },
+            description: { en: description },
+            categories: parsedCategories,
+            date_event,
+            proof,
+            image_url: imageUrl,
         });
 
+        // Save to database
         const savedEvent = await newEvent.save();
         res.status(201).json(savedEvent);
     } catch (error) {
-        console.error('Ошибка при создании события:', error);  // Выводим ошибку в консоль
-        res.status(500).json({message: 'Ошибка при создании события', error: error.message});
+        console.error('Ошибка при создании события:', error);
+        res.status(500).json({ message: 'Ошибка при создании события', error: error.message });
     }
 };
 
+
 exports.getEvents = async (req, res) => {
     try {
-        const {eventDate, startDate, endDate, category, q} = req.query;
+        const query = helper.queryHelper(req.query);
+        const { q, categories, coins, dateEvent, dateRangeStart, dateRangeEnd } = req.query
 
         // Построение фильтров
         let filter = {};
 
-        // Фильтр по категории
-        if (category) {
-            filter.category = {
-                $elemMatch: { id: Number(category) } // или { id: Number(category) } если фильтр по id
+        if (categories) {
+            filter.categories = {
+                $elemMatch: { id: categories }
+            }
+        }
+
+        if (coins) {
+            filter.coins = {
+                $elemMatch: { id: coins }
+            }
+        }
+
+        if (dateEvent) {
+            filter.date_event = dateEvent;
+        }
+
+        if (dateRangeStart && dateRangeEnd) {
+            filter.date_event = {
+                $gte: dateRangeStart,
+                $lte: dateRangeEnd
             };
         }
 
-        // Фильтр по конкретной дате
-        if (eventDate) {
-            filter.eventDate = new Date(eventDate);
-        }
+        // if (q) {
+        //     filter.title = { $regex: q, $options: 'i' };
+        // }
 
-        // Фильтр по диапазону дат
-        if (startDate && endDate) {
-            filter.eventDate = {
-                $gte: new Date(startDate),
-                $lte: new Date(endDate)
-            };
-        }
+        const response = await axios.get(`https://developers.coinmarketcal.com/v1/events${query}`, {
+            headers: {
+                Accept: 'application/json',
+                'Accept-Encoding': 'deflate, gzip',
+                'x-api-key': 'kJY4DZVcgH9vEmgyBIFAT8RICqPHDr9z8R34Cbo3'
+            },
+        });
 
-        if (q) {
-            filter.title = { $regex: q, $options: 'i' };
-        }
+        const eventsApi = response.data.body || []
+        const eventsDb = await Event.find(filter).sort({ date_event: 1 });
 
+        const combinedEvents = [...eventsApi, ...eventsDb];
 
-        const events = await Event.find(filter).populate("coins").sort({eventDate: 1});
-        res.status(200).json(events);
+        const sortedEvents = combinedEvents.sort((a, b) => {
+            return new Date(a.date_event) - new Date(b.date_event);
+        });
+
+        res.status(200).json({ body: sortedEvents });
     } catch (error) {
         res.status(500).json({message: 'Ошибка при получении событий', error});
     }

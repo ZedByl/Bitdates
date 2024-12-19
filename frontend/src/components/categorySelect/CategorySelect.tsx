@@ -22,8 +22,8 @@ import {
     TokenSaleIcon,
     VotingIcon
 } from '@/assets/icons/icons.tsx';
-import { FC, useState } from "react";
-import { CategorySelectProps } from "@/components/categorySelect/typings.ts";
+import {FC, useEffect, useState} from "react";
+import {CategorySelectProps, CategorySelectState} from "@/components/categorySelect/typings.ts";
 
 export const categories = [
     { value: 1, label: "Listing", icon: <ListingIcon w="100%" h="100%" /> },
@@ -41,7 +41,7 @@ export const categories = [
     { value: 13, label: "Educational", icon: <EducationalIcon w="100%" h="100%" /> },
 ];
 
-export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size }) => {
+export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size, defaultValue }) => {
     const { open, onToggle, onClose } = useDisclosure();
     const [selectedCategory, setSelectedCategory] = useState<{
         value: number;
@@ -49,13 +49,19 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
         icon: JSX.Element;
     } | null>(null);
 
-    const handleSelect = (category: typeof categories[0]) => {
+    const handleSelect = (category: CategorySelectState) => {
         setSelectedCategory(category);
         onClose(); // Закрыть выпадающий список
         if (onChange) {
             onChange(category);
         }
     };
+
+    useEffect(() => {
+        if (defaultValue) {
+            handleSelect(defaultValue)
+        }
+    }, [defaultValue]);
 
     return (
       <Box position="relative" w="full">

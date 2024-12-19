@@ -20,8 +20,9 @@ const options: Intl.DateTimeFormatOptions = {
 };
 
 export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose}) => {
-    const { title, coins, date_event, description, proof } = event || {}
-    const coin = coins && (coins[0] || {})
+    const { title, coins, date_event: dateEvent, image_url: imageUrl, description, proof } = event || {}
+    const coin = coins && (coins[0] || null)
+
     console.log(event)
 
     const handleOpenSourceLink = () => {
@@ -29,9 +30,37 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
         window.open(proof, "_blank");
     }
 
+    const handleOpenCalendar = () => {
+        const searchParams = new URLSearchParams();
+
+        const baseUrl = 'https://calendar.google.com/calendar/u/0/r/eventedit'
+        const text = title?.en || ''
+        const details = description?.en
+        const date = dateEvent && new Date(dateEvent);
+
+        const formattedDate = date ? date.toISOString().slice(0, 10).replace(/-/g, '') : ''
+
+        if (text) {
+            searchParams.append('text', text)
+        }
+        if (details) {
+            searchParams.append('details', details)
+        }
+
+        searchParams.append('dates', `${formattedDate}/${formattedDate}`)
+
+        // dates=20201231T160000/20201231T170000
+        // recur=RRULE:FREQ%3DWEEKLY;UNTIL%3D20210603
+        // ctz=America/Toronto
+
+        const url = baseUrl + (searchParams ? '?' + searchParams.toString() : '')
+        console.log(url)
+        window.open(url, "_blank");
+    }
+
     return (
-        <DialogRoot open={open} placement="center" motionPreset="slide-in-bottom">
-            <DialogContent maxW={'1280px'} m={{ md: '0 30px' }} borderRadius={{ base: 0, md: '20px' }}>
+        <DialogRoot open={open} size={{ smOnly: 'full' }} placement="center" motionPreset="slide-in-bottom" scrollBehavior="inside">
+            <DialogContent maxW={'1280px'} maxH={{ base: '100%' }} m={{ md: '0 30px' }} borderRadius={{ base: 0, md: '20px' }}>
                 <DialogHeader>
                     <Flex w={'full'} justifyContent={'flex-start'}>
                         <DialogCloseTrigger onClick={onClose}/>
@@ -41,37 +70,39 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                 <DialogBody>
                     <Flex w="100%" direction={{ base: 'column-reverse', lg: 'row' }} justify="space-between" align="start" gap={{ base: '60px' }}>
                         <VStack maxW={{ lg: '440px' }} w="100%" align="start">
-                            <Box w="100%" p={{ base: '20px' }} bg="white" borderRadius={'16px'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">
-                                <HStack gap={{ base: '16px'}}>
-                                    <Image
-                                        src={coinImage}
-                                        boxSize="50px"
-                                        alt={coin?.fullname}
-                                    />
+                            {coin && (
+                                <Box w="100%" p={{ base: '20px' }} bg="white" borderRadius={'16px'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">
+                                    <HStack gap={{ base: '16px'}}>
+                                        <Image
+                                            src={coinImage}
+                                            boxSize="50px"
+                                            alt={coin?.fullname}
+                                        />
 
-                                    {coin && <Text fontWeight="bold" fontSize="lg">{coin?.name}</Text>}
-                                </HStack>
+                                        <Text fontWeight="bold" fontSize="lg">{coin?.name}</Text>
+                                    </HStack>
 
-                                {/*<VStack align="start" mt={4}>*/}
-                                {/*    <Box>*/}
-                                {/*        <Text color="gray.500">Price</Text>*/}
-                                {/*        <HStack justify="space-between" w="100%">*/}
-                                {/*            <Text fontWeight="bold">0.004567 USD</Text>*/}
-                                {/*        </HStack>*/}
-                                {/*        <Box h="2px" bg="blue.500" mt={2}/>*/}
-                                {/*    </Box>*/}
+                                    {/*<VStack align="start" mt={4}>*/}
+                                    {/*    <Box>*/}
+                                    {/*        <Text color="gray.500">Price</Text>*/}
+                                    {/*        <HStack justify="space-between" w="100%">*/}
+                                    {/*            <Text fontWeight="bold">0.004567 USD</Text>*/}
+                                    {/*        </HStack>*/}
+                                    {/*        <Box h="2px" bg="blue.500" mt={2}/>*/}
+                                    {/*    </Box>*/}
 
-                                {/*    <Box>*/}
-                                {/*        <Text color="gray.500">Marketcap</Text>*/}
-                                {/*        <Text fontWeight="bold">300M USD</Text>*/}
-                                {/*    </Box>*/}
+                                    {/*    <Box>*/}
+                                    {/*        <Text color="gray.500">Marketcap</Text>*/}
+                                    {/*        <Text fontWeight="bold">300M USD</Text>*/}
+                                    {/*    </Box>*/}
 
-                                {/*    <Box>*/}
-                                {/*        <Text color="gray.500">Volume</Text>*/}
-                                {/*        <Text fontWeight="bold">506K USD</Text>*/}
-                                {/*    </Box>*/}
-                                {/*</VStack>*/}
-                            </Box>
+                                    {/*    <Box>*/}
+                                    {/*        <Text color="gray.500">Volume</Text>*/}
+                                    {/*        <Text fontWeight="bold">506K USD</Text>*/}
+                                    {/*    </Box>*/}
+                                    {/*</VStack>*/}
+                                </Box>
+                            )}
 
                             <Box maxW={{ lg: '440px' }}>
                                 <SubscriptionCard />
@@ -97,6 +128,7 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                                   width={{ md: '50%' }}
                                   h={{ base: '58px' }}
                                   colorScheme="blue"
+                                  onClick={handleOpenCalendar}
                                 >
                                     Add event to Calendar <CalendarIcon />
                                 </Button>
@@ -113,6 +145,10 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                                 </Button>
                             </Stack>
 
+                            {imageUrl && (
+                                <Image borderRadius={"16px"} rounded="md" src={window.location.origin + '/api/' + imageUrl} alt={title?.en} />
+                            )}
+
                             <Separator m={{ base: '8px 0' }} />
 
                             <VStack align="start" w="100%" gap={{ base: '32px' }}>
@@ -121,7 +157,7 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                                         Event date
                                     </Text>
 
-                                    {date_event && <Text fontSize={'md'} color='gray.400'>{new Date(date_event).toLocaleDateString('en-EN', options)}</Text>}
+                                    {dateEvent && <Text fontSize={'md'} color='gray.400'>{new Date(dateEvent).toLocaleDateString('en-EN', options)}</Text>}
                                 </Box>
 
 

@@ -14,6 +14,12 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { InputGroup } from '@/components/ui/input-group.tsx';
 import { CalendarIcon } from '@/assets/icons/icons.tsx';
 
+const options: Intl.DateTimeFormatOptions = {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+};
+
 export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const dateInput = useRef<HTMLInputElement>(null)
@@ -40,24 +46,22 @@ export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange }) => {
 						endElement={<CalendarIcon w={'36px'} h={'36px'}/>}
 					>
 						<Input
-							{...(currentDate && { value: currentDate.toLocaleDateString("en-EN") })}
 							ref={dateInput}
 							bg="white"
 							placeholder="Event date"
-							value={currentDate ? currentDate.toLocaleDateString("en-EN") : undefined}
+							value={currentDate ? currentDate.toLocaleDateString("en-EN", options) : undefined}
 							h={{ base: '58px' }}
 							_focus={{
-								border: 0,
 								outlineStyle: "none"
 							}}
 							_focusVisible={{
-								border: 0,
 								outlineStyle: "none"
 							}}
 							border={0}
 							borderRadius="14px"
 							size="xl"
 							boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
+							onChange={() => null}
 							onClick={() => setIsOpen(true)}
 							cursor='pointer'
 						/>

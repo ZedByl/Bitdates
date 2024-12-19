@@ -18,6 +18,7 @@ export interface EventAPI {
 	original_source: string;
 	proof: string;
 	source: string;
+	image_url?: string;
 }
 
 // Тип для локализованных строк

@@ -4,7 +4,6 @@ import type { ButtonProps, RecipeProps } from "@chakra-ui/react"
 import {
   Button,
   FileUpload as ChakraFileUpload,
-  Icon,
   IconButton,
   Span,
   Text,
@@ -12,18 +11,18 @@ import {
   useRecipe,
 } from "@chakra-ui/react"
 import { forwardRef } from "react"
-import { LuFile, LuX } from "react-icons/lu"
+import {LuFile, LuX} from "react-icons/lu"
 
 export interface FileUploadRootProps extends ChakraFileUpload.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
 }
 
 export const FileUploadRoot = forwardRef<HTMLInputElement, FileUploadRootProps>(
-  function FileUploadRoot(props, ref) {
+  function FileUploadRoot(props, forwardRef) {
     const { children, inputProps, ...rest } = props
     return (
       <ChakraFileUpload.Root {...rest}>
-        <ChakraFileUpload.HiddenInput ref={ref} {...inputProps} />
+        <ChakraFileUpload.HiddenInput ref={forwardRef} {...inputProps} />
         {children}
       </ChakraFileUpload.Root>
     )
@@ -39,13 +38,12 @@ export interface FileUploadDropzoneProps
 export const FileUploadDropzone = forwardRef<
   HTMLInputElement,
   FileUploadDropzoneProps
->(function FileUploadDropzone(props, ref) {
+>(function FileUploadDropzone(props, forwardRef) {
   const { children, label, description, ...rest } = props
   return (
-    <ChakraFileUpload.Dropzone ref={ref} {...rest}>
-      {/*<Icon fontSize="xl" color="fg.muted">*/}
-      {/*  <LuUpload />*/}
-      {/*</Icon>*/}
+    <ChakraFileUpload.Dropzone ref={forwardRef} {...rest}>
+        {/*<LuUpload />*/}
+
       <ChakraFileUpload.DropzoneContent>
         <Text cursor='pointer'>{label}</Text>
         {description && <Text color="fg.muted">{description}</Text>}
@@ -67,11 +65,9 @@ interface FileUploadItemProps extends VisibilityProps {
 const FileUploadItem = (props: FileUploadItemProps) => {
   const { file, showSize, clearable } = props
   return (
-    <ChakraFileUpload.Item file={file}>
+    <ChakraFileUpload.Item p={{ base: '10px 12px' }} borderRadius={{ base: '14px' }} border={0} boxShadow='0px 4px 32.7px 0px rgba(0, 0, 0, 0.06)' file={file}>
       <ChakraFileUpload.ItemPreview asChild>
-        <Icon fontSize="lg" color="fg.muted">
-          <LuFile />
-        </Icon>
+          <LuFile fontSize="lg" color="fg.muted" />
       </ChakraFileUpload.ItemPreview>
 
       {showSize ? (
@@ -101,7 +97,7 @@ interface FileUploadListProps
 }
 
 export const FileUploadList = forwardRef<HTMLUListElement, FileUploadListProps>(
-  function FileUploadList(props, ref) {
+  function FileUploadList(props, forwardRef) {
     const { showSize, clearable, files, ...rest } = props
 
     const fileUpload = useFileUploadContext()
@@ -110,7 +106,7 @@ export const FileUploadList = forwardRef<HTMLUListElement, FileUploadListProps>(
     if (acceptedFiles.length === 0) return null
 
     return (
-      <ChakraFileUpload.ItemGroup ref={ref} {...rest}>
+      <ChakraFileUpload.ItemGroup ref={forwardRef} {...rest}>
         {acceptedFiles.map((file) => (
           <FileUploadItem
             key={file.name}

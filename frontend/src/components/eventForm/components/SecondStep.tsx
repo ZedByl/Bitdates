@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import {FC, useEffect, useState} from 'react';
 import {
 	Box, Button,
 	Heading,
@@ -12,102 +12,119 @@ import {
 	FileUploadList,
 	FileUploadRoot,
 } from '@/components/ui/file-button.tsx';
+import {FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue} from "react-hook-form";
+import {EventForm} from "@/components/eventForm/types.ts";
+import {Field} from "@/components/ui/field.tsx";
 
 const MAX_CHAR = 300;
 
 type IProps = {
-	text: string
-	eventLink: string
-	setText: React.Dispatch<React.SetStateAction<string>>
-	setEventLink: React.Dispatch<React.SetStateAction<string>>
 	onCreateEvent: () => void
+	register: UseFormRegister<EventForm>
+	errors: FieldErrors<EventForm>
+	setValue: UseFormSetValue<EventForm>
+	getValues: UseFormGetValues<EventForm>
+	setImage: React.Dispatch<React.SetStateAction<File | undefined>>
 }
 
 export const SecondStep: FC<IProps> = ({
-	text,
-	eventLink,
-	setText,
-	setEventLink,
-	onCreateEvent
-                                       }) => {
+	errors,
+	register,
+	onCreateEvent,
+	setImage
+}) => {
 	const [remainingChars, setRemainingChars] = useState(MAX_CHAR);
+	const [text, setText] = useState('');
 
-	const handleTextChange = (e: any) => {
-		const value = e.target.value;
-		if (value.length <= MAX_CHAR) {
-			setText(value);
-			setRemainingChars(MAX_CHAR - value.length);
-		}
+	const handleTextChange = () => {
+		setRemainingChars(MAX_CHAR - text.length);
 	};
+
+	useEffect(() => {
+		console.log(text, 'text')
+		if (text.length <= MAX_CHAR) {
+			handleTextChange()
+		}
+	}, [text]);
 
 	return (
 		<>
 			<Heading fontWeight={'bold'} as="h1" size="7xl" textAlign="center">
 				Event details
 			</Heading>
-			<Text fontSize="lg" color="gray.500" textAlign="center" mb={{ base: '34px' }}>
+			<Text fontSize="lg" color="gray.500" textAlign="center" mb={{base: '34px'}}>
 				2-step
 			</Text>
 
-			<Stack align="flex-start" direction={{ base: "column", md: "row" }}>
-				<VStack w={{ base: '100%', md: "50%" }} align="flex-start">
+			<Stack align="flex-start" direction={{base: "column", md: "row"}}>
+				<VStack w={{base: '100%', md: "50%"}} align="flex-start">
 					<Box w="100%" position='relative'>
-						<Textarea
-							value={text}
-							maxLength={MAX_CHAR}
-							onChange={handleTextChange}
-							placeholder="Event description"
-							_placeholder={{ color: 'rgba(30, 30, 30, 0.4)' }}
-							_focus={{
-								border: 0,
-								outlineStyle: "none"
-							}}
-							_focusVisible={{
-								border: 0,
-								outlineStyle: "none"
-							}}
-							minH={{ base: '255px' }}
-							border={0}
-							p={{ base: '20px 18px'}}
-							pr={{ base: '110px'}}
-							borderRadius="14px"
-							size="xl"
-							bg="white"
-							boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
-							cursor='pointer'
-						/>
-						<Text position="absolute" top="20px" right="18px" fontSize="sm" color="rgba(30, 30, 30, 0.4)">
-							{remainingChars}/{MAX_CHAR}
-						</Text>
+						<Field invalid={!!errors?.text} required errorText={errors?.text?.message}>
+							<Textarea
+								maxLength={MAX_CHAR}
+								placeholder="Event description"
+								_placeholder={{color: 'rgba(30, 30, 30, 0.4)'}}
+								_focus={{
+									outlineStyle: "none"
+								}}
+								_focusVisible={{
+									outlineStyle: "none"
+								}}
+								minH={{base: '255px'}}
+								p={{base: '20px 18px'}}
+								pr={{base: '110px'}}
+								borderRadius="14px"
+								size="xl"
+								bg="white"
+								boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
+								cursor='pointer'
+								{...register("text", {
+									required: "This field is required",
+									maxLength: {
+										value: 300,
+										message: "Text cannot be longer than 300 characters",
+									},
+									onChange: ({ target }) => setText(target.value)
+								})}
+							/>
+							<Text position="absolute" top="20px" right="18px" fontSize="sm" color="rgba(30, 30, 30, 0.4)">
+								{remainingChars}/{MAX_CHAR}
+							</Text>
+						</Field>
 					</Box>
 
 					<Box w="100%">
-						<Input
-							bg="white"
-							placeholder="Event source link"
-							_placeholder={{ color: 'rgba(30, 30, 30, 0.4)' }}
-							onChange={(e) => setEventLink(e.target.value)}
-							value={eventLink}
-							h={{ base: '58px' }}
-							_focus={{
-								border: 0,
-								outlineStyle: "none"
-							}}
-							_focusVisible={{
-								border: 0,
-								outlineStyle: "none"
-							}}
-							border={0}
-							borderRadius="14px"
-							size="xl"
-							boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
-							cursor='pointer'
-						/>
+						<Field invalid={!!errors?.eventLink} required errorText={errors?.eventLink?.message}>
+							<Input
+								bg="white"
+								placeholder="Event source link"
+								_placeholder={{color: 'rgba(30, 30, 30, 0.4)'}}
+								h={{base: '58px'}}
+								_focus={{
+									outlineStyle: "none"
+								}}
+								_focusVisible={{
+									outlineStyle: "none"
+								}}
+								borderRadius="14px"
+								size="xl"
+								boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
+								cursor='pointer'
+								{...register("eventLink", {
+									required: "A link to the event is required",
+									pattern: {
+										value: /https?:\/\/[\w.-]+/,
+										message: "Enter the correct link",
+									},
+								})}
+							/>
+						</Field>
 					</Box>
 				</VStack>
 
-				<Box w={{ base: '100%', md: "50%" }}>
-					<Text mb={{ base: '8px', md: '20px' }} mt={{ base: '8px', md: '0' }} fontSize="md" color="rgba(30, 30, 30, 0.4)" >
+				<Box w={{base: '100%', md: "50%"}}>
+					<Text mb={{base: '8px', md: '20px'}} mt={{base: '8px', md: '0'}} fontSize="md"
+						  color="rgba(30, 30, 30, 0.4)">
 						Event image
 					</Text>
 
@@ -115,18 +132,42 @@ export const SecondStep: FC<IProps> = ({
 						position='relative'
 						alignItems="stretch"
 						maxFiles={1}
-						maxFileSize={5000}
+						maxFileSize={6000000}
 						accept={['image/jpeg', 'image/png', 'image/webp']}
+						onFileAccept={(info) => {
+							const file = info?.files[0] || null
+
+							if (file) {
+								setImage(file)
+							}
+						}}
+						onFileReject={(details) => {
+							console.error(details, 'details')
+						}}
 					>
 						<FileUploadDropzone
-							label={<>Drag & drop here, or click <Text as="span" cursor="pointer" color="blue">upload</Text></>}
+							label={(
+								<>
+									Drag & drop here, or click
+									<Text as="span" cursor="pointer" color="blue"> upload</Text>
+								</>
+							)}
 						/>
-						<FileUploadList showSize clearable />
+
+						<FileUploadList
+							// showSize
+							clearable
+							position='absolute'
+							bottom={{ base: '24px' }}
+							maxW={{ base: '260px' }}
+							transform='translate(-50%, 0%);'
+							left="50%"
+						/>
 					</FileUploadRoot>
 				</Box>
 			</Stack>
 
-			<Button onClick={onCreateEvent} colorPalette="blue" size="lg" borderRadius="14px" h={{ base: '58px' }}>
+			<Button mb={{ base: '30px', md: '0' }} onClick={onCreateEvent} colorPalette="blue" size="lg" borderRadius="14px" h={{base: '58px'}}>
 				Continue
 			</Button>
 		</>

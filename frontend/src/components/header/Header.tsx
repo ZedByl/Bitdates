@@ -1,15 +1,15 @@
 import {Box, Button, Flex} from "@chakra-ui/react";
 import {useColorMode} from "@/components/ui/color-mode.tsx";
-import {useCallback, useMemo} from "react";
+import {useMemo} from "react";
 import {Logo} from "@/components/logo";
 import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const navigation = useNavigate();
 
-    const onLogIn = useCallback(() => {
-        navigation('/login')
-    }, [navigation]);
+    // const onLogIn = useCallback(() => {
+    //     navigation('/login')
+    // }, [navigation]);
 
     const {colorMode} = useColorMode();
 
@@ -47,10 +47,17 @@ export const Header = () => {
                     </Box>
 
                     <Flex gap={4}>
-                        <Button display={{ base: 'none', md: 'block' }} onClick={goCreateEvent} borderRadius={10} colorScheme="gray" variant="outline">
+                        <Button
+                            // display={{ base: 'none', md: 'block' }}
+                            onClick={goCreateEvent}
+                            size={'sm'}
+                            borderRadius={'10px'}
+                            colorScheme="gray"
+                            variant="outline"
+                        >
                             Add event
                         </Button>
-                        <Button onClick={onLogIn} borderRadius={10} colorPalette="blue">Sign up / Log in</Button>
+                        {/*<Button onClick={onLogIn} size={'sm'} borderRadius={'10px'} colorPalette="blue">Sign up / Log in</Button>*/}
                         {/*<ColorModeButton/>*/}
                     </Flex>
                 </Flex>

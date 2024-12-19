@@ -3,14 +3,15 @@ const passport = require('passport');
 const session = require('express-session');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const path = require('path');
 
 const cookieParser = require('cookie-parser');
-
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const coinsRoutes = require('./routes/coinsRoutes');
+const subscriptionRouters = require('./routes/subscriptionRouters');
 require('./config/passport')(passport);
 
 const app = express();
@@ -31,7 +32,8 @@ app.use('/api/auth/', authRoutes);
 app.use('/api/user/', userRoutes);
 app.use('/api/events/', eventRoutes);
 app.use('/api/coins/', coinsRoutes);
-
+app.use('/api/subscription/', subscriptionRouters);
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api', (req, res) => {
     res.send('Добро пожаловать!');
