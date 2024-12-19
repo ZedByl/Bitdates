@@ -40,7 +40,7 @@ services:
     volumes:
       - ../frontend:/usr/src/app
     ports:
-      - "5050:5050"
+      - "5000:5000"
     command: bash -c "
       npm install
       && npm run dev"
