@@ -39,6 +39,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
+      - frontend-build:/usr/src/app/dist
     ports:
       - "5000:5000"
     command: bash -c "
