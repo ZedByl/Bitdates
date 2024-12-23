@@ -39,10 +39,9 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
-      - frontend-build:/usr/src/app/dist
     command: bash -c "
       npm install
-      && npm run build"
+      && npm run dev --host 0.0.0.0"
 
   nginx:
     build: nginx
