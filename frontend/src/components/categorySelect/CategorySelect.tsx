@@ -22,8 +22,9 @@ import {
     TokenSaleIcon,
     VotingIcon
 } from '@/assets/icons/icons.tsx';
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 import {CategorySelectProps, CategorySelectState} from "@/components/categorySelect/typings.ts";
+import {useOnClickOutside} from "@/hooks/useOnClickOutside";
 
 export const categories = [
     { value: 1, label: "Listing", icon: <ListingIcon w="100%" h="100%" /> },
@@ -48,6 +49,8 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
         label: string;
         icon: JSX.Element;
     } | null>(null);
+    const refButton = useRef<HTMLButtonElement>(null);
+    const refList = useRef(null);
 
     const handleSelect = (category: CategorySelectState) => {
         setSelectedCategory(category);
@@ -63,6 +66,8 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
         }
     }, [defaultValue]);
 
+    useOnClickOutside([refButton, refList], onClose)
+
     return (
       <Box position="relative" w="full">
           <Button
@@ -77,6 +82,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
             _hover={{ borderColor: "gray.300", outline: "none" }}
             _focus={{ borderColor: "gray.500", outline: "none" }}
             _active={{ borderColor: "gray.500", outline: "none" }}
+            ref={refButton}
           >
               <HStack position="relative" justify="space-between" w="full">
                   <HStack>
@@ -112,6 +118,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
               zIndex="10"
               maxH="300px"
               overflowY="auto"
+              ref={refList}
             >
                 {categories.map((category) => (
                   <Flex

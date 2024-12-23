@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const formatDate = (inputDate: Date | string | null): string => {
 	if (!inputDate) return "Today";
 
@@ -53,5 +55,6 @@ export const getNextDateRange = (type: "week" | "month"): { start: string; end: 
 }
 
 // Преобразуем даты в формат YYYY-MM-DD
-export const formatDateForApi = (date: Date): string =>
-	date.toISOString().split("T")[0];
+export const formatDateForApi = (date: Date): string => {
+	return format(date, "yyyy-MM-dd");
+};

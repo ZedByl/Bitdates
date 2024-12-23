@@ -39,11 +39,10 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
-    ports:
-      - "5000:5000"
+      - frontend-build:/usr/src/app/dist
     command: bash -c "
       npm install
-      && npm run dev"
+      && npm run build"
 
   nginx:
     build: nginx
@@ -59,6 +58,7 @@ services:
     volumes:
       - ./nginx-dev/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx-dev/nginx.conf:/etc/nginx/nginx.conf:ro
+      - frontend-build:/usr/share/nginx/html
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 networks:
@@ -67,3 +67,4 @@ networks:
 
 volumes:
   mongo-data:
+  frontend-build:

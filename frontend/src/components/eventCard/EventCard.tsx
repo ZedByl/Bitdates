@@ -1,9 +1,12 @@
 import { FC, useState } from 'react';
-import { Box, HStack, VStack, Text, Image, Stack, Separator, Button } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, Stack, Separator, Button } from '@chakra-ui/react';
 import {EventCardProps} from "./types.ts";
 import {CalendarIcon} from "@/assets/icons/icons.tsx";
 import {categories as categoriesMock} from "@/components/categorySelect/CategorySelect.tsx";
 import { EventModal } from '@/components/eventModal';
+import LazyImageWithFallback from "@/components/image/Image.tsx";
+
+import defaultImage from '../../assets/default-coin.png'
 
 export const EventCard: FC<EventCardProps> = (props) => {
     const { title, description, coins, categories } = props || {}
@@ -12,6 +15,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
     const firstCategory = categories[0] || {}
 
     const selectedCategory = categoriesMock.find((item) => item.value === firstCategory.id)
+    const defaultIcon = categoriesMock[0].icon
 
     const handleModal = () => {
         setOpen((prevState) => !prevState);
@@ -31,9 +35,9 @@ export const EventCard: FC<EventCardProps> = (props) => {
               cursor="pointer"
             >
                 <Stack direction={{ base: 'column', md: 'row' }} align={"center"} justifyContent={'space-between'} w="full" gap="18px">
-                    <HStack gap={{ base: '12px' }}>
+                    <HStack gap={{ base: '12px' }} w={{ base: '100%' }} maxW={{ base: '480px' }}>
                         <Box w={'50px'} h={'50px'} >
-                            {!!selectedCategory && selectedCategory.icon}
+                            {selectedCategory ? selectedCategory.icon : defaultIcon}
                         </Box>
                         <VStack align="start" flex={'1'}>
                             <Text fontWeight="bold">{title.en}</Text>
@@ -48,7 +52,9 @@ export const EventCard: FC<EventCardProps> = (props) => {
 
                     {!!coins.length && (
                       <HStack flex={'1'}>
-                          <Image src={coinImage} alt={coins[0].name} boxSize={12}/>
+                          <Box width='54px' height='54px'>
+                              <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coins[0].name} />
+                          </Box>
                           <Text>{coins[0].name}</Text>
                       </HStack>
                     )}

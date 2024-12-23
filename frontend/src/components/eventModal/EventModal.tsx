@@ -11,6 +11,8 @@ import {Button} from "@/components/ui/button.tsx";
 import { CalendarIcon } from '@/components/eventModal/icons/Calendar.tsx';
 import { LinkIcon } from '@/components/eventModal/icons/Link.tsx';
 import { SubscriptionCard } from '@/components/subscriptionCard';
+import LazyImageWithFallback from "@/components/image/Image.tsx";
+import defaultImage from "@/assets/default-coin.png";
 
 const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -23,7 +25,7 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
     const { title, coins, date_event: dateEvent, image_url: imageUrl, description, proof } = event || {}
     const coin = coins && (coins[0] || null)
 
-    console.log(event)
+    // console.log(event)
 
     const handleOpenSourceLink = () => {
         if (!proof) return
@@ -73,11 +75,9 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                             {coin && (
                                 <Box w="100%" p={{ base: '20px' }} bg="white" borderRadius={'16px'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">
                                     <HStack gap={{ base: '16px'}}>
-                                        <Image
-                                            src={coinImage}
-                                            boxSize="50px"
-                                            alt={coin?.fullname}
-                                        />
+                                        <Box width='50px' height='50px'>
+                                            <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coins[0].name} />
+                                        </Box>
 
                                         <Text fontWeight="bold" fontSize="lg">{coin?.name}</Text>
                                     </HStack>

@@ -102,10 +102,12 @@ export const MainPage = () => {
     }, [])
 
     useEffect(() => {
-        (async () => {
-            await getEventsDay()
-        })()
-    }, [search, selectedCategory]);
+        if (selectedDate) {
+            (async () => {
+                await getEventsDay()
+            })()
+        }
+    }, [selectedDate]);
 
     useEffect(() => {
         (async () => {

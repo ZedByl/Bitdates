@@ -42,7 +42,7 @@ export const Footer = () => {
                             </Flex>
                         </Box>
 
-                        <Text fontSize={{ base: "lg", md: 'xl' }} fontWeight="bold" color="gray.700">contact@bitsfactory.io</Text>
+                        <Text fontSize={{ base: "lg", md: 'xl' }} fontWeight="bold" color="gray.700">paul.k@bitsgap.com</Text>
                     </Stack>
 
                     <HStack align="start" width={{ base: '100%', md: '60%', lg: '70%', xl: 'unset' }} gap={{ base: '12px', xl: '20px' }} >
@@ -55,7 +55,6 @@ export const Footer = () => {
 
                         <VStack align="start" width={{ base: '50%', md: 'auto', lg: '196px' }}>
                             <Text fontWeight="bold">Legal</Text>
-                            <Link href="#">Cookies Policy</Link>
                             <Link href="/policy">Privacy Policy</Link>
                             <Link href="/terms">Terms of Use</Link>
                         </VStack>
@@ -93,7 +92,7 @@ export const Footer = () => {
                 {/* Bottom text */}
                 <Box textAlign="center" mt='80px'>
                     <Text fontSize="sm" color="gray.500">
-                        © 2024 Bitsfactory, ltd
+                        © 2024 Bitsgap Holding OU
                     </Text>
                 </Box>
             </Box>
