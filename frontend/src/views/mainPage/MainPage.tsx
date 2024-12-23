@@ -132,7 +132,7 @@ export const MainPage = () => {
 
             <Box
               position={'relative'}
-              px={{ base: '20px', md: '30px', lg: 0 }}
+              px={{ base: '20px', md: '30px', lg: '30px' }}
               pb={{ base: '60px', md: '80px' }}
             >
                 <MainContent
