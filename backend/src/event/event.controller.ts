@@ -17,7 +17,6 @@ import { EventsService } from './event.service';
 import { Event } from '../db/event.entity';
 import { GetEventsBodyDto, GetEventsDto } from './dto/get-events.dto';
 import {
-  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiCreatedResponse,
@@ -72,19 +71,18 @@ export class EventsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Event> {
+  async findOne(@Param('id') id: string): Promise<Event> {
     return this.eventsService.getEvent(id);
   }
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() updateData: Partial<Event>,
   ): Promise<Event> {
     return this.eventsService.updateEvent(id, updateData);
   }
 
-  @ApiBearerAuth('access-token')
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.eventsService.deleteEvent(id);

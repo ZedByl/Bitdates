@@ -2,45 +2,46 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinTable,
+  BeforeInsert,
 } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('events')
 export class Event {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @PrimaryGeneratedColumn('uuid')
-  page_id: string;
+  page_id: string; // Автоматически генерируемый UUID
+
+  @Column({ type: 'bigint', unique: true, nullable: false })
+  id: number; // Числовой ID, получаемый из API
 
   @OneToOne(() => User)
-  @JoinTable({ name: 'id' })
+  @JoinTable({ name: 'user_id' })
   user_id?: string;
 
   @Column({ type: 'json', nullable: false })
-  title: Record<string, string>; // Map-like structure
+  title: Record<string, string>; // Структура данных для заголовка
 
   @Column({ type: 'json', nullable: false })
-  description: Record<string, string>; // Map-like structure
+  description: Record<string, string>; // Структура данных для описания
 
   @Column({ type: 'jsonb', nullable: false })
   categories: {
     id: number;
     name: string;
-  }[]; // Array of category objects
+  }[]; // Массив объектов категорий
 
   @Column({ type: 'timestamp', nullable: false })
-  date_event: Date; // Event date
+  date_event: Date; // Дата события
 
   @Column({ type: 'text', nullable: true })
-  proof: string; // Optional proof field
+  proof: string; // Дополнительное поле для доказательства
 
   @Column({ type: 'text', nullable: true })
-  image_url: string; // Optional image URL
+  image_url: string; // Дополнительное поле для URL изображения
 
   @Column({ type: 'jsonb', nullable: true })
   coins: {
@@ -51,11 +52,19 @@ export class Event {
     upcoming: number;
     symbol: string;
     fullname: string;
-  }[]; // Relation to the Coin entity
+  }[]; // Связь с монетами
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date; // Дата создания записи
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date; // Дата обновления записи
+
+  // Хук для генерации ID, если он не предоставлен
+  @BeforeInsert()
+  generateIdIfMissing() {
+    if (!this.id) {
+      this.id = Math.floor(Math.random() * 1_000_000_000); // Генерация случайного числа
+    }
+  }
 }

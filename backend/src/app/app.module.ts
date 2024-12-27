@@ -39,10 +39,6 @@ export class AppModule implements NestModule {
         method: RequestMethod.GET,
       },
       {
-        path: 'events/create',
-        method: RequestMethod.POST,
-      },
-      {
         path: 'events/:id',
         method: RequestMethod.DELETE,
       },

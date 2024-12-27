@@ -1,4 +1,5 @@
 import './App.css'
+import {useLayoutEffect} from "react";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {MainPage} from "./views/mainPage";
 import {CreateEventPage} from "./views/createPage";
@@ -11,7 +12,6 @@ import {TermsPage} from "@/views/termsPage";
 import axios from "axios";
 import {UserApi} from "@/models/user.ts";
 import {useUserStore} from "@/stores/user/userStore.ts";
-import {useEffect} from "react";
 
 function App() {
     const { setUser } = useUserStore();
@@ -21,7 +21,7 @@ function App() {
         setUser(data)
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         (async () => {
             await getUserInfo()
         })()
@@ -31,8 +31,8 @@ function App() {
         <Router>
             <Routes>
                 <Route index path="/" element={<MainPage/>}/>
+                <Route path="/event/:id" element={<EventPage/>}/>
                 <Route path="/create" element={<CreateEventPage/>}/>
-                <Route path="/contact" element={<EventPage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/faq" element={<FaqPage/>}/>
                 <Route path="/about" element={<AboutPage/>}/>

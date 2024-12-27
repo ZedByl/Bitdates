@@ -19,6 +19,7 @@ export interface EventAPI {
 	proof: string;
 	source: string;
 	image_url?: string;
+	page_id?: string;
 }
 
 // Тип для локализованных строк

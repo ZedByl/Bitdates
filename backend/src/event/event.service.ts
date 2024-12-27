@@ -1,5 +1,3 @@
-// events.service.ts
-
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Raw, Repository } from 'typeorm';
@@ -29,7 +27,9 @@ export class EventsService {
     const externalData = await this.appService.getCoinMarketApi(
       `/events${externalQuery}`,
     );
-    const externalEvents = externalData?.body ?? [];
+    const externalEvents: Event[] = externalData?.body ?? [];
+
+    const externalEventIds = new Set(externalEvents.map((event) => event.id));
 
     const dbFilter = this.buildDbFilter(dto);
     const dbEvents = await this.eventRepository.find({
@@ -37,7 +37,11 @@ export class EventsService {
       order: { date_event: 'ASC' },
     });
 
-    let mergedEvents = [...externalEvents, ...dbEvents];
+    const filteredDbEvents = dbEvents.filter((dbEvent) => {
+      return !externalEventIds.has(Number(dbEvent.id));
+    });
+
+    let mergedEvents = [...externalEvents, ...filteredDbEvents];
 
     if (body.excludeIds && body.excludeIds.length > 0) {
       mergedEvents = mergedEvents.filter((event) => {
@@ -151,10 +155,9 @@ export class EventsService {
     return filter;
   }
 
-  async getEvent(id: number): Promise<Event> {
+  async getEvent(id: string): Promise<Event> {
     const event = await this.eventRepository.findOne({
-      where: { id },
-      relations: ['coins'],
+      where: { id: Number(id) },
     });
     if (!event) {
       throw new NotFoundException(`Event with id ${id} not found`);
@@ -162,7 +165,7 @@ export class EventsService {
     return event;
   }
 
-  async updateEvent(id: number, updateData: Partial<Event>): Promise<Event> {
+  async updateEvent(id: string, updateData: Partial<Event>): Promise<Event> {
     const event = await this.getEvent(id); // throws if not found
     Object.assign(event, updateData);
     return this.eventRepository.save(event);

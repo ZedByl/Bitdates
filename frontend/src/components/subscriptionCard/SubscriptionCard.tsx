@@ -4,6 +4,7 @@ import {Field} from "@/components/ui/field.tsx";
 import axios from "axios";
 import {Toaster, toaster} from "@/components/ui/toaster.tsx";
 import {useUserStore} from "@/stores/user/userStore.ts";
+import {useEffect} from "react";
 
 export const SubscriptionCard = () => {
     const { user } = useUserStore();
@@ -11,12 +12,17 @@ export const SubscriptionCard = () => {
     const {
         handleSubmit,
         register,
+        setValue,
         formState: { errors },
     } = useForm({
         defaultValues: {
-            email: user?.email || ''
+            email: ''
         },
     });
+
+    useEffect(() => {
+        if (user?.email) setValue('email', user?.email);
+    }, [user?.email]);
 
     const sendEmailUser = (body: { email: string }) => {
         const promise = new Promise((resolve, reject) => {

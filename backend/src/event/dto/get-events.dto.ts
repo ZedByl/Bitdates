@@ -116,3 +116,11 @@ export class GetEventsBodyDto {
   @IsNumber({}, { each: true })
   excludeIds?: number[];
 }
+
+export class GetEventDto {
+  @ApiPropertyOptional({
+    description: 'Id event',
+  })
+  @IsString()
+  id?: string;
+}

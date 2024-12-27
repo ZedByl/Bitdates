@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import {Header} from "@/components/header";
 import {MainContent} from "@/components/mainContent";
 import {Calendar} from "@/components/calendar";
@@ -10,13 +11,21 @@ import {
 } from '@chakra-ui/react';
 import {SectionHeader} from "@/components/sectionHeader";
 import {EventCard} from "@/components/eventCard";
-import {useEffect, useState} from "react";
 import {CategorySelect} from "@/components/categorySelect";
 import { EventAPI } from '@/models/event.ts';
 import {formatDate, formatDateForApi, getNextDateRange} from '@/views/mainPage/methods.ts';
 import {CategorySelectState} from "@/components/categorySelect/typings.ts";
 import {Button} from "@/components/ui/button.tsx";
 import axios from "axios";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
+
+const EventsSceleton = () => (
+    <VStack gap={{ base: '36px', md: '12px' }} w={'100%'}>
+        <Skeleton height={{ base: '40px', md: '90px' }} borderRadius='16px' width="100%" />
+        <Skeleton height={{ base: '40px', md: '90px' }} borderRadius='16px' width="100%" />
+        <Skeleton height={{ base: '40px', md: '90px' }} borderRadius='16px' width="100%" />
+    </VStack>
+)
 
 export const MainPage = () => {
     const [eventsDay, setEventsDay] = useState<EventAPI[]>([]);
@@ -237,31 +246,37 @@ export const MainPage = () => {
                                 </Box>
                             </Stack>
 
-                            {!!eventsDay.length && (
-                              <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
-                                  {eventsDay?.map((item, key) => (
-                                    <EventCard key={key} {...item} />
-                                  ))}
+                            <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
+                                {eventsDay.length ? (
+                                    <>
+                                        {eventsDay?.map((item, key) => (
+                                            <EventCard key={key} {...item} />
+                                        ))}
 
-                                  {!isDisableDayButton && (
-                                      <Button
-                                          bg={'rgba(29, 72, 230, 0.05)'}
-                                          color={'blue'}
-                                          size="lg"
-                                          borderRadius="14px"
-                                          width={{ md: '100%' }}
-                                          h={{ base: '58px' }}
-                                          loading={isLoading}
-                                          onClick={async () => {
-                                              await getEventsDay({ page: pageDay + 1 })
-                                              setPageDay((prevState) => prevState + 1)
-                                          }}
-                                      >
-                                          More events
-                                      </Button>
-                                  )}
-                              </VStack>
-                            )}
+                                        {(!isDisableDayButton && eventsMonth.length > 14) && (
+                                            <Button
+                                                bg={'rgba(29, 72, 230, 0.05)'}
+                                                color={'blue'}
+                                                size="lg"
+                                                borderRadius="14px"
+                                                width={{ md: '100%' }}
+                                                h={{ base: '58px' }}
+                                                loading={isLoading}
+                                                onClick={async () => {
+                                                    await getEventsDay({ page: pageDay + 1 })
+                                                    setPageDay((prevState) => prevState + 1)
+                                                }}
+                                            >
+                                                More events
+                                            </Button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {isLoading && <EventsSceleton />}
+                                    </>
+                                )}
+                            </VStack>
                         </VStack>
 
                         <VStack gap={{ base: '36px' }} width="100%" alignItems="flex-start">
@@ -277,31 +292,37 @@ export const MainPage = () => {
                                 />
                             </Stack>
 
-                            {!!eventsWeek.length && (
-                              <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
-                                  {eventsWeek?.map((item, key) => (
-                                    <EventCard key={key} {...item} />
-                                  ))}
+                            <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
+                                {eventsWeek.length ? (
+                                    <>
+                                        {eventsWeek?.map((item, key) => (
+                                            <EventCard key={key} {...item} />
+                                        ))}
 
-                                  {!isDisableWeekButton && (
-                                      <Button
-                                          bg={'rgba(29, 72, 230, 0.05)'}
-                                          color={'blue'}
-                                          size="lg"
-                                          borderRadius="14px"
-                                          width={{ md: '100%' }}
-                                          h={{ base: '58px' }}
-                                          loading={isLoading}
-                                          onClick={async () => {
-                                              await getEventsWeek({ page: pageWeek + 1 })
-                                              setPageWeek((prevState) => prevState + 1)
-                                          }}
-                                      >
-                                          More events
-                                      </Button>
-                                  )}
-                              </VStack>
-                            )}
+                                        {(!isDisableWeekButton && eventsMonth.length > 14) && (
+                                            <Button
+                                                bg={'rgba(29, 72, 230, 0.05)'}
+                                                color={'blue'}
+                                                size="lg"
+                                                borderRadius="14px"
+                                                width={{ md: '100%' }}
+                                                h={{ base: '58px' }}
+                                                loading={isLoading}
+                                                onClick={async () => {
+                                                    await getEventsWeek({ page: pageWeek + 1 })
+                                                    setPageWeek((prevState) => prevState + 1)
+                                                }}
+                                            >
+                                                More events
+                                            </Button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {isLoading && <EventsSceleton />}
+                                    </>
+                                )}
+                            </VStack>
                         </VStack>
 
                         <VStack gap={{ base: '36px' }} width="100%" alignItems="flex-start" w={'100%'}>
@@ -317,31 +338,37 @@ export const MainPage = () => {
                                 />
                             </Stack>
 
-                            {!!eventsMonth.length && (
-                              <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
-                                  {eventsMonth?.map((item, key) => (
-                                    <EventCard key={key} {...item} />
-                                  ))}
+                            <VStack md={{alignItems: 'center'}} alignItems="flex-start" w={'100%'}>
+                                {eventsMonth.length ? (
+                                    <>
+                                        {eventsMonth?.map((item, key) => (
+                                            <EventCard key={key} {...item} />
+                                        ))}
 
-                                  {!isDisableMonthButton && (
-                                      <Button
-                                          bg={'rgba(29, 72, 230, 0.05)'}
-                                          color={'blue'}
-                                          size="lg"
-                                          borderRadius="14px"
-                                          width={{ md: '100%' }}
-                                          h={{ base: '58px' }}
-                                          loading={isLoading}
-                                          onClick={async () => {
-                                              await getEventsMonth({ page: pageMonth + 1 })
-                                              setPageMonth((prevState) => prevState + 1)
-                                          }}
-                                      >
-                                          More events
-                                      </Button>
-                                  )}
-                              </VStack>
-                            )}
+                                        {(!isDisableMonthButton && eventsMonth.length > 14) && (
+                                            <Button
+                                                bg={'rgba(29, 72, 230, 0.05)'}
+                                                color={'blue'}
+                                                size="lg"
+                                                borderRadius="14px"
+                                                width={{ md: '100%' }}
+                                                h={{ base: '58px' }}
+                                                loading={isLoading}
+                                                onClick={async () => {
+                                                    await getEventsMonth({ page: pageMonth + 1 })
+                                                    setPageMonth((prevState) => prevState + 1)
+                                                }}
+                                            >
+                                                More events
+                                            </Button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {isLoading && <EventsSceleton />}
+                                    </>
+                                )}
+                            </VStack>
                         </VStack>
                     </VStack>
 

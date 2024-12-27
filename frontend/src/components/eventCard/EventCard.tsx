@@ -1,30 +1,30 @@
-import { FC, useState } from 'react';
-import { Box, HStack, VStack, Text, Stack, Separator, Button } from '@chakra-ui/react';
+import {FC, useState} from 'react';
+import {Box, HStack, VStack, Text, Stack, Separator, Button} from '@chakra-ui/react';
 import {EventCardProps} from "./types.ts";
 import {CalendarIcon} from "@/assets/icons/icons.tsx";
 import {categories as categoriesMock} from "@/components/categorySelect/CategorySelect.tsx";
 import { EventModal } from '@/components/eventModal';
+import {useEventStore} from "@/stores/event/eventStore.ts";
+import { Link } from "react-router-dom";
+
 import LazyImageWithFallback from "@/components/image/Image.tsx";
 
 import defaultImage from '../../assets/default-coin.png'
 
 export const EventCard: FC<EventCardProps> = (props) => {
-    const { title, description, coins, categories } = props || {}
+    const { title, description, coins, categories, id } = props || {}
     const [open, setOpen] = useState<boolean>(false)
+    const { setEvent } = useEventStore()
+
     const coinImage = `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034`
     const firstCategory = categories[0] || {}
 
     const selectedCategory = categoriesMock.find((item) => item.value[0] === firstCategory.id)
     const defaultIcon = categoriesMock[0].icon
 
-    const handleModal = () => {
-        setOpen((prevState) => !prevState);
-    }
-
     return (
-        <>
+        <Link style={{ width: '100%' }} to={`/event/${id}`} onClick={() => setEvent(props)} >
             <Box
-              onClick={handleModal}
               borderRadius="lg"
               boxShadow="sm"
               p={4}
@@ -73,6 +73,6 @@ export const EventCard: FC<EventCardProps> = (props) => {
             </Box>
 
             <EventModal event={props} coinImage={coinImage} onClose={() => setOpen(false)} open={open} />
-        </>
+        </Link>
     );
 };

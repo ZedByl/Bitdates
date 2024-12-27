@@ -198,19 +198,19 @@ export const OtherIcon = createIcon({
     path: (
         <>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="100%" height="100%">
-                <circle cx="16" cy="16" r="16" fill="#1E1E1E" fill-opacity="0.07"/>
+                <circle cx="16" cy="16" r="16" fill="#1E1E1E" fillOpacity="0.07"/>
                 <path
                     d="M21.25 9.25C22.0784 9.25 22.75 9.91237 22.75 10.7294L22.75 13.2549C22.75 14.072 22.0784 14.7344 21.25 14.7344H19C18.1716 14.7344 17.5 14.072 17.5 13.2549L17.5 10.7294C17.5 9.91237 18.1716 9.25 19 9.25L21.25 9.25Z"
-                    stroke="#1E1E1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#1E1E1E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <path
                     d="M10.75 9.25C9.92157 9.25 9.25 9.91237 9.25 10.7294L9.25001 13.2549C9.25001 14.072 9.92158 14.7344 10.75 14.7344H13C13.8284 14.7344 14.5 14.072 14.5 13.2549L14.5 10.7294C14.5 9.91237 13.8284 9.25 13 9.25L10.75 9.25Z"
-                    stroke="#1E1E1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#1E1E1E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <path
                     d="M21.25 17.2656C22.0784 17.2656 22.75 17.928 22.75 18.7451V21.2705C22.75 22.0876 22.0784 22.75 21.25 22.75H19C18.1716 22.75 17.5 22.0876 17.5 21.2705L17.5 18.7451C17.5 17.928 18.1716 17.2656 19 17.2656H21.25Z"
-                    stroke="#1E1E1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#1E1E1E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <path
                     d="M10.75 17.2656C9.92158 17.2656 9.25001 17.928 9.25001 18.7451L9.25001 21.2705C9.25001 22.0876 9.92158 22.75 10.75 22.75H13C13.8284 22.75 14.5 22.0876 14.5 21.2705L14.5 18.7451C14.5 17.928 13.8284 17.2656 13 17.2656H10.75Z"
-                    stroke="#1E1E1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#1E1E1E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
         </>
     )
