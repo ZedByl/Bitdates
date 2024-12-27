@@ -1,15 +1,15 @@
 services:
-  mongo:
-    image: mongo:latest
+  postgres:
+    image: postgres
     restart: always
     env_file:
-      - ../backend/.env.prod
+      - ../backend/.env
+    ports:
+      - "5432:5432"
     networks:
       - web
-    ports:
-      - '27017:27017'
     volumes:
-      - mongo-data:/data/db
+      - ../backend/db/data:/var/lib/postgresql/data
 
   backend:
     image: node:22.4.0
@@ -53,7 +53,7 @@ services:
     depends_on:
       - frontend
       - backend
-      - mongo
+      - postgres
     restart: always
     ports:
       - "80:80"
@@ -81,4 +81,3 @@ networks:
 
 volumes:
   frontend-build:
-  mongo-data:
