@@ -14,7 +14,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
     const coinImage = `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034`
     const firstCategory = categories[0] || {}
 
-    const selectedCategory = categoriesMock.find((item) => item.value === firstCategory.id)
+    const selectedCategory = categoriesMock.find((item) => item.value[0] === firstCategory.id)
     const defaultIcon = categoriesMock[0].icon
 
     const handleModal = () => {
