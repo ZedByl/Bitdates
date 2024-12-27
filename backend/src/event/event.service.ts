@@ -171,12 +171,16 @@ export class EventsService {
     return this.eventRepository.save(event);
   }
 
-  async deleteEvent(id: number): Promise<void> {
-    const result = await this.eventRepository.delete(id);
+  async deleteEvent(id: string, userId: string): Promise<void> {
+    const event = await this.getEvent(id);
+
+    if (event.user_id !== userId) {
+      throw new NotFoundException('You cannot delete this event');
+    }
+
+    const result = await this.eventRepository.delete(event.page_id);
     if (result.affected === 0) {
       throw new NotFoundException(`Event with id ${id} not found`);
     }
   }
-
-  // If you need to process external API calls, do it here as well
 }

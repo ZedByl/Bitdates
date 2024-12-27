@@ -4,11 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinTable,
   BeforeInsert,
 } from 'typeorm';
-import { User } from './user.entity';
 
 @Entity('events')
 export class Event {
@@ -18,8 +15,7 @@ export class Event {
   @Column({ type: 'bigint', unique: true, nullable: false })
   id: number; // Числовой ID, получаемый из API
 
-  @OneToOne(() => User)
-  @JoinTable({ name: 'user_id' })
+  @Column({ type: 'text', nullable: true })
   user_id?: string;
 
   @Column({ type: 'json', nullable: false })

@@ -9,6 +9,7 @@ import {formatDateForApi} from "@/views/mainPage/methods.ts";
 import {Toaster, toaster} from "@/components/ui/toaster"
 import axios from "axios";
 import {CoinApi} from "@/models/coin.ts";
+import {useUserStore} from "@/stores/user/userStore.ts";
 
 export const EventForm = () => {
     const [step, setStep] = useState(1);
@@ -16,6 +17,7 @@ export const EventForm = () => {
     const [image, setImage] = useState<File>();
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [selectedCoin, setSelectedCoin] = useState<CoinApi | null>();
+    const { user } = useUserStore()
 
     const {
         handleSubmit,
@@ -89,6 +91,9 @@ export const EventForm = () => {
         }
         if (selectedDate) {
             formData.append("date_event", formatDateForApi(selectedDate));
+        }
+        if (user?.id) {
+            formData.append("user_id", user?.id);
         }
         if (category) {
             formData.append("categories", JSON.stringify([{

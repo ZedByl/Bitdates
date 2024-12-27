@@ -11,7 +11,7 @@ export class CoinsService {
     const externalCoins: Coin[] = externalData?.body ?? [];
 
     return externalCoins.filter((coin) =>
-      coin.name.toLowerCase().includes(search),
+      coin.fullname.toLowerCase().includes(search.toLowerCase()),
     );
   }
 }

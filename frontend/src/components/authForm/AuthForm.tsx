@@ -29,6 +29,7 @@ export const AuthForm = () => {
         handleSubmit,
         register,
         formState: { errors },
+        setError,
     } = useForm({
         defaultValues: {
             email: "",
@@ -49,8 +50,9 @@ export const AuthForm = () => {
             const { data } = await axios.post<UserApi>(`/api/auth/login`, form)
             setUser(data)
             toHome()
-        } catch (e) {
-            console.error(e)
+        } catch (e: any) {
+            const message = e?.response?.data?.message || '';
+            setError('email', { type: "custom", message })
         }
     }
 
@@ -59,8 +61,9 @@ export const AuthForm = () => {
             const { data } = await axios.post<UserApi>(`/api/auth/register`, form)
             setUser(data)
             toHome()
-        } catch (e) {
-            console.error(e)
+        } catch (e: any) {
+            const message = e?.response?.data?.message || '';
+            setError('email', { type: "custom", message })
         }
     }
 

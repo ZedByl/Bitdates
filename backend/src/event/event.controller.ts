@@ -12,6 +12,7 @@ import {
   UploadedFile,
   Inject,
   UsePipes,
+  Req,
 } from '@nestjs/common';
 import { EventsService } from './event.service';
 import { Event } from '../db/event.entity';
@@ -84,7 +85,10 @@ export class EventsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.eventsService.deleteEvent(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: string,
+    @Req() req: any,
+  ): Promise<void> {
+    return this.eventsService.deleteEvent(id, req?.userId);
   }
 }

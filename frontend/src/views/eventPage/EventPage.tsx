@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEventStore} from "@/stores/event/eventStore.ts";
-import {Box, Flex, Heading, HStack, Image, Separator, Stack, Text, VStack} from "@chakra-ui/react";
+import {Box, Flex, Heading, HStack, IconButton, Image, Separator, Stack, Text, VStack} from "@chakra-ui/react";
 import LazyImageWithFallback from "@/components/image/Image.tsx";
 import defaultImage from "@/assets/default-coin.png";
 import {SubscriptionCard} from "@/components/subscriptionCard";
@@ -11,6 +11,8 @@ import {CloseButton} from "@/components/ui/close-button.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {EventAPI} from "@/models/event.ts";
+import {HiOutlineTrash} from "react-icons/hi2";
+import {useUserStore} from "@/stores/user/userStore.ts";
 
 const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -23,6 +25,7 @@ export const EventPage = () => {
     const { id } = useParams();
     const navigation = useNavigate();
     const { event } = useEventStore();
+    const { user } = useUserStore();
     const [eventData, setEventData] = useState<EventAPI>();
 
     const { title, coins, date_event: dateEvent, image_url: imageUrl, description, proof } = eventData || {}
@@ -63,7 +66,8 @@ export const EventPage = () => {
 
     const getEvent = async () => {
       try {
-          const { data } = await axios.get(`/api/events/${id}`,)
+          const { data } = await axios.get(`/api/events/${id}`)
+
           setEventData(data)
       } catch (e) {
          await createNewEvent()
@@ -84,6 +88,15 @@ export const EventPage = () => {
       }
     }
 
+    const deleteEvent = async () => {
+        try {
+            await axios.delete(`/api/events/${id}`)
+            navigation('/')
+        } catch (e: unknown) {
+            console.error(e)
+        }
+    }
+
     useEffect(() => {
         getEvent()
     }, [event?.id]);
@@ -97,15 +110,32 @@ export const EventPage = () => {
             p={{ base: '42px 30px 60px' }}
             direction={{ base: 'column-reverse', lg: 'row' }}
             gap={{ base: '60px' }}
+            bg='#F9FCFE'
         >
-            <CloseButton
-                size='xs'
+            <HStack
                 position='absolute'
                 top='12px'
                 right='12px'
-                variant="ghost"
-                onClick={() => navigation(-1)}
-            />
+            >
+                {eventData?.user_id === user?.id && (
+                    <IconButton
+                        size='xs'
+                        aria-label="Delete event"
+                        variant="subtle"
+                        rounded="full"
+                        onClick={deleteEvent}
+                    >
+                        <HiOutlineTrash />
+                    </IconButton>
+                )}
+
+                <CloseButton
+                    size='xs'
+                    variant="subtle"
+                    rounded="full"
+                    onClick={() => navigation(-1)}
+                />
+            </HStack>
             <VStack maxW={{ lg: '440px' }} w="100%" align="start">
                 {coin && (
                     <Box w="100%" p={{ base: '20px' }} bg="white" borderRadius={'16px'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">

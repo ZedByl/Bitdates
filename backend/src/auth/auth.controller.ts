@@ -6,6 +6,7 @@ import {
   Res,
   Req,
   Get,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -105,5 +106,23 @@ export class AuthController {
     });
 
     return user;
+  }
+
+  @Get('logout')
+  async logout(@Res() res: Response): Promise<void> {
+    res.cookie('Authentication', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      expires: new Date(0),
+    });
+    res.cookie('Refresh', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      expires: new Date(0),
+    });
+
+    res.status(HttpStatus.OK).json({ message: 'Logout successful' });
   }
 }

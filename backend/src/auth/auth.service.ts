@@ -72,7 +72,7 @@ export class AuthService {
     const user = await this.userRepository.findOneBy({ email });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Incorrect email or password');
     }
 
     const { accessToken, refreshToken } = this.generateTokens(user);

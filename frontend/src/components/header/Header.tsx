@@ -1,13 +1,15 @@
-import {Box, Button, Flex} from "@chakra-ui/react";
+import {Box, Button, Flex, HStack, IconButton} from "@chakra-ui/react";
 import {useColorMode} from "@/components/ui/color-mode.tsx";
 import {useMemo} from "react";
 import {Logo} from "@/components/logo";
 import {useNavigate} from "react-router-dom";
 import {useUserStore} from "@/stores/user/userStore.ts";
+import {IoIosLogOut} from "react-icons/io";
+import axios from "axios";
 
 export const Header = () => {
     const navigation = useNavigate();
-    const { user } = useUserStore();
+    const { user, clearUser } = useUserStore();
 
     const onLogIn = () => {
         navigation('/login')
@@ -23,6 +25,15 @@ export const Header = () => {
 
     const goHome = () => {
         navigation('/')
+    }
+
+    const handleLogout = async () => {
+        try {
+            await axios.get(`/api/auth/logout`)
+            clearUser()
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     return (
@@ -50,15 +61,27 @@ export const Header = () => {
 
                     <Flex gap={4}>
                         {user?.id ? (
-                            <Button
-                                onClick={goCreateEvent}
-                                size={'sm'}
-                                borderRadius={'10px'}
-                                colorScheme="gray"
-                                variant="outline"
-                            >
-                                Add event
-                            </Button>
+                            <HStack gap={{ base: '12px' }}>
+                                <Button
+                                    onClick={goCreateEvent}
+                                    size={'sm'}
+                                    borderRadius={'10px'}
+                                    colorScheme="gray"
+                                    variant="outline"
+                                >
+                                    Add event
+                                </Button>
+
+                                <IconButton
+                                    size={'sm'}
+                                    borderRadius={'10px'}
+                                    aria-label="Logout"
+                                    variant='subtle'
+                                    onClick={handleLogout}
+                                >
+                                    <IoIosLogOut />
+                                </IconButton>
+                            </HStack>
                         ) : (
                             <Button
                                 onClick={onLogIn}

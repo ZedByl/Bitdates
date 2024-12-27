@@ -9,6 +9,6 @@ interface UserState {
 
 export const useUserStore = create<UserState>((set) => ({
     user: null,
-    setUser: (userData: UserApi) => set({ user: userData }),
+    setUser: (userData: UserApi | null) => set({ user: userData }),
     clearUser: () => set({ user: null }),
 }));

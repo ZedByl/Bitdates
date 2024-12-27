@@ -259,7 +259,7 @@ export const MainPage = () => {
                                                 color={'blue'}
                                                 size="lg"
                                                 borderRadius="14px"
-                                                width={{ md: '100%' }}
+                                                width={{ base: '100%' }}
                                                 h={{ base: '58px' }}
                                                 loading={isLoading}
                                                 onClick={async () => {
@@ -305,7 +305,7 @@ export const MainPage = () => {
                                                 color={'blue'}
                                                 size="lg"
                                                 borderRadius="14px"
-                                                width={{ md: '100%' }}
+                                                width={{ base: '100%' }}
                                                 h={{ base: '58px' }}
                                                 loading={isLoading}
                                                 onClick={async () => {
@@ -351,7 +351,7 @@ export const MainPage = () => {
                                                 color={'blue'}
                                                 size="lg"
                                                 borderRadius="14px"
-                                                width={{ md: '100%' }}
+                                                width={{ base: '100%' }}
                                                 h={{ base: '58px' }}
                                                 loading={isLoading}
                                                 onClick={async () => {

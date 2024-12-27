@@ -39,6 +39,10 @@ export class AppModule implements NestModule {
         method: RequestMethod.GET,
       },
       {
+        path: 'auth/logout',
+        method: RequestMethod.GET,
+      },
+      {
         path: 'events/:id',
         method: RequestMethod.DELETE,
       },

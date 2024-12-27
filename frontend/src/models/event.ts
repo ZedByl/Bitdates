@@ -20,6 +20,7 @@ export interface EventAPI {
 	source: string;
 	image_url?: string;
 	page_id?: string;
+	user_id?: string;
 }
 
 // Тип для локализованных строк
