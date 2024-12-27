@@ -89,12 +89,12 @@ export const Footer = () => {
                     </VStack>
                 </Flex>
 
-                {/* Bottom text */}
-                <Box textAlign="center" mt='80px'>
-                    <Text fontSize="sm" color="gray.500">
-                        © 2024 Bitsgap Holding OU
-                    </Text>
-                </Box>
+                {/*/!* Bottom text *!/*/}
+                {/*<Box textAlign="center" mt='80px'>*/}
+                {/*    <Text fontSize="sm" color="gray.500">*/}
+                {/*        © 2024 Bitsgap Holding OU*/}
+                {/*    </Text>*/}
+                {/*</Box>*/}
             </Box>
         </Box>
     );

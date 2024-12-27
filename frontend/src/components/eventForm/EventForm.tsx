@@ -8,12 +8,14 @@ import {CategorySelectState} from "@/components/categorySelect/typings.ts";
 import {formatDateForApi} from "@/views/mainPage/methods.ts";
 import {Toaster, toaster} from "@/components/ui/toaster"
 import axios from "axios";
+import {CoinApi} from "@/models/coin.ts";
 
 export const EventForm = () => {
     const [step, setStep] = useState(1);
     const [category, setCategory] = useState<CategorySelectState>();
     const [image, setImage] = useState<File>();
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [selectedCoin, setSelectedCoin] = useState<CoinApi | null>();
 
     const {
         handleSubmit,
@@ -37,6 +39,12 @@ export const EventForm = () => {
         }
     };
 
+    const handlePrev = () => {
+        if (step !== 1) {
+            setStep(1)
+        }
+    };
+
     const onChangeCategory = (e: CategorySelectState) => {
         setCategory(e)
     }
@@ -46,15 +54,35 @@ export const EventForm = () => {
         setSelectedDate(value);
     }
 
+    const onSelectToken = (item: CoinApi | null) => {
+        if (item) {
+            setSelectedCoin(item);
+        }
+    };
+
+    const fetchUserOptions = async (input: string): Promise<CoinApi[]> => {
+        if (!input) return []
+
+        try {
+            const { data } = await axios.post<CoinApi[]>('/api/coins', { search: input })
+
+            return data
+        } catch (e) {
+            console.error(e)
+        }
+
+        return []
+    };
+
     const onCreateEvent = (event: {title: string, text: string, eventLink: string}) => {
         const formData = new FormData();
         const { title, text, eventLink } = event
 
         if (title) {
-            formData.append("title", title);
+            formData.append("title", JSON.stringify({ en: title }));
         }
         if (text) {
-            formData.append("description", text);
+            formData.append("description", JSON.stringify({ en: text }));
         }
         if (eventLink) {
             formData.append("proof", eventLink);
@@ -64,9 +92,12 @@ export const EventForm = () => {
         }
         if (category) {
             formData.append("categories", JSON.stringify([{
-                id: category.value,
+                id: category.value[0],
                 name: category.label,
             }]));
+        }
+        if (selectedCoin) {
+            formData.append("coins", JSON.stringify([selectedCoin]))
         }
         if (image) {
             formData.append("image", image);
@@ -106,10 +137,12 @@ export const EventForm = () => {
                             register={register}
                             onChangeCategory={onChangeCategory}
                             onSelectDate={onSelectDate}
+                            onSelectToken={onSelectToken}
                             errors={errors}
                             handleNext={handleNext}
                             setValue={setValue}
                             getValues={getValues}
+                            fetchCoins={fetchUserOptions}
                         />
                     )}
 
@@ -121,6 +154,7 @@ export const EventForm = () => {
                             setValue={setValue}
                             getValues={getValues}
                             setImage={setImage}
+                            handlePrev={handlePrev}
                         />
                     )}
 

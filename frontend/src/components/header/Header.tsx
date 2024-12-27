@@ -3,13 +3,15 @@ import {useColorMode} from "@/components/ui/color-mode.tsx";
 import {useMemo} from "react";
 import {Logo} from "@/components/logo";
 import {useNavigate} from "react-router-dom";
+import {useUserStore} from "@/stores/user/userStore.ts";
 
 export const Header = () => {
     const navigation = useNavigate();
+    const { user } = useUserStore();
 
-    // const onLogIn = useCallback(() => {
-    //     navigation('/login')
-    // }, [navigation]);
+    const onLogIn = () => {
+        navigation('/login')
+    }
 
     const {colorMode} = useColorMode();
 
@@ -47,17 +49,25 @@ export const Header = () => {
                     </Box>
 
                     <Flex gap={4}>
-                        <Button
-                            // display={{ base: 'none', md: 'block' }}
-                            onClick={goCreateEvent}
-                            size={'sm'}
-                            borderRadius={'10px'}
-                            colorScheme="gray"
-                            variant="outline"
-                        >
-                            Add event
-                        </Button>
-                        {/*<Button onClick={onLogIn} size={'sm'} borderRadius={'10px'} colorPalette="blue">Sign up / Log in</Button>*/}
+                        {user?.id ? (
+                            <Button
+                                onClick={goCreateEvent}
+                                size={'sm'}
+                                borderRadius={'10px'}
+                                colorScheme="gray"
+                                variant="outline"
+                            >
+                                Add event
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={onLogIn}
+                                size={'sm'}
+                                borderRadius={'10px'}
+                                colorPalette="blue"
+                            >Sign up / Log in
+                            </Button>
+                        )}
                         {/*<ColorModeButton/>*/}
                     </Flex>
                 </Flex>

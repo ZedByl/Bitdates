@@ -8,8 +8,24 @@ import {AboutPage} from "@/views/aboutPage";
 import {FaqPage} from "@/views/faqPage";
 import {PrivacyPolicyPage} from "@/views/privacyPolicyPage";
 import {TermsPage} from "@/views/termsPage";
+import axios from "axios";
+import {UserApi} from "@/models/user.ts";
+import {useUserStore} from "@/stores/user/userStore.ts";
+import {useEffect} from "react";
 
 function App() {
+    const { setUser } = useUserStore();
+
+    const getUserInfo = async () => {
+        const { data } = await axios.get<UserApi>(`/api/auth/info`)
+        setUser(data)
+    }
+
+    useEffect(() => {
+        (async () => {
+            await getUserInfo()
+        })()
+    }, []);
 
     return (
         <Router>

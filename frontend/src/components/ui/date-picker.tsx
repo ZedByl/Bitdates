@@ -20,7 +20,7 @@ const options: Intl.DateTimeFormatOptions = {
 	day: "numeric",
 };
 
-export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange }) => {
+export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange, minDate }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const dateInput = useRef<HTMLInputElement>(null)
 	const dateCalendar = useRef<HTMLDivElement>(null)
@@ -43,7 +43,14 @@ export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange }) => {
 					<InputGroup
 						width={'full'}
 						flex="1"
-						endElement={<CalendarIcon w={'36px'} h={'36px'}/>}
+						endElement={
+						<CalendarIcon
+							onClick={() => setIsOpen(true)}
+							w={'36px'}
+							h={'36px'}
+							cursor='pointer'
+						/>
+					}
 					>
 						<Input
 							ref={dateInput}
@@ -82,6 +89,7 @@ export const DatePicker: FC<ICalendarProps> = ({ currentDate, onChange }) => {
 							forwardRef={dateCalendar}
 							currentDate={currentDate}
 							onChange={onDateChange}
+							minDate={minDate}
 						/>
 					</DialogBody>
 				</DialogContent>

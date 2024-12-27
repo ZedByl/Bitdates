@@ -3,15 +3,18 @@ import {useForm} from "react-hook-form";
 import {Field} from "@/components/ui/field.tsx";
 import axios from "axios";
 import {Toaster, toaster} from "@/components/ui/toaster.tsx";
+import {useUserStore} from "@/stores/user/userStore.ts";
 
 export const SubscriptionCard = () => {
+    const { user } = useUserStore();
+
     const {
         handleSubmit,
         register,
         formState: { errors },
     } = useForm({
         defaultValues: {
-            email: ''
+            email: user?.email || ''
         },
     });
 
@@ -71,6 +74,7 @@ export const SubscriptionCard = () => {
                         h={{base: '58px'}}
                         size="xl"
                         borderRadius="10px"
+                        disabled={!!user?.email}
                         {...register("email", {
                             required: "This field is required",
                             pattern: {
@@ -81,10 +85,12 @@ export const SubscriptionCard = () => {
                     />
                 </Field>
 
-                <Button onClick={handleClick} colorPalette="blue" size="lg" borderRadius="14px" h={{base: '54px'}}
-                        w="full">
-                    Subscribe
-                </Button>
+                {!user?.email && (
+                    <Button onClick={handleClick} colorPalette="blue" size="lg" borderRadius="14px" h={{base: '54px'}}
+                            w="full">
+                        Subscribe
+                    </Button>
+                )}
             </VStack>
 
             <Toaster />

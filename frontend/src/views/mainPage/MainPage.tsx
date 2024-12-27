@@ -15,6 +15,8 @@ import {CategorySelect} from "@/components/categorySelect";
 import { EventAPI } from '@/models/event.ts';
 import {formatDate, formatDateForApi, getNextDateRange} from '@/views/mainPage/methods.ts';
 import {CategorySelectState} from "@/components/categorySelect/typings.ts";
+import {Button} from "@/components/ui/button.tsx";
+import axios from "axios";
 
 export const MainPage = () => {
     const [eventsDay, setEventsDay] = useState<EventAPI[]>([]);
@@ -23,6 +25,13 @@ export const MainPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
     const [selectedCategory, setSelectedCategory] = useState<CategorySelectState>();
     const [search, setSearch] = useState<string>();
+    const [pageDay, setPageDay] = useState<number>(1);
+    const [pageWeek, setPageWeek] = useState<number>(1);
+    const [pageMonth, setPageMonth] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isDisableDayButton, setIsDisableDayButton] = useState<boolean>(false);
+    const [isDisableWeekButton, setIsDisableWeekButton] = useState<boolean>(false);
+    const [isDisableMonthButton, setIsDisableMonthButton] = useState<boolean>(false);
 
     const nextWeek = getNextDateRange('week');
     const nextMonth = getNextDateRange('month');
@@ -31,75 +40,112 @@ export const MainPage = () => {
         setSelectedDate(value)
     }
 
-    const fetchEvents = async (searchParams?: URLSearchParams) => {
+    const fetchEvents = async (
+        searchParams?: URLSearchParams,
+        excludeIds: number[] = []
+    ) => {
       try {
           if (search && searchParams) {
               searchParams.append('q', search)
           }
 
           if (selectedCategory?.value && searchParams) {
-              searchParams.append('categories', selectedCategory.value.toString())
+              const categoryValues = selectedCategory.value.join(',');
+              searchParams.append('categories', categoryValues);
           }
 
-          return await fetch(`/api/events${searchParams ? '?' + searchParams.toString() : ''}`, {
-              method: 'GET',
+          const { data } = await axios.post(`/api/events${searchParams ? '?' + searchParams.toString() : ''}`, {
+              excludeIds
           })
-          .then(res => res.json())
-          .then((res) => res.body || [])
+
+          return data.body
       } catch (e) {
           console.error(e)
       }
     }
 
-    const getEventsDay = async () => {
+    const getEventsDay = async (page = 1) => {
       try {
+          setIsLoading(true)
           const searchParams = new URLSearchParams();
 
           const date = formatDateForApi(selectedDate || new Date())
 
           searchParams.append('dateRangeStart', date)
           searchParams.append('dateRangeEnd', date)
+          searchParams.append('page', JSON.stringify(page))
 
-          const events = await fetchEvents(searchParams)
-          setEventsDay(events)
+          const excludeIds: number[] = eventsDay.map((item) => item.id)
+
+          const events = await fetchEvents(searchParams, excludeIds)
+
+          if (!events.length) {
+              setIsDisableDayButton(true)
+          }
+
+          setEventsDay((prevState) => ([
+              ...prevState,
+              ...events
+          ]))
       } catch (e) {
           console.error(e)
       }
+        setIsLoading(false)
     }
 
-    const getEventsWeek = async () => {
+    const getEventsWeek = async (page = 1) => {
         try {
+            setIsLoading(true)
             const searchParams = new URLSearchParams();
 
             searchParams.append('dateRangeStart', nextWeek.start)
             searchParams.append('dateRangeEnd', nextWeek.end)
+            searchParams.append('page', JSON.stringify(page))
 
-            const events = await fetchEvents(searchParams)
-            setEventsWeek(events)
+            const excludeIds: number[] = eventsWeek.map((item) => item.id)
+
+            const events = await fetchEvents(searchParams, excludeIds)
+
+            if (!events.length) {
+                setIsDisableWeekButton(true)
+            }
+
+            setEventsWeek((prevState) => ([
+                ...prevState,
+                ...events
+            ]))
         } catch (e) {
             console.error(e)
         }
+        setIsLoading(false)
     }
 
-    const getEventsMonth = async () => {
+    const getEventsMonth = async (page = 1) => {
         try {
+            setIsLoading(true)
             const searchParams = new URLSearchParams();
 
             searchParams.append('dateRangeStart', nextMonth.start)
             searchParams.append('dateRangeEnd', nextMonth.end)
+            searchParams.append('page', JSON.stringify(page))
 
-            const events = await fetchEvents(searchParams)
-            setEventsMonth(events)
+            const excludeIds: number[] = eventsMonth.map((item) => item.id)
+
+            const events = await fetchEvents(searchParams, excludeIds)
+
+            if (!events.length) {
+                setIsDisableMonthButton(true)
+            }
+
+            setEventsMonth((prevState) => ([
+                ...prevState,
+                ...events
+            ]))
         } catch (e) {
             console.error(e)
         }
+        setIsLoading(false)
     }
-
-    useEffect(() => {
-        fetch('/api/user/me', {
-            credentials: 'include',
-        }).then(res => res.json()).then(console.log)
-    }, [])
 
     useEffect(() => {
         if (selectedDate) {
@@ -173,6 +219,24 @@ export const MainPage = () => {
                                   {eventsDay?.map((item, key) => (
                                     <EventCard key={key} {...item} />
                                   ))}
+
+                                  {!isDisableDayButton && (
+                                      <Button
+                                          bg={'rgba(29, 72, 230, 0.05)'}
+                                          color={'blue'}
+                                          size="lg"
+                                          borderRadius="14px"
+                                          width={{ md: '100%' }}
+                                          h={{ base: '58px' }}
+                                          loading={isLoading}
+                                          onClick={async () => {
+                                              await getEventsDay(pageDay + 1)
+                                              setPageDay((prevState) => prevState + 1)
+                                          }}
+                                      >
+                                          More events
+                                      </Button>
+                                  )}
                               </VStack>
                             )}
                         </VStack>
@@ -195,6 +259,24 @@ export const MainPage = () => {
                                   {eventsWeek?.map((item, key) => (
                                     <EventCard key={key} {...item} />
                                   ))}
+
+                                  {!isDisableWeekButton && (
+                                      <Button
+                                          bg={'rgba(29, 72, 230, 0.05)'}
+                                          color={'blue'}
+                                          size="lg"
+                                          borderRadius="14px"
+                                          width={{ md: '100%' }}
+                                          h={{ base: '58px' }}
+                                          loading={isLoading}
+                                          onClick={async () => {
+                                              await getEventsWeek(pageWeek + 1)
+                                              setPageWeek((prevState) => prevState + 1)
+                                          }}
+                                      >
+                                          More events
+                                      </Button>
+                                  )}
                               </VStack>
                             )}
                         </VStack>
@@ -217,6 +299,24 @@ export const MainPage = () => {
                                   {eventsMonth?.map((item, key) => (
                                     <EventCard key={key} {...item} />
                                   ))}
+
+                                  {!isDisableMonthButton && (
+                                      <Button
+                                          bg={'rgba(29, 72, 230, 0.05)'}
+                                          color={'blue'}
+                                          size="lg"
+                                          borderRadius="14px"
+                                          width={{ md: '100%' }}
+                                          h={{ base: '58px' }}
+                                          loading={isLoading}
+                                          onClick={async () => {
+                                              await getEventsMonth(pageMonth + 1)
+                                              setPageMonth((prevState) => prevState + 1)
+                                          }}
+                                      >
+                                          More events
+                                      </Button>
+                                  )}
                               </VStack>
                             )}
                         </VStack>

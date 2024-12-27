@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from 'react';
 import {
 	Box, Button,
-	Heading,
+	Heading, HStack,
 	Input, Stack,
 	Text,
 	Textarea,
@@ -25,13 +25,15 @@ type IProps = {
 	setValue: UseFormSetValue<EventForm>
 	getValues: UseFormGetValues<EventForm>
 	setImage: React.Dispatch<React.SetStateAction<File | undefined>>
+	handlePrev: () => void
 }
 
 export const SecondStep: FC<IProps> = ({
 	errors,
 	register,
 	onCreateEvent,
-	setImage
+	setImage,
+	handlePrev
 }) => {
 	const [remainingChars, setRemainingChars] = useState(MAX_CHAR);
 	const [text, setText] = useState('');
@@ -41,7 +43,6 @@ export const SecondStep: FC<IProps> = ({
 	};
 
 	useEffect(() => {
-		console.log(text, 'text')
 		if (text.length <= MAX_CHAR) {
 			handleTextChange()
 		}
@@ -52,9 +53,15 @@ export const SecondStep: FC<IProps> = ({
 			<Heading fontWeight={'bold'} as="h1" size="7xl" textAlign="center">
 				Event details
 			</Heading>
-			<Text fontSize="lg" color="gray.500" textAlign="center" mb={{base: '34px'}}>
-				2-step
-			</Text>
+			<HStack alignItems={{ base: 'center' }} justifyContent={{ base: 'center' }}>
+				<Text onClick={handlePrev} _hover={{ color: 'gray.700' }} cursor="pointer" fontSize="lg" color="gray.500" textAlign="center" mb={{base: '34px'}}>
+					1-step /
+				</Text>
+
+				<Text fontSize="lg" color="#1E1E1E" textAlign="center" mb={{base: '34px'}}>
+					2-step
+				</Text>
+			</HStack>
 
 			<Stack align="flex-start" direction={{base: "column", md: "row"}}>
 				<VStack w={{base: '100%', md: "50%"}} align="flex-start">

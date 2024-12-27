@@ -34,9 +34,9 @@ export const EventCard: FC<EventCardProps> = (props) => {
               w={'100%'}
               cursor="pointer"
             >
-                <Stack direction={{ base: 'column', md: 'row' }} align={"center"} justifyContent={'space-between'} w="full" gap="18px">
+                <Stack direction={{ base: 'column', md: 'row' }} align={{ base: 'flex-start', md: 'center' }} justifyContent={'space-between'} w="full" gap="18px">
                     <HStack gap={{ base: '12px' }} w={{ base: '100%' }} maxW={{ base: '480px' }}>
-                        <Box w={'50px'} h={'50px'} >
+                        <Box w={{ base: '36px', md: '48px' }} h={{ base: '36px', md: '48px' }}>
                             {selectedCategory ? selectedCategory.icon : defaultIcon}
                         </Box>
                         <VStack align="start" flex={'1'}>
@@ -52,7 +52,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
 
                     {!!coins.length && (
                       <HStack flex={'1'}>
-                          <Box width='54px' height='54px'>
+                          <Box minWidth="36px" width='36px' height='36px'>
                               <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coins[0].name} />
                           </Box>
                           <Text>{coins[0].name}</Text>
@@ -62,11 +62,11 @@ export const EventCard: FC<EventCardProps> = (props) => {
                     <Box w={{ base: '100%', md: 'auto' }}>
                         <Button display={{ base: 'block', md: 'none' }} size={'xl'} w={'100%'} color={'black'} borderRadius={'10px'} backgroundColor={'#EFF2F4'}>
                             Add to calendar
-                            <CalendarIcon w={'50px'} h={'50px'} />
+                            <CalendarIcon w={'48px'} h={'48px'} />
                         </Button>
 
-                        <Box w={'50px'} h={'50px'} display={{ base: 'none', md: 'block' }}>
-                            <CalendarIcon w={'50px'} h={'50px'} />
+                        <Box w={'48px'} h={'48px'} display={{ base: 'none', md: 'block' }}>
+                            <CalendarIcon w={'48px'} h={'48px'} />
                         </Box>
                     </Box>
                 </Stack>

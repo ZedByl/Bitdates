@@ -146,7 +146,7 @@ export const EventModal: FC<EventModalProps> = ({event, coinImage, open, onClose
                             </Stack>
 
                             {imageUrl && (
-                                <Image borderRadius={"16px"} rounded="md" src={window.location.origin + '/api/' + imageUrl} alt={title?.en} />
+                                <Image borderRadius={"16px"} rounded="md" src={imageUrl} alt={title?.en} />
                             )}
 
                             <Separator m={{ base: '8px 0' }} />

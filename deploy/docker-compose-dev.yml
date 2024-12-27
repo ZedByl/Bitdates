@@ -1,15 +1,15 @@
 services:
-  mongo:
-    image: mongo:latest
+  postgres:
+    image: postgres
     restart: always
     env_file:
       - ../backend/.env
+    ports:
+      - "5432:5432"
     networks:
       - web
-    ports:
-      - '27017:27017'
     volumes:
-      - mongo-data:/data/db
+      - ../backend/db/data:/var/lib/postgresql/data
 
   backend:
     image: node:22.4.0
@@ -19,15 +19,17 @@ services:
     env_file:
       - ../backend/.env
     depends_on:
-      - mongo
+      - postgres
     networks:
       - web
     working_dir: /usr/src/app
     volumes:
       - ../backend:/usr/src/app
+      - ../backend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
+      - ../backend/.yarn:/usr/src/app/.yarn
     command: bash -c "
-      npm install
-      && npm run dev"
+      yarn install
+      && yarn start:dev"
 
   frontend:
     image: node:22.4.0
@@ -39,16 +41,18 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
+      - ../frontend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
+      - ../frontend/.yarn:/usr/src/app/.yarn
     command: bash -c "
-      npm install
-      && npm run dev --host 0.0.0.0"
+      yarn install
+      && yarn dev --host 0.0.0.0"
 
   nginx:
     build: nginx
     depends_on:
       - frontend
       - backend
-      - mongo
+      - postgres
     restart: always
     ports:
       - "8000:80"
@@ -57,13 +61,8 @@ services:
     volumes:
       - ./nginx-dev/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx-dev/nginx.conf:/etc/nginx/nginx.conf:ro
-      - frontend-build:/usr/share/nginx/html
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 networks:
   web:
-    driver: bridge
 
-volumes:
-  mongo-data:
-  frontend-build:

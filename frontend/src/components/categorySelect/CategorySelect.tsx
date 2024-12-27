@@ -14,7 +14,7 @@ import {
     ExchangesEventsIcon,
     HardForksIcon,
     ListingIcon,
-    MeetupIcon,
+    MeetupIcon, OtherIcon,
     ProtocolUpdatesIcon,
     ServiceLaunchIcon,
     TestnetIcon,
@@ -27,25 +27,26 @@ import {CategorySelectProps, CategorySelectState} from "@/components/categorySel
 import {useOnClickOutside} from "@/hooks/useOnClickOutside";
 
 export const categories = [
-    { value: 1, label: "Listing", icon: <ListingIcon w="100%" h="100%" /> },
-    { value: 2, label: "Protocol Updates", icon: <ProtocolUpdatesIcon w="100%" h="100%" /> },
-    { value: 3, label: "Hard Forks", icon: <HardForksIcon w="100%" h="100%" /> },
-    { value: 4, label: "Airdrop", icon: <AirdropIcon w="100%" h="100%" /> },
-    { value: 5, label: "Voting", icon: <VotingIcon w="100%" h="100%" /> },
-    { value: 6, label: "Testnet", icon: <TestnetIcon w="100%" h="100%" /> },
-    { value: 7, label: "Alliance", icon: <AllianceIcon w="100%" h="100%" /> },
-    { value: 8, label: "Meetup", icon: <MeetupIcon w="100%" h="100%" /> },
-    { value: 9, label: "Token Sale", icon: <TokenSaleIcon w="100%" h="100%" /> },
-    { value: 10, label: "Service Launch", icon: <ServiceLaunchIcon w="100%" h="100%" /> },
-    { value: 11, label: "Exchanges Events", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
-    { value: 12, label: "Token Burn", icon: <TokenBurnIcon w="100%" h="100%" /> },
-    { value: 13, label: "Educational", icon: <EducationalIcon w="100%" h="100%" /> },
+    { value: [4], label: "Listing", icon: <ListingIcon w="100%" h="100%" /> },
+    { value: [1], label: "Protocol Updates", icon: <ProtocolUpdatesIcon w="100%" h="100%" /> },
+    { value: [14], label: "Hard Forks", icon: <HardForksIcon w="100%" h="100%" /> },
+    { value: [8], label: "Airdrop", icon: <AirdropIcon w="100%" h="100%" /> },
+    { value: [2], label: "Voting", icon: <VotingIcon w="100%" h="100%" /> },
+    { value: [1], label: "Testnet", icon: <TestnetIcon w="100%" h="100%" /> },
+    { value: [11,18], label: "Alliance", icon: <AllianceIcon w="100%" h="100%" /> },
+    { value: [5,6], label: "Meetup", icon: <MeetupIcon w="100%" h="100%" /> },
+    { value: [1], label: "Token Sale", icon: <TokenSaleIcon w="100%" h="100%" /> },
+    { value: [13,15], label: "Service Launch", icon: <ServiceLaunchIcon w="100%" h="100%" /> },
+    { value: [4,17], label: "Exchanges Events", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
+    { value: [3], label: "Token Burn", icon: <TokenBurnIcon w="100%" h="100%" /> },
+    { value: [9,16], label: "Educational", icon: <EducationalIcon w="100%" h="100%" /> },
+    { value: [7], label: "Other", icon: <OtherIcon /> },
 ];
 
 export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size, defaultValue }) => {
     const { open, onToggle, onClose } = useDisclosure();
     const [selectedCategory, setSelectedCategory] = useState<{
-        value: number;
+        value: number[];
         label: string;
         icon: JSX.Element;
     } | null>(null);
@@ -54,7 +55,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
 
     const handleSelect = (category: CategorySelectState) => {
         setSelectedCategory(category);
-        onClose(); // Закрыть выпадающий список
+        onClose();
         if (onChange) {
             onChange(category);
         }
@@ -122,7 +123,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
             >
                 {categories.map((category) => (
                   <Flex
-                    key={category.value}
+                    key={category.value[0] + Math.round(Math.random() * 1e9)}
                     as="button"
                     onClick={() => handleSelect(category)}
                     w="full"
