@@ -64,7 +64,10 @@ export const MainPage = () => {
       }
     }
 
-    const getEventsDay = async (page = 1) => {
+    const getEventsDay = async ({
+        page = 1,
+        isChangeCategory = false,
+                                }) => {
       try {
           setIsLoading(true)
           const searchParams = new URLSearchParams();
@@ -83,17 +86,26 @@ export const MainPage = () => {
               setIsDisableDayButton(true)
           }
 
-          setEventsDay((prevState) => ([
-              ...prevState,
-              ...events
-          ]))
+          if (isChangeCategory) {
+              setEventsDay(events)
+          } else {
+              setEventsDay((prevState) => ([
+                  ...prevState,
+                  ...events
+              ]))
+          }
+
+
       } catch (e) {
           console.error(e)
       }
         setIsLoading(false)
     }
 
-    const getEventsWeek = async (page = 1) => {
+    const getEventsWeek = async ({
+                                     page = 1,
+                                     isChangeCategory = false,
+                                 }) => {
         try {
             setIsLoading(true)
             const searchParams = new URLSearchParams();
@@ -110,17 +122,24 @@ export const MainPage = () => {
                 setIsDisableWeekButton(true)
             }
 
-            setEventsWeek((prevState) => ([
-                ...prevState,
-                ...events
-            ]))
+            if (isChangeCategory) {
+                setEventsWeek(events)
+            } else {
+                setEventsWeek((prevState) => ([
+                    ...prevState,
+                    ...events
+                ]))
+            }
         } catch (e) {
             console.error(e)
         }
         setIsLoading(false)
     }
 
-    const getEventsMonth = async (page = 1) => {
+    const getEventsMonth = async ({
+                                      page = 1,
+                                      isChangeCategory = false,
+                                  }) => {
         try {
             setIsLoading(true)
             const searchParams = new URLSearchParams();
@@ -137,10 +156,14 @@ export const MainPage = () => {
                 setIsDisableMonthButton(true)
             }
 
-            setEventsMonth((prevState) => ([
-                ...prevState,
-                ...events
-            ]))
+            if (isChangeCategory) {
+                setEventsMonth(events)
+            } else {
+                setEventsMonth((prevState) => ([
+                    ...prevState,
+                    ...events
+                ]))
+            }
         } catch (e) {
             console.error(e)
         }
@@ -150,16 +173,16 @@ export const MainPage = () => {
     useEffect(() => {
         if (selectedDate) {
             (async () => {
-                await getEventsDay()
+                await getEventsDay({})
             })()
         }
     }, [selectedDate]);
 
     useEffect(() => {
         (async () => {
-            await getEventsDay()
-            await getEventsWeek()
-            await getEventsMonth()
+            await getEventsDay({ isChangeCategory: true })
+            await getEventsWeek({ isChangeCategory: true })
+            await getEventsMonth({ isChangeCategory: true })
         })()
     }, [search, selectedCategory]);
 
@@ -230,7 +253,7 @@ export const MainPage = () => {
                                           h={{ base: '58px' }}
                                           loading={isLoading}
                                           onClick={async () => {
-                                              await getEventsDay(pageDay + 1)
+                                              await getEventsDay({ page: pageDay + 1 })
                                               setPageDay((prevState) => prevState + 1)
                                           }}
                                       >
@@ -270,7 +293,7 @@ export const MainPage = () => {
                                           h={{ base: '58px' }}
                                           loading={isLoading}
                                           onClick={async () => {
-                                              await getEventsWeek(pageWeek + 1)
+                                              await getEventsWeek({ page: pageWeek + 1 })
                                               setPageWeek((prevState) => prevState + 1)
                                           }}
                                       >
@@ -310,7 +333,7 @@ export const MainPage = () => {
                                           h={{ base: '58px' }}
                                           loading={isLoading}
                                           onClick={async () => {
-                                              await getEventsMonth(pageMonth + 1)
+                                              await getEventsMonth({ page: pageMonth + 1 })
                                               setPageMonth((prevState) => prevState + 1)
                                           }}
                                       >

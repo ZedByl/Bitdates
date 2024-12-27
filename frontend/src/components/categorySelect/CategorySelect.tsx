@@ -40,7 +40,7 @@ export const categories = [
     { value: [4,17], label: "Exchanges Events", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
     { value: [3], label: "Token Burn", icon: <TokenBurnIcon w="100%" h="100%" /> },
     { value: [9,16], label: "Educational", icon: <EducationalIcon w="100%" h="100%" /> },
-    { value: [7], label: "Other", icon: <OtherIcon /> },
+    { value: [7], label: "Other", icon: <OtherIcon w="100%" h="100%" /> },
 ];
 
 export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size, defaultValue }) => {
