@@ -17,8 +17,6 @@ import {
     MeetupIcon, OtherIcon,
     ProtocolUpdatesIcon,
     ServiceLaunchIcon,
-    TestnetIcon,
-    TokenBurnIcon,
     TokenSaleIcon,
     VotingIcon
 } from '@/assets/icons/icons.tsx';
@@ -26,30 +24,25 @@ import {FC, useEffect, useRef, useState} from "react";
 import {CategorySelectProps, CategorySelectState} from "@/components/categorySelect/typings.ts";
 import {useOnClickOutside} from "@/hooks/useOnClickOutside";
 
-export const categories = [
-    { value: [4], label: "Listing", icon: <ListingIcon w="100%" h="100%" /> },
-    { value: [1], label: "Protocol Updates", icon: <ProtocolUpdatesIcon w="100%" h="100%" /> },
-    { value: [14], label: "Hard Forks", icon: <HardForksIcon w="100%" h="100%" /> },
-    { value: [8], label: "Airdrop", icon: <AirdropIcon w="100%" h="100%" /> },
-    { value: [2], label: "Voting", icon: <VotingIcon w="100%" h="100%" /> },
-    { value: [1], label: "Testnet", icon: <TestnetIcon w="100%" h="100%" /> },
-    { value: [11,18], label: "Alliance", icon: <AllianceIcon w="100%" h="100%" /> },
-    { value: [5,6], label: "Meetup", icon: <MeetupIcon w="100%" h="100%" /> },
-    { value: [1], label: "Token Sale", icon: <TokenSaleIcon w="100%" h="100%" /> },
-    { value: [13,15], label: "Service Launch", icon: <ServiceLaunchIcon w="100%" h="100%" /> },
-    { value: [4,17], label: "Exchanges Events", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
-    { value: [3], label: "Token Burn", icon: <TokenBurnIcon w="100%" h="100%" /> },
-    { value: [9,16], label: "Educational", icon: <EducationalIcon w="100%" h="100%" /> },
+export const categories: CategorySelectState[] = [
+    { value: null, label: "All" },
+    { value: [17], label: "Staking/Farming", icon: <ListingIcon w="100%" h="100%" /> },
+    { value: [1], label: "Release", icon: <ProtocolUpdatesIcon w="100%" h="100%" /> },
+    { value: [14], label: "Fork/Swap", icon: <HardForksIcon w="100%" h="100%" /> },
+    { value: [8], label: "Airdrop/Snapshot", icon: <AirdropIcon w="100%" h="100%" /> },
+    { value: [2], label: "Branding", icon: <VotingIcon w="100%" h="100%" /> },
+    { value: [11,18], label: "Partnership/Integration", icon: <AllianceIcon w="100%" h="100%" /> },
+    { value: [5,6], label: "Conference/Meetup", icon: <MeetupIcon w="100%" h="100%" /> },
+    { value: [3], label: "Tokenomics", icon: <TokenSaleIcon w="100%" h="100%" /> },
+    { value: [13,15], label: "Roadmap/Whitepaper update", icon: <ServiceLaunchIcon w="100%" h="100%" /> },
+    { value: [4], label: "Exchange", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
+    { value: [9,16], label: "TeamUpdate/AMA", icon: <EducationalIcon w="100%" h="100%" /> },
     { value: [7], label: "Other", icon: <OtherIcon w="100%" h="100%" /> },
 ];
 
 export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size, defaultValue }) => {
     const { open, onToggle, onClose } = useDisclosure();
-    const [selectedCategory, setSelectedCategory] = useState<{
-        value: number[];
-        label: string;
-        icon: JSX.Element;
-    } | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<CategorySelectState | null>(null);
     const refButton = useRef<HTMLButtonElement>(null);
     const refList = useRef(null);
 
@@ -87,7 +80,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
           >
               <HStack position="relative" justify="space-between" w="full">
                   <HStack>
-                      {selectedCategory && (
+                      {selectedCategory?.icon && (
                         <Box w="30px" h="30px">
                             {selectedCategory.icon}
                         </Box>
@@ -123,7 +116,7 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
             >
                 {categories.map((category) => (
                   <Flex
-                    key={category.value[0] + Math.round(Math.random() * 1e9)}
+                    key={Math.round(Math.random() * 1e9)}
                     as="button"
                     onClick={() => handleSelect(category)}
                     w="full"
@@ -132,9 +125,11 @@ export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size
                     _hover={{bg: 'gray.100'}}
                     _focus={{bg: 'gray.200'}}
                   >
-                      <Box w="30px" h="30px" mr="3">
-                          {category.icon}
-                      </Box>
+                      {category.icon && (
+                          <Box w="30px" h="30px" mr="3">
+                              {category.icon}
+                          </Box>
+                      )}
                       <Text>{category.label}</Text>
                   </Flex>
                 ))}

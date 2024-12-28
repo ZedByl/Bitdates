@@ -87,7 +87,11 @@ export const MainPage = () => {
           searchParams.append('dateRangeEnd', date)
           searchParams.append('page', JSON.stringify(page))
 
-          const excludeIds: number[] = eventsDay.map((item) => item.id)
+          let excludeIds: number[] = []
+
+          if (selectedCategory && selectedCategory.value) {
+              excludeIds = eventsDay.map((item) => item.id)
+          }
 
           const events = await fetchEvents(searchParams, excludeIds)
 
@@ -123,7 +127,11 @@ export const MainPage = () => {
             searchParams.append('dateRangeEnd', nextWeek.end)
             searchParams.append('page', JSON.stringify(page))
 
-            const excludeIds: number[] = eventsWeek.map((item) => item.id)
+            let excludeIds: number[] = eventsWeek.map((item) => item.id)
+
+            if (selectedCategory && selectedCategory.value) {
+                excludeIds = eventsWeek.map((item) => item.id)
+            }
 
             const events = await fetchEvents(searchParams, excludeIds)
 
@@ -157,7 +165,11 @@ export const MainPage = () => {
             searchParams.append('dateRangeEnd', nextMonth.end)
             searchParams.append('page', JSON.stringify(page))
 
-            const excludeIds: number[] = eventsMonth.map((item) => item.id)
+            let excludeIds: number[] = eventsMonth.map((item) => item.id)
+
+            if (selectedCategory && selectedCategory.value) {
+                excludeIds = eventsMonth.map((item) => item.id)
+            }
 
             const events = await fetchEvents(searchParams, excludeIds)
 
@@ -250,7 +262,7 @@ export const MainPage = () => {
                                 {eventsDay.length ? (
                                     <>
                                         {eventsDay?.map((item, key) => (
-                                            <EventCard key={key} {...item} />
+                                            <EventCard selectedCategory={selectedCategory} key={key} {...item} />
                                         ))}
 
                                         {(!isDisableDayButton && eventsMonth.length > 14) && (
@@ -296,7 +308,7 @@ export const MainPage = () => {
                                 {eventsWeek.length ? (
                                     <>
                                         {eventsWeek?.map((item, key) => (
-                                            <EventCard key={key} {...item} />
+                                            <EventCard selectedCategory={selectedCategory} key={key} {...item} />
                                         ))}
 
                                         {(!isDisableWeekButton && eventsMonth.length > 14) && (
@@ -342,7 +354,7 @@ export const MainPage = () => {
                                 {eventsMonth.length ? (
                                     <>
                                         {eventsMonth?.map((item, key) => (
-                                            <EventCard key={key} {...item} />
+                                            <EventCard selectedCategory={selectedCategory} key={key} {...item} />
                                         ))}
 
                                         {(!isDisableMonthButton && eventsMonth.length > 14) && (

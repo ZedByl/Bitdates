@@ -8,7 +8,6 @@ import {useEventStore} from "@/stores/event/eventStore.ts";
 import { Link } from "react-router-dom";
 
 import LazyImageWithFallback from "@/components/image/Image.tsx";
-
 import defaultImage from '../../assets/default-coin.png'
 
 export const EventCard: FC<EventCardProps> = (props) => {
@@ -17,9 +16,11 @@ export const EventCard: FC<EventCardProps> = (props) => {
     const { setEvent } = useEventStore()
 
     const coinImage = `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034`
-    const firstCategory = categories[0] || {}
 
-    const selectedCategory = categoriesMock.find((item) => item.value[0] === firstCategory.id)
+    const selectedCategory = categoriesMock.find((item) =>
+        item.value?.find((mockId) =>
+            categories.find(({ id }) => mockId === id))
+    )
     const defaultIcon = categoriesMock[0].icon
 
     return (
@@ -37,7 +38,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
                 <Stack direction={{ base: 'column', md: 'row' }} align={{ base: 'flex-start', md: 'center' }} justifyContent={'space-between'} w="full" gap="18px">
                     <HStack gap={{ base: '12px' }} w={{ base: '100%' }} maxW={{ base: '480px' }}>
                         <Box w={{ base: '36px', md: '48px' }} h={{ base: '36px', md: '48px' }}>
-                            {selectedCategory ? selectedCategory.icon : defaultIcon}
+                            {selectedCategory?.icon ? selectedCategory.icon : defaultIcon}
                         </Box>
                         <VStack align="start" flex={'1'}>
                             <Text fontWeight="bold">{title.en}</Text>
