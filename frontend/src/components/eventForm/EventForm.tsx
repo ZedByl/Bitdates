@@ -95,7 +95,7 @@ export const EventForm = () => {
         if (user?.id) {
             formData.append("user_id", user?.id);
         }
-        if (category) {
+        if (category && category?.value) {
             formData.append("categories", JSON.stringify([{
                 id: category.value[0],
                 name: category.label,
