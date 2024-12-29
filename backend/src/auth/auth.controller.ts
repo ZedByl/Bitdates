@@ -25,6 +25,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
     @Body() registerDto: RegisterDto,
   ) {
+    if (registerDto.code !== 'lah6Faeshog3aita') {
+      throw new NotFoundException('Code not found');
+    }
+
     const { user, accessToken, refreshToken } = await this.userService.register(
       registerDto.email,
       registerDto.password,

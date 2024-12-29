@@ -17,4 +17,13 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @ApiProperty({
+    description: 'User code',
+    example: 'password123',
+    minLength: 6,
+  })
+  @IsString()
+  @MinLength(6)
+  code: string;
 }

@@ -11,9 +11,9 @@ export const Header = () => {
     const navigation = useNavigate();
     const { user, clearUser } = useUserStore();
 
-    const onLogIn = () => {
-        navigation('/login')
-    }
+    // const onLogIn = () => {
+    //     navigation('/login')
+    // }
 
     const {colorMode} = useColorMode();
 
@@ -60,7 +60,7 @@ export const Header = () => {
                     </Box>
 
                     <Flex gap={4}>
-                        {user?.id ? (
+                        {user?.id && (
                             <HStack gap={{ base: '12px' }}>
                                 <Button
                                     onClick={goCreateEvent}
@@ -82,15 +82,17 @@ export const Header = () => {
                                     <IoIosLogOut />
                                 </IconButton>
                             </HStack>
-                        ) : (
-                            <Button
-                                onClick={onLogIn}
-                                size={'sm'}
-                                borderRadius={'10px'}
-                                colorPalette="blue"
-                            >Sign up / Log in
-                            </Button>
                         )}
+                        {/*: (*/}
+                        {/*    <Button*/}
+                        {/*        onClick={onLogIn}*/}
+                        {/*        size={'sm'}*/}
+                        {/*        borderRadius={'10px'}*/}
+                        {/*        colorPalette="blue"*/}
+                        {/*    >*/}
+                        {/*        Sign up / Log in*/}
+                        {/*    </Button>*/}
+                        {/*)}*/}
                         {/*<ColorModeButton/>*/}
                     </Flex>
                 </Flex>

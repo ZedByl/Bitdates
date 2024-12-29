@@ -33,7 +33,7 @@ function App() {
                 <Route index path="/" element={<MainPage/>}/>
                 <Route path="/event/:id" element={<EventPage/>}/>
                 <Route path="/create" element={<CreateEventPage/>}/>
-                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/auth/admin/login" element={<LoginPage/>}/>
                 <Route path="/faq" element={<FaqPage/>}/>
                 <Route path="/about" element={<AboutPage/>}/>
                 <Route path='/policy' element={<PrivacyPolicyPage/>}/>

@@ -34,6 +34,7 @@ export const AuthForm = () => {
         defaultValues: {
             email: "",
             password: "",
+            code: '',
         },
     });
 
@@ -143,6 +144,28 @@ export const AuthForm = () => {
                         })}
                     />
                 </Field>
+
+                {!isLogin && (
+                    <Field required invalid={!!errors?.code} errorText={errors?.code?.message}>
+                        <Input
+                            bg='#F0F2F5'
+                            placeholder="code"
+                            _placeholder={{color: 'rgba(30, 30, 30, 0.4)'}}
+                            _focus={{
+                                outlineStyle: "none"
+                            }}
+                            _focusVisible={{
+                                outlineStyle: "none"
+                            }}
+                            h={{base: '58px'}}
+                            size="xl"
+                            borderRadius="10px"
+                            {...register("code", {
+                                required: "This field is required",
+                            })}
+                        />
+                    </Field>
+                )}
 
                 <Button colorPalette={'blue'} onClick={onSubmit} w="full">
                     {isLogin ? 'Log In' : 'Sign Up'}
