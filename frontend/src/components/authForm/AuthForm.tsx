@@ -42,10 +42,6 @@ export const AuthForm = () => {
         navigation('/')
     }
 
-    const handleBack = () => {
-        navigation(-1)
-    }
-
     const handleLogin = async (form: AuthForm) => {
         try {
             const { data } = await axios.post<UserApi>(`/api/auth/login`, form)
@@ -179,7 +175,7 @@ export const AuthForm = () => {
                 {isLogin ? 'Register' : 'Login'}
             </Button>
 
-            <CloseButton position='absolute' onClick={handleBack} top='8px' right='8px' variant="ghost" size={'sm'} />
+            <CloseButton position='absolute' onClick={toHome} top='8px' right='8px' variant="ghost" size={'sm'} />
         </Box>
     );
 }
