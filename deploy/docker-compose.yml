@@ -5,7 +5,7 @@ services:
     env_file:
       - ../backend/.env.prod
     ports:
-      - "5432:5432"
+      - "25432:25432"
     networks:
       - web
     volumes:
