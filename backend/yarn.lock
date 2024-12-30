@@ -2382,6 +2382,62 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bitdates-backend@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "bitdates-backend@workspace:."
+  dependencies:
+    "@nestjs/cli": "npm:^10.0.0"
+    "@nestjs/common": "npm:^10.0.0"
+    "@nestjs/config": "npm:^3.2.3"
+    "@nestjs/core": "npm:^10.0.0"
+    "@nestjs/jwt": "npm:^10.2.0"
+    "@nestjs/passport": "npm:^10.0.3"
+    "@nestjs/platform-express": "npm:^10.0.0"
+    "@nestjs/schematics": "npm:^10.0.0"
+    "@nestjs/swagger": "npm:^7.4.0"
+    "@nestjs/testing": "npm:^10.0.0"
+    "@nestjs/typeorm": "npm:^10.0.2"
+    "@types/bcrypt": "npm:^5"
+    "@types/cookie-parser": "npm:^1"
+    "@types/express": "npm:^4.17.17"
+    "@types/jest": "npm:^29.5.2"
+    "@types/multer": "npm:^1"
+    "@types/node": "npm:^20.3.1"
+    "@types/passport": "npm:^0"
+    "@types/passport-jwt": "npm:^4"
+    "@types/supertest": "npm:^2.0.12"
+    "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
+    "@typescript-eslint/parser": "npm:^6.0.0"
+    axios: "npm:^1.7.9"
+    bcrypt: "npm:^5.1.1"
+    class-transformer: "npm:^0.5.1"
+    class-validator: "npm:^0.14.1"
+    cookie-parser: "npm:^1.4.7"
+    crypto: "npm:^1.0.1"
+    eslint: "npm:^8.42.0"
+    eslint-config-prettier: "npm:^9.0.0"
+    eslint-plugin-prettier: "npm:^5.0.0"
+    jest: "npm:^29.5.0"
+    multer: "npm:^1.4.5-lts.1"
+    passport: "npm:^0.7.0"
+    passport-jwt: "npm:^4.0.1"
+    pg: "npm:^8.12.0"
+    prettier: "npm:^3.0.0"
+    querystring: "npm:^0.2.1"
+    reflect-metadata: "npm:^0.1.13"
+    rxjs: "npm:^7.8.1"
+    source-map-support: "npm:^0.5.21"
+    supertest: "npm:^6.3.3"
+    telegraf: "npm:^4.16.3"
+    ts-jest: "npm:^29.1.0"
+    ts-loader: "npm:^9.4.3"
+    ts-node: "npm:^10.9.1"
+    tsconfig-paths: "npm:^4.2.0"
+    typeorm: "npm:^0.3.20"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "bl@npm:^4.1.0":
   version: 4.1.0
   resolution: "bl@npm:4.1.0"
@@ -7394,62 +7450,6 @@ __metadata:
   checksum: 10c0/58931c0cfb00481a99faf757cff3421f9ffb25a4f26c6d34150bc3a0a6e30a98860d7ff824f785f0155c9772fff478fc4a8d22ed975e48014f5037e727f2c995
   languageName: node
   linkType: hard
-
-"telegram-mini-app-backend@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "telegram-mini-app-backend@workspace:."
-  dependencies:
-    "@nestjs/cli": "npm:^10.0.0"
-    "@nestjs/common": "npm:^10.0.0"
-    "@nestjs/config": "npm:^3.2.3"
-    "@nestjs/core": "npm:^10.0.0"
-    "@nestjs/jwt": "npm:^10.2.0"
-    "@nestjs/passport": "npm:^10.0.3"
-    "@nestjs/platform-express": "npm:^10.0.0"
-    "@nestjs/schematics": "npm:^10.0.0"
-    "@nestjs/swagger": "npm:^7.4.0"
-    "@nestjs/testing": "npm:^10.0.0"
-    "@nestjs/typeorm": "npm:^10.0.2"
-    "@types/bcrypt": "npm:^5"
-    "@types/cookie-parser": "npm:^1"
-    "@types/express": "npm:^4.17.17"
-    "@types/jest": "npm:^29.5.2"
-    "@types/multer": "npm:^1"
-    "@types/node": "npm:^20.3.1"
-    "@types/passport": "npm:^0"
-    "@types/passport-jwt": "npm:^4"
-    "@types/supertest": "npm:^2.0.12"
-    "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
-    "@typescript-eslint/parser": "npm:^6.0.0"
-    axios: "npm:^1.7.9"
-    bcrypt: "npm:^5.1.1"
-    class-transformer: "npm:^0.5.1"
-    class-validator: "npm:^0.14.1"
-    cookie-parser: "npm:^1.4.7"
-    crypto: "npm:^1.0.1"
-    eslint: "npm:^8.42.0"
-    eslint-config-prettier: "npm:^9.0.0"
-    eslint-plugin-prettier: "npm:^5.0.0"
-    jest: "npm:^29.5.0"
-    multer: "npm:^1.4.5-lts.1"
-    passport: "npm:^0.7.0"
-    passport-jwt: "npm:^4.0.1"
-    pg: "npm:^8.12.0"
-    prettier: "npm:^3.0.0"
-    querystring: "npm:^0.2.1"
-    reflect-metadata: "npm:^0.1.13"
-    rxjs: "npm:^7.8.1"
-    source-map-support: "npm:^0.5.21"
-    supertest: "npm:^6.3.3"
-    telegraf: "npm:^4.16.3"
-    ts-jest: "npm:^29.1.0"
-    ts-loader: "npm:^9.4.3"
-    ts-node: "npm:^10.9.1"
-    tsconfig-paths: "npm:^4.2.0"
-    typeorm: "npm:^0.3.20"
-    typescript: "npm:^5.5.4"
-  languageName: unknown
-  linkType: soft
 
 "terser-webpack-plugin@npm:^5.3.10":
   version: 5.3.11

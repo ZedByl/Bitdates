@@ -194,7 +194,7 @@ export const MainPage = () => {
     useEffect(() => {
         if (selectedDate) {
             (async () => {
-                await getEventsDay({})
+                await getEventsDay({ isChangeCategory: true })
             })()
         }
     }, [selectedDate]);
