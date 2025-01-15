@@ -17,9 +17,6 @@ export default defineConfig({
         manualChunks: {
           react: ["react", "react-dom"],
           tanstack: ["@tanstack/react-router", "@tanstack/react-query"],
-          api: ["axios", "@/api"],
-          device: ["react-device-detect"],
-          utils: ["@/utils"],
         },
       },
     },
