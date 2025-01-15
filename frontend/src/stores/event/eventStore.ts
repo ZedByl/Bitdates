@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import {EventAPI} from "@/models/event.ts";
+import { EventAPI } from "@/models/event.ts";
 
 interface EventState {
     event: EventAPI | null;
@@ -8,7 +8,7 @@ interface EventState {
 }
 
 export const useEventStore = create<EventState>((set) => ({
-    event: null,
-    setEvent: (eventData: EventAPI) => set({ event: eventData }),
-    clearEvent: () => set({ event: null }),
+  event: null,
+  setEvent: (eventData: EventAPI) => set({ event: eventData }),
+  clearEvent: () => set({ event: null }),
 }));

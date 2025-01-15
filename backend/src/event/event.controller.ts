@@ -66,13 +66,12 @@ export class EventsController {
     @Body() bodyDto: GetEventsBodyDto,
   ) {
     const result = await this.eventsService.getAllEvents(queryDto, bodyDto);
-    return {
-      body: result,
-    };
+    return result;
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Event> {
+    console.log(123);
     return this.eventsService.getEvent(id);
   }
 
