@@ -1,1 +1,1 @@
-export {CategorySelect} from "./CategorySelect";
+export { CategorySelect } from "./CategorySelect";

@@ -1,6 +1,6 @@
-import { Popover as ChakraPopover, Portal } from "@chakra-ui/react"
-import { CloseButton } from "./close-button"
-import { forwardRef } from "react"
+import { Popover as ChakraPopover, Portal } from "@chakra-ui/react";
+import { CloseButton } from "./close-button";
+import { forwardRef } from "react";
 
 interface PopoverContentProps extends ChakraPopover.ContentProps {
   portalled?: boolean
@@ -9,16 +9,16 @@ interface PopoverContentProps extends ChakraPopover.ContentProps {
 
 export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
   function PopoverContent(props, ref) {
-    const { portalled = true, portalRef, ...rest } = props
+    const { portalled = true, portalRef, ...rest } = props;
     return (
       <Portal disabled={!portalled} container={portalRef}>
         <ChakraPopover.Positioner>
           <ChakraPopover.Content ref={ref} {...rest} />
         </ChakraPopover.Positioner>
       </Portal>
-    )
+    );
   },
-)
+);
 
 export const PopoverArrow = forwardRef<
   HTMLDivElement,
@@ -28,8 +28,8 @@ export const PopoverArrow = forwardRef<
     <ChakraPopover.Arrow {...props} ref={ref}>
       <ChakraPopover.ArrowTip />
     </ChakraPopover.Arrow>
-  )
-})
+  );
+});
 
 export const PopoverCloseTrigger = forwardRef<
   HTMLButtonElement,
@@ -46,13 +46,13 @@ export const PopoverCloseTrigger = forwardRef<
     >
       <CloseButton size="sm" />
     </ChakraPopover.CloseTrigger>
-  )
-})
+  );
+});
 
-export const PopoverTitle = ChakraPopover.Title
-export const PopoverDescription = ChakraPopover.Description
-export const PopoverFooter = ChakraPopover.Footer
-export const PopoverHeader = ChakraPopover.Header
-export const PopoverRoot = ChakraPopover.Root
-export const PopoverBody = ChakraPopover.Body
-export const PopoverTrigger = ChakraPopover.Trigger
+export const PopoverTitle = ChakraPopover.Title;
+export const PopoverDescription = ChakraPopover.Description;
+export const PopoverFooter = ChakraPopover.Footer;
+export const PopoverHeader = ChakraPopover.Header;
+export const PopoverRoot = ChakraPopover.Root;
+export const PopoverBody = ChakraPopover.Body;
+export const PopoverTrigger = ChakraPopover.Trigger;

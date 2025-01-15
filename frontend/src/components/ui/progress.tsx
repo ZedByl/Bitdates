@@ -1,7 +1,7 @@
-import { Progress as ChakraProgress, IconButton } from "@chakra-ui/react"
-import { ToggleTip } from "./toggle-tip"
-import { forwardRef } from "react"
-import { HiOutlineInformationCircle } from "react-icons/hi"
+import { Progress as ChakraProgress, IconButton } from "@chakra-ui/react";
+import { ToggleTip } from "./toggle-tip";
+import { forwardRef } from "react";
+import { HiOutlineInformationCircle } from "react-icons/hi";
 
 export const ProgressBar = forwardRef<
   HTMLDivElement,
@@ -11,11 +11,11 @@ export const ProgressBar = forwardRef<
     <ChakraProgress.Track {...props} ref={ref}>
       <ChakraProgress.Range />
     </ChakraProgress.Track>
-  )
-})
+  );
+});
 
-export const ProgressRoot = ChakraProgress.Root
-export const ProgressValueText = ChakraProgress.ValueText
+export const ProgressRoot = ChakraProgress.Root;
+export const ProgressValueText = ChakraProgress.ValueText;
 
 export interface ProgressLabelProps extends ChakraProgress.LabelProps {
   info?: React.ReactNode
@@ -23,7 +23,7 @@ export interface ProgressLabelProps extends ChakraProgress.LabelProps {
 
 export const ProgressLabel = forwardRef<HTMLDivElement, ProgressLabelProps>(
   function ProgressLabel(props, ref) {
-    const { children, info, ...rest } = props
+    const { children, info, ...rest } = props;
     return (
       <ChakraProgress.Label {...rest} ref={ref}>
         {children}
@@ -35,6 +35,6 @@ export const ProgressLabel = forwardRef<HTMLDivElement, ProgressLabelProps>(
           </ToggleTip>
         )}
       </ChakraProgress.Label>
-    )
+    );
   },
-)
+);

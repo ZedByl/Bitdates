@@ -1,5 +1,5 @@
-import { Switch as ChakraSwitch } from "@chakra-ui/react"
-import { forwardRef } from "react"
+import { Switch as ChakraSwitch } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
 export interface SwitchProps extends ChakraSwitch.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
@@ -11,7 +11,7 @@ export interface SwitchProps extends ChakraSwitch.RootProps {
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   function Switch(props, ref) {
     const { inputProps, children, rootRef, trackLabel, thumbLabel, ...rest } =
-      props
+      props;
 
     return (
       <ChakraSwitch.Root ref={rootRef} {...rest}>
@@ -34,6 +34,6 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           <ChakraSwitch.Label>{children}</ChakraSwitch.Label>
         )}
       </ChakraSwitch.Root>
-    )
+    );
   },
-)
+);

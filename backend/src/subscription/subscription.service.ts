@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppService } from '../app/app.service';
 import { SubscriptionEntity } from '../db/subscription.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SubscriptionService {

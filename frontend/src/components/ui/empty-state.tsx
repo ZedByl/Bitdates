@@ -1,5 +1,5 @@
-import { EmptyState as ChakraEmptyState, VStack } from "@chakra-ui/react"
-import { forwardRef } from "react"
+import { EmptyState as ChakraEmptyState, VStack } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
 export interface EmptyStateProps extends ChakraEmptyState.RootProps {
   title: string
@@ -9,7 +9,7 @@ export interface EmptyStateProps extends ChakraEmptyState.RootProps {
 
 export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
   function EmptyState(props, ref) {
-    const { title, description, icon, children, ...rest } = props
+    const { title, description, icon, children, ...rest } = props;
     return (
       <ChakraEmptyState.Root ref={ref} {...rest}>
         <ChakraEmptyState.Content>
@@ -29,6 +29,6 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
           {children}
         </ChakraEmptyState.Content>
       </ChakraEmptyState.Root>
-    )
+    );
   },
-)
+);

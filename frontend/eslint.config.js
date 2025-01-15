@@ -27,6 +27,7 @@ export default tseslint.config(
             'object-curly-spacing': ['error', 'always'],
             'indent': ['error', 2],
             '@typescript-eslint/no-explicit-any': ['warn'],
+            '@typescript-eslint/no-empty-object-type': ['warn'],
             'eol-last': ['error', 'always'],
         },
     },

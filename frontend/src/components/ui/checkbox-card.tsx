@@ -1,5 +1,5 @@
-import { CheckboxCard as ChakraCheckboxCard } from "@chakra-ui/react"
-import { Fragment, forwardRef } from "react"
+import { CheckboxCard as ChakraCheckboxCard } from "@chakra-ui/react";
+import { Fragment, forwardRef } from "react";
 
 export interface CheckboxCardProps extends ChakraCheckboxCard.RootProps {
   icon?: React.ReactElement
@@ -22,10 +22,10 @@ export const CheckboxCard = forwardRef<HTMLInputElement, CheckboxCardProps>(
       indicator = <ChakraCheckboxCard.Indicator />,
       indicatorPlacement = "end",
       ...rest
-    } = props
+    } = props;
 
-    const hasContent = label || description || icon
-    const ContentWrapper = indicator ? ChakraCheckboxCard.Content : Fragment
+    const hasContent = label || description || icon;
+    const ContentWrapper = indicator ? ChakraCheckboxCard.Content : Fragment;
 
     return (
       <ChakraCheckboxCard.Root {...rest}>
@@ -50,8 +50,8 @@ export const CheckboxCard = forwardRef<HTMLInputElement, CheckboxCardProps>(
         </ChakraCheckboxCard.Control>
         {addon && <ChakraCheckboxCard.Addon>{addon}</ChakraCheckboxCard.Addon>}
       </ChakraCheckboxCard.Root>
-    )
+    );
   },
-)
+);
 
-export const CheckboxCardIndicator = ChakraCheckboxCard.Indicator
+export const CheckboxCardIndicator = ChakraCheckboxCard.Indicator;
