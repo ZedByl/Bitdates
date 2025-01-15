@@ -71,7 +71,6 @@ export class EventsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Event> {
-    console.log(123);
     return this.eventsService.getEvent(id);
   }
 
