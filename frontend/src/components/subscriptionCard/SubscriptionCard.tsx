@@ -26,22 +26,25 @@ export const SubscriptionCard = () => {
 
     const sendEmailUser = (body: { email: string }) => {
         const promise = new Promise((resolve, reject) => {
-            axios.post('/api/subscription', body)
+            axios.post('/api/subscription/create', body)
                 .then(({data}) => {
                     resolve({response: data, error: null});
                 })
-                .catch((error) => {
-                    reject({response: null, error: error});
+                .catch(({ response }) => {
+                    reject({ ...response });
                 });
         });
 
         toaster.promise(promise, {
             success: {
                 title: "Successfully uploaded!",
+                description: ""
             },
-            error: {
-                title: "Upload failed",
-                description: "Something wrong with the upload",
+            error: ({ data }: any) => {
+                return {
+                    title: data?.message || "Fail uploaded!",
+                    description: ""
+                }
             },
             loading: { title: "Uploading...", description: "Please wait" },
         })

@@ -1,8 +1,14 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppService } from '../app/app.service';
 import { SubscriptionEntity } from '../db/subscription.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SubscriptionService {
@@ -15,6 +21,14 @@ export class SubscriptionService {
   async createSubscriptionEmail(
     data: Partial<SubscriptionEntity>,
   ): Promise<SubscriptionEntity> {
+    const subscription = await this.subscriptionRepository.findOneBy({
+      email: data.email,
+    });
+
+    if (subscription) {
+      throw new BadRequestException('Such an email already exists');
+    }
+
     const event = this.subscriptionRepository.create(data);
     return this.subscriptionRepository.save(event);
   }
