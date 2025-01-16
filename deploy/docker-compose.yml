@@ -42,7 +42,7 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ../frontend:/usr/src/app
-      - frontend-build:/usr/src/app/dist
+      - frontend-build:/usr/src/app/build
     command: bash -c "
       yarn install
       && yarn build
