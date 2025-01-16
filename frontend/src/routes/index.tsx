@@ -72,7 +72,7 @@ function Main() {
         excludeIds
       });
 
-      return data;
+      return data.body;
     } catch (e) {
       console.error(e);
     }

@@ -66,7 +66,7 @@ export class EventsController {
     @Body() bodyDto: GetEventsBodyDto,
   ) {
     const result = await this.eventsService.getAllEvents(queryDto, bodyDto);
-    return result;
+    return { body: result };
   }
 
   @Get(':id')
