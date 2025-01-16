@@ -1,21 +1,39 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from "react";
+import { lazy, useEffect, useRef, useState } from "react";
 import { EventAPI } from "@/models/event.ts";
 import { CategorySelectState } from "@/components/categorySelect/typings.ts";
 import axios from "axios";
 import { Box, Stack, VStack } from "@chakra-ui/react";
-import { Header } from "@/components/header";
 import { MainContent } from "@/components/mainContent";
 import { SectionHeader } from "@/components/sectionHeader";
-import { CategorySelect } from "@/components/categorySelect";
-import { EventCard } from "@/components/eventCard";
 import { Button } from "@/components/ui/button.tsx";
-import { Calendar } from "@/components/calendar";
-import { SubscriptionCard } from "@/components/subscriptionCard";
-import { Footer } from "@/components/footer";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { formatDate, formatDateForApi, getNextDateRange } from "@/utils/helpers";
 import { useObserver } from "@/hooks/useObserver";
+
+const Header = lazy(() =>
+  import("@/components/header").then((module) => ({ default: module.Header }))
+);
+
+const Footer = lazy(() =>
+  import("@/components/footer").then((module) => ({ default: module.Footer }))
+);
+
+const SubscriptionCard = lazy(() =>
+  import("@/components/subscriptionCard").then((module) => ({ default: module.SubscriptionCard }))
+);
+
+const EventCard = lazy(() =>
+  import("@/components/eventCard").then((module) => ({ default: module.EventCard }))
+);
+
+const Calendar = lazy(() =>
+  import("@/components/calendar").then((module) => ({ default: module.Calendar }))
+);
+
+const CategorySelect = lazy(() =>
+  import("@/components/categorySelect").then((module) => ({ default: module.CategorySelect }))
+);
 
 export const Route = createFileRoute('/')({
   component: Main,
