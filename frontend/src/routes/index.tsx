@@ -296,7 +296,7 @@ function Main() {
                       <EventCard selectedCategory={selectedCategory} key={key} {...item} />
                     ))}
 
-                    {(!isDisableDayButton && eventsMonth.length > 14) && (
+                    {(!isDisableDayButton && eventsDay.length > 14) && (
                       <Button
                         bg={'rgba(29, 72, 230, 0.05)'}
                         color={'blue'}
@@ -342,7 +342,7 @@ function Main() {
                       <EventCard selectedCategory={selectedCategory} key={key} {...item} />
                     ))}
 
-                    {(!isDisableWeekButton && eventsMonth.length > 14) && (
+                    {(!isDisableWeekButton && eventsWeek.length > 14) && (
                       <Button
                         bg={'rgba(29, 72, 230, 0.05)'}
                         color={'blue'}
