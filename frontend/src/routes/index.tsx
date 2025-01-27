@@ -110,11 +110,7 @@ function Main() {
       searchParams.append('dateRangeEnd', date);
       searchParams.append('page', JSON.stringify(page));
 
-      let excludeIds: number[] = [];
-
-      if (selectedCategory && selectedCategory.value) {
-        excludeIds = eventsDay.map((item) => item.id);
-      }
+      const excludeIds: number[] = eventsDay.map((item) => item.id);
 
       const events = await fetchEvents(searchParams, excludeIds);
 
@@ -150,11 +146,7 @@ function Main() {
       searchParams.append('dateRangeEnd', nextWeek.end);
       searchParams.append('page', JSON.stringify(page));
 
-      let excludeIds: number[] = eventsWeek.map((item) => item.id);
-
-      if (selectedCategory && selectedCategory.value) {
-        excludeIds = eventsWeek.map((item) => item.id);
-      }
+      const excludeIds: number[] = eventsWeek.map((item) => item.id);
 
       const events = await fetchEvents(searchParams, excludeIds);
 
@@ -188,11 +180,7 @@ function Main() {
       searchParams.append('dateRangeEnd', nextMonth.end);
       searchParams.append('page', JSON.stringify(page));
 
-      let excludeIds: number[] = eventsMonth.map((item) => item.id);
-
-      if (selectedCategory && selectedCategory.value) {
-        excludeIds = eventsMonth.map((item) => item.id);
-      }
+      const excludeIds: number[] = eventsMonth.map((item) => item.id);
 
       const events = await fetchEvents(searchParams, excludeIds);
 
