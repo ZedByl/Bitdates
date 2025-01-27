@@ -15,7 +15,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
   const [open, setOpen] = useState<boolean>(false);
   const { setEvent } = useEventStore();
 
-  const coinImage = `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034`;
+  const coinImage = coins?.length ? `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034` : '';
 
   const selectedCategory = categoriesMock.find((item) =>
     item.value?.find((mockId) =>
