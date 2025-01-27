@@ -15,7 +15,8 @@ export const EventCard: FC<EventCardProps> = (props) => {
   const [open, setOpen] = useState<boolean>(false);
   const { setEvent } = useEventStore();
 
-  const coinImage = coins ? `https://cryptologos.cc/logos/thumbs/${coins[0]?.id}.png?v=034` : '';
+  const coin = coins ? coins[0] : null;
+  const coinImage = coin ? `https://cryptologos.cc/logos/thumbs/${coin?.id}.png?v=034` : '';
 
   const selectedCategory = categoriesMock.find((item) =>
     item.value?.find((mockId) =>
@@ -52,12 +53,12 @@ export const EventCard: FC<EventCardProps> = (props) => {
           <Separator display={{ base: 'block', md: 'none' }} />
           <Box display={{ base: 'none', md: 'block' }} borderRadius={'5px'} mx={5} h={'20px'} w={1} backgroundColor={'#EFF2F4'}/>
 
-          {!!coins.length && (
+          {coin && (
             <HStack flex={'1'}>
               <Box minWidth="36px" width='36px' height='36px'>
-                <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coins[0].name} />
+                <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coin.name} />
               </Box>
-              <Text>{coins[0].name}</Text>
+              <Text>{coin.name}</Text>
             </HStack>
           )}
 
