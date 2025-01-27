@@ -97,19 +97,15 @@ function Event() {
       align="start"
       position="relative"
       justify="space-between"
-      p={{ base: '42px 30px 60px' }}
-      direction={{ base: 'column-reverse', lg: 'row' }}
-      gap={{ base: '60px' }}
-      bg='#F9FCFE'
+      p={{ base: "42px 30px 60px" }}
+      direction={{ base: "column-reverse", lg: "row" }}
+      gap={{ base: "60px" }}
+      bg="#F9FCFE"
     >
-      <HStack
-        position='absolute'
-        top='12px'
-        right='12px'
-      >
+      <HStack position="absolute" top="12px" right="12px">
         {event?.user_id === user?.id && (
           <IconButton
-            size='xs'
+            size="xs"
             aria-label="Delete event"
             variant="subtle"
             rounded="full"
@@ -120,21 +116,33 @@ function Event() {
         )}
 
         <CloseButton
-          size='xs'
+          size="xs"
           variant="subtle"
           rounded="full"
-          onClick={() => navigation({ to: '/' })}
+          onClick={() => navigation({ to: "/" })}
         />
       </HStack>
-      <VStack maxW={{ lg: '440px' }} w="100%" align="start">
+      <VStack maxW={{ lg: "440px" }} w="100%" align="start">
         {coin && (
-          <Box w="100%" p={{ base: '20px' }} bg="white" borderRadius={'16px'} boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)">
-            <HStack gap={{ base: '16px' }}>
-              <Box width='50px' height='50px'>
-                <LazyImageWithFallback src={coinImage} defaultSrc={defaultImage} alt={coins[0].name} />
+          <Box
+            w="100%"
+            p={{ base: "20px" }}
+            bg="white"
+            borderRadius={"16px"}
+            boxShadow="0px 4px 33px rgba(0, 0, 0, 0.06)"
+          >
+            <HStack gap={{ base: "16px" }}>
+              <Box width="50px" height="50px">
+                <LazyImageWithFallback
+                  src={coinImage}
+                  defaultSrc={defaultImage}
+                  alt={coins[0].name}
+                />
               </Box>
 
-              <Text fontWeight="bold" fontSize="lg">{coin?.name}</Text>
+              <Text fontWeight="bold" fontSize="lg">
+                {coin?.name}
+              </Text>
             </HStack>
 
             {/*<VStack align="start" mt={4}>*/}
@@ -159,73 +167,83 @@ function Event() {
           </Box>
         )}
 
-        <Box maxW={{ lg: '440px' }}>
+        <Box maxW={{ lg: "440px" }}>
           <SubscriptionCard />
         </Box>
       </VStack>
 
-      <VStack gap="24px" align="start" w={{ base: '100%' }}>
+      <VStack gap="24px" align="start" w={{ base: "100%" }}>
         {title && <Heading size="4xl">{title?.en}</Heading>}
 
         <Separator />
 
         <Stack
-          mt='6px'
-          w='100%'
-          gap={{ base: '10px' }}
-          justifyContent={'space-between'}
-          flexDirection={{ base: 'column', md: 'row' }}
+          mt="6px"
+          w="100%"
+          gap={{ base: "10px" }}
+          justifyContent={"space-between"}
+          flexDirection={{ base: "column", md: "row" }}
         >
           <Button
-            colorPalette={'blue'}
+            colorPalette={"blue"}
             size="lg"
             borderRadius="14px"
-            width={{ md: '50%' }}
-            h={{ base: '58px' }}
+            width={{ md: "50%" }}
+            h={{ base: "58px" }}
             colorScheme="blue"
             onClick={handleOpenCalendar}
           >
-              Add event to Calendar <CalendarIcon />
+            Add event to Calendar <CalendarIcon />
           </Button>
           <Button
             onClick={handleOpenSourceLink}
-            colorPalette={'gray'}
+            colorPalette={"gray"}
             size="lg"
             borderRadius="14px"
-            width={{ md: '50%' }}
-            h={{ base: '58px' }}
+            width={{ md: "50%" }}
+            h={{ base: "58px" }}
             variant="outline"
           >
-              Event source <LinkIcon />
+            Event source <LinkIcon />
           </Button>
         </Stack>
 
         {imageUrl && (
-          <Image borderRadius={"16px"} rounded="md" src={imageUrl} alt={title?.en} />
+          <Image
+            borderRadius={"16px"}
+            rounded="md"
+            src={imageUrl}
+            alt={title?.en}
+          />
         )}
 
-        <Separator m={{ base: '8px 0' }} />
+        <Separator m={{ base: "8px 0" }} />
 
-        <VStack align="start" w="100%" gap={{ base: '32px' }}>
+        <VStack align="start" w="100%" gap={{ base: "32px" }}>
           <Box>
-            <Text fontWeight="bold" fontSize="lg" mb={{ base: '12px' }}>
-                Event date
+            <Text fontWeight="bold" fontSize="lg" mb={{ base: "12px" }}>
+              Event date
             </Text>
 
-            {dateEvent && <Text fontSize={'md'} color='gray.400'>{new Date(dateEvent).toLocaleDateString('en-EN', options)}</Text>}
-          </Box>
-
-
-          <Box>
-            <Text fontWeight="bold" fontSize="lg" mb={{ base: '12px' }}>
-                Event description
-            </Text>
-            {description && (
-              <Text fontSize={'md'} color='gray.400'>
-                {description?.en}
+            {dateEvent && (
+              <Text fontSize={"md"} color="gray.400">
+                {new Date(dateEvent).toLocaleDateString("en-EN", options)}
               </Text>
             )}
           </Box>
+
+          {description?.en && (
+            <Box>
+              <Text fontWeight="bold" fontSize="lg" mb={{ base: "12px" }}>
+                  Event description
+              </Text>
+              {description && (
+                <Text fontSize={"md"} color="gray.400">
+                  {description?.en}
+                </Text>
+              )}
+            </Box>
+          )}
         </VStack>
       </VStack>
     </Flex>
