@@ -13,9 +13,9 @@ function PrivacyPolicy() {
       <Box position={'relative'} mx={'auto'} maxW={768} md={{ maxW: 1440 }} p={5}>
         <Box mt={20} mb={20}>
           <Heading size={'4xl'} mb={5}>Privacy Policy</Heading>
-          <Text>This privacy policy (“Privacy Policy”) describes how Bitdates ©, as the data controller,
+          <Text>This privacy policy (“Privacy Policy”) describes how CryptoCalendar ©, as the data controller,
                       collects, uses, and discloses personal data provided by you or collected by us through the
-                      website https://www.bitdates.io (“Website”) or when you use the services we provide
+                      website https://www.cryptocalendar.ai (“Website”) or when you use the services we provide
                       (“Services”). <br/>By using our Website or Services, you agree to the terms outlined in this
                       Privacy Policy. If you do not agree with any part of these terms, please refrain from accessing
                       or using our Services or Website.</Text>
@@ -116,7 +116,7 @@ function PrivacyPolicy() {
             </li>
             <li> Object to processing of your data for direct marketing purposes.</li>
             <li> Withdraw consent to data processing at any time.</li>
-                      To exercise these rights, please contact us at contact@bitdates.io.
+                      To exercise these rights, please contact us at contact@cryptocalendar.ai.
           </ul>
           <Text><b>9. International Transfers</b></Text>
           <Text>
@@ -131,7 +131,7 @@ function PrivacyPolicy() {
           <Text> If you have any questions, concerns, or requests regarding this Privacy Policy, please
                       contact
                       us at
-                      contact@bitdates.io.</Text>
+                      contact@cryptocalendar.ai.</Text>
         </Box>
       </Box>
     </Box>

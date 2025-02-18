@@ -13,10 +13,10 @@ function About() {
       <Box position={'relative'} mx={'auto'} maxW={768} md={{ maxW: 1440 }}>
         <Box mt={20}>
           <Heading mb={5} size={'4xl'}>
-            BitDates - Crypto Events Calendar
+            CryptoCalendar - Crypto Events Calendar
           </Heading>
           <Text>
-            BitDates is a platform designed to help users stay informed about
+            CryptoCalendar is a platform designed to help users stay informed about
             the most important events in the world of cryptocurrency and
             blockchain. The service offers a calendar that gathers key events,
             such as token listings, protocol updates, governance votes, and

@@ -17,7 +17,7 @@ function Terms() {
             <li><b>Applicability</b><br/>
                           These Terms and Conditions (hereinafter referred to as the "Agreement") govern the
                           commercial
-                          relationship between you and Bitdates © (referred to as "we," "our," or "us"). By using our
+                          relationship between you and CryptoCalendar © (referred to as "we," "our," or "us"). By using our
                           services ("Services"), accessing our applications ("Applications"), or interacting with data
                           provided through our website ("Data" and "Website"), you acknowledge that you have read,
                           understood, and agree to comply with this Agreement.
@@ -78,7 +78,7 @@ function Terms() {
                           For more detailed information, please refer to our Cookie Policy.
             </li>
             <li><b>Liability and Indemnity</b><br/>
-                          To the maximum extent permitted by law, Bitdates © is not liable for any direct, indirect,
+                          To the maximum extent permitted by law, CryptoCalendar © is not liable for any direct, indirect,
                           incidental,
                           or consequential damages arising out of your use or inability to use our Services,
                           Applications,
@@ -124,7 +124,7 @@ function Terms() {
                           Court, Estonia.
             </li>
             <li><b>Miscellaneous</b><br/>
-                          This Agreement constitutes the entire agreement between you and Bitdates © regarding your
+                          This Agreement constitutes the entire agreement between you and CryptoCalendar © regarding your
                           use of
                           the
                           Services, Applications, and Data. Any prior agreements or representations, whether oral or
@@ -133,7 +133,7 @@ function Terms() {
                           You may not assign or transfer your rights under this Agreement to any third party without
                           our
                           prior
-                          written consent. Bitdates © reserves the right to assign its rights and obligations under
+                          written consent. CryptoCalendar © reserves the right to assign its rights and obligations under
                           this
                           Agreement
                           to any affiliate or third party.

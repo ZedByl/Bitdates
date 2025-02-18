@@ -38,7 +38,7 @@ export const MainContent:FC<MainContentProps> = ({
           </Heading>
 
           <Text fontSize={{ base: 'md', md: 'xl' }} m={'0 auto'} textAlign="center" color="gray.600" maxW="770px" >
-                        Stay up-to-date with the bitdates crypto calendar. We list all the major events in the crypto and
+                        Stay up-to-date with the CryptoCalendar. We list all the major events in the crypto and
                         blockchain ecosystems so that you can stay informed.
           </Text>
         </Box>
