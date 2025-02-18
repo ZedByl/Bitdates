@@ -11,8 +11,9 @@ export const Logo = () => {
 
   return (
     <Flex>
-      <Text fontSize="2xl" fontWeight="bold" color="blue.600">bit</Text>
-      <Text fontSize="2xl" fontWeight="bold" color={isDark ? 'white' : 'black'}>dates</Text>
+      <Text fontSize="2xl" fontWeight="bold" color={isDark ? 'white' : 'black'}>crypto</Text>
+      <Text fontSize="2xl" fontWeight="bold" color="blue.600">calendar</Text>
+      <Text fontSize="2xl" fontWeight="bold" color={isDark ? 'white' : 'black'}>.ai</Text>
     </Flex>
   );
 };
