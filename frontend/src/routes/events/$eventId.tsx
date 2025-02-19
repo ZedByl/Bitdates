@@ -9,26 +9,41 @@ import { Button } from "@/components/ui/button.tsx";
 import { CalendarIcon } from "@/components/eventModal/icons/Calendar.tsx";
 import { LinkIcon } from "@/components/eventModal/icons/Link.tsx";
 import { eventQueryOptions } from "@/api/event/eventQueryOptions.ts";
-import httpService from "@/service/http.service.ts";
 import { useEventStore } from "@/stores/event/eventStore.ts";
 import { APIEndpoints } from "@/api/constants.ts";
+import { fetchAPI } from "@/service/http.service.ts";
+import { FiEdit } from "react-icons/fi";
+import ShareEvent from "@/components/ShareEvent/ShareEvent.tsx";
 
 export const Route = createFileRoute('/events/$eventId')({
   component: Event,
   beforeLoad: async ({ context, params }) => {
     const { eventId } = params;
 
-    const event = await context.queryClient.ensureQueryData(eventQueryOptions(eventId));
+    try {
+      const event = await context.queryClient.ensureQueryData(eventQueryOptions(eventId));
 
-    if (!event) {
+      return { event };
+    } catch (_) {
+      const formData = new FormData();
       const newEvent = useEventStore.getState().event;
 
-      const { data } = await httpService.post(APIEndpoints.EVENTS + '/create', { ...newEvent, id: eventId });
+      if (!newEvent) return {};
 
-      return { event: data };
+      Object.entries(newEvent).forEach(([key, value]) => {
+        if (key === 'image') {
+          formData.append('image', value.rawFile);
+        } else if (key === 'title' || key === 'description' || key === 'categories' || key === 'coins') {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, value);
+        }
+      });
+
+      const event = await fetchAPI.post(APIEndpoints.EVENTS + '/create', {}, { body: formData });
+
+      return { event };
     }
-
-    return { event };
   },
 });
 
@@ -84,8 +99,16 @@ function Event() {
 
   const deleteEvent = async () => {
     try {
-      await httpService.delete(`/api/events/${eventId}`);
+      await fetchAPI.delete(`/api/events/${eventId}`);
       await navigation({ to: '/' });
+    } catch (e: unknown) {
+      console.error(e);
+    }
+  };
+
+  const editEvent = async () => {
+    try {
+      window.open(`/auth/admin#/events/${eventId}`, "_blank");
     } catch (e: unknown) {
       console.error(e);
     }
@@ -112,6 +135,18 @@ function Event() {
             onClick={deleteEvent}
           >
             <HiOutlineTrash />
+          </IconButton>
+        )}
+
+        {user?.id && (
+          <IconButton
+            size="xs"
+            aria-label="Edit event"
+            variant="subtle"
+            rounded="full"
+            onClick={editEvent}
+          >
+            <FiEdit />
           </IconButton>
         )}
 
@@ -184,28 +219,35 @@ function Event() {
           justifyContent={"space-between"}
           flexDirection={{ base: "column", md: "row" }}
         >
-          <Button
-            colorPalette={"blue"}
-            size="lg"
-            borderRadius="14px"
-            width={{ md: "50%" }}
-            h={{ base: "58px" }}
-            colorScheme="blue"
-            onClick={handleOpenCalendar}
-          >
-            Add event to Calendar <CalendarIcon />
-          </Button>
-          <Button
-            onClick={handleOpenSourceLink}
-            colorPalette={"gray"}
-            size="lg"
-            borderRadius="14px"
-            width={{ md: "50%" }}
-            h={{ base: "58px" }}
-            variant="outline"
-          >
-            Event source <LinkIcon />
-          </Button>
+          <Box width={{ md: "100%" }}>
+            <Button
+              colorPalette={"blue"}
+              size="lg"
+              borderRadius="14px"
+              w="100%"
+              h={{ base: "54px" }}
+              colorScheme="blue"
+              onClick={handleOpenCalendar}
+            >
+              Add event to Calendar <CalendarIcon />
+            </Button>
+          </Box>
+
+          <HStack width={{ md: "100%" }} gap={{ base: "10px" }}>
+            <Button
+              onClick={handleOpenSourceLink}
+              colorPalette={"gray"}
+              size="lg"
+              w="calc(100% - 64px)"
+              borderRadius="14px"
+              h={{ base: "54px" }}
+              variant="outline"
+            >
+              Event source <LinkIcon />
+            </Button>
+
+            <ShareEvent />
+          </HStack>
         </Stack>
 
         {imageUrl && (

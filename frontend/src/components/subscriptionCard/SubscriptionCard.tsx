@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Field } from "@/components/ui/field.tsx";
 import { Toaster, toaster } from "@/components/ui/toaster.tsx";
 import { useUserStore } from "@/stores/user/userStore.ts";
-import httpService from "@/service/http.service.ts";
+import { fetchAPI } from "@/service/http.service.ts";
 import { APIEndpoints } from "@/api/constants.ts";
 
 export const SubscriptionCard = () => {
@@ -27,7 +27,7 @@ export const SubscriptionCard = () => {
 
   const sendEmailUser = (body: { email: string }) => {
     const promise = new Promise((resolve, reject) => {
-      httpService.post(APIEndpoints.SUBSCRIPTION, body)
+      fetchAPI.post(APIEndpoints.SUBSCRIPTION, body)
         .then(({ data }) => {
           resolve({ response: data, error: null });
         })

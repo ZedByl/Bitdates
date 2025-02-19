@@ -39,7 +39,7 @@ export const AuthForm = () => {
   });
 
   const toHome = () => {
-    navigation({ to: '/' });
+    navigation({ to: '/auth/admin' });
   };
 
   const handleLogin = async (form: AuthForm) => {

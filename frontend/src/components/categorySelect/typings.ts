@@ -8,7 +8,9 @@ export interface CategorySelectProps {
 }
 
 export type CategorySelectState = {
+    id: string;
     value: number[] | null;
     label: string;
     icon?: JSX.Element | null;
+    inputs?: { name: string, label: string, component: any }[]
 }

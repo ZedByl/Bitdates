@@ -16,8 +16,6 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    env_file:
-      - ../backend/.env
     depends_on:
       - postgres
     networks:
@@ -27,6 +25,8 @@ services:
       - ../backend:/usr/src/app
       - ../backend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
       - ../backend/.yarn:/usr/src/app/.yarn
+    env_file:
+      - ../backend/.env
     command: bash -c "
       yarn install
       && yarn start:dev"
@@ -43,6 +43,8 @@ services:
       - ../frontend:/usr/src/app
       - ../frontend/.yarnrc.yml:/usr/src/app/.yarnrc.yml
       - ../frontend/.yarn:/usr/src/app/.yarn
+    env_file:
+      - ../backend/.env
     command: bash -c "
       yarn install
       && yarn dev --host 0.0.0.0"

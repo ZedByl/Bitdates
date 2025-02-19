@@ -8,7 +8,7 @@ export const Route = createFileRoute('/create/')({
   beforeLoad: ({ context, location }) => {
     if (!context?.user?.email) {
       throw redirect({
-        to: '/auth/admin/login',
+        to: '/auth',
         search: {
           redirect: location.href,
         },

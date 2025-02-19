@@ -17,6 +17,6 @@ export class CoinsController {
 
   @Post()
   async findOne(@Body() bodyDto: GetCoinsBodyDto): Promise<Coin[]> {
-    return this.coinsService.getAllCoins(bodyDto.search);
+    return this.coinsService.getAllCoins(bodyDto?.search || '');
   }
 }

@@ -55,6 +55,6 @@ export const getNextDateRange = (type: "week" | "month"): { start: string; end: 
 };
 
 // Преобразуем даты в формат YYYY-MM-DD
-export const formatDateForApi = (date: Date): string => {
+export const formatDateForApi = (date: Date | string): string => {
   return format(date, "yyyy-MM-dd");
 };

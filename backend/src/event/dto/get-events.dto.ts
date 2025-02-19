@@ -124,3 +124,43 @@ export class GetEventDto {
   @IsString()
   id?: string;
 }
+
+export class GetEventsDBDto {
+  @ApiPropertyOptional({
+    description: 'Page number',
+    minimum: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  _page?: number = 1;
+
+  @ApiPropertyOptional({
+    description: 'Limit',
+    minimum: 10,
+    default: 10,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(10)
+  _limit?: number = 10;
+
+  @ApiPropertyOptional({
+    description: 'Sort by specific criteria',
+    default: 'id',
+  })
+  @IsOptional()
+  @Type(() => String)
+  _sort?: string = 'id';
+
+  @ApiPropertyOptional({
+    description: 'Order by createdAt',
+    default: 'ASC',
+  })
+  @IsOptional()
+  @Type(() => String)
+  _order?: string = 'ASC';
+}

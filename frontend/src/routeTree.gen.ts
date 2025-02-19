@@ -16,9 +16,11 @@ import { Route as TermsIndexImport } from './routes/terms/index'
 import { Route as PolicyIndexImport } from './routes/policy/index'
 import { Route as FaqIndexImport } from './routes/faq/index'
 import { Route as CreateIndexImport } from './routes/create/index'
+import { Route as AuthIndexImport } from './routes/auth/index'
 import { Route as AboutIndexImport } from './routes/about/index'
 import { Route as EventsEventIdImport } from './routes/events/$eventId'
-import { Route as AuthAdminLoginImport } from './routes/auth.admin.login'
+import { Route as AuthAdminIndexImport } from './routes/auth/admin/index'
+import { Route as EventsCategoryCategoryIdImport } from './routes/events/category/$categoryId'
 
 // Create/Update Routes
 
@@ -52,6 +54,12 @@ const CreateIndexRoute = CreateIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthIndexRoute = AuthIndexImport.update({
+  id: '/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutIndexRoute = AboutIndexImport.update({
   id: '/about/',
   path: '/about/',
@@ -64,9 +72,15 @@ const EventsEventIdRoute = EventsEventIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthAdminLoginRoute = AuthAdminLoginImport.update({
-  id: '/auth/admin/login',
-  path: '/auth/admin/login',
+const AuthAdminIndexRoute = AuthAdminIndexImport.update({
+  id: '/auth/admin/',
+  path: '/auth/admin/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EventsCategoryCategoryIdRoute = EventsCategoryCategoryIdImport.update({
+  id: '/events/category/$categoryId',
+  path: '/events/category/$categoryId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -93,6 +107,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthIndexImport
       parentRoute: typeof rootRoute
     }
     '/create/': {
@@ -123,11 +144,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsIndexImport
       parentRoute: typeof rootRoute
     }
-    '/auth/admin/login': {
-      id: '/auth/admin/login'
-      path: '/auth/admin/login'
-      fullPath: '/auth/admin/login'
-      preLoaderRoute: typeof AuthAdminLoginImport
+    '/events/category/$categoryId': {
+      id: '/events/category/$categoryId'
+      path: '/events/category/$categoryId'
+      fullPath: '/events/category/$categoryId'
+      preLoaderRoute: typeof EventsCategoryCategoryIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/admin/': {
+      id: '/auth/admin/'
+      path: '/auth/admin'
+      fullPath: '/auth/admin'
+      preLoaderRoute: typeof AuthAdminIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -139,22 +167,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/about': typeof AboutIndexRoute
+  '/auth': typeof AuthIndexRoute
   '/create': typeof CreateIndexRoute
   '/faq': typeof FaqIndexRoute
   '/policy': typeof PolicyIndexRoute
   '/terms': typeof TermsIndexRoute
-  '/auth/admin/login': typeof AuthAdminLoginRoute
+  '/events/category/$categoryId': typeof EventsCategoryCategoryIdRoute
+  '/auth/admin': typeof AuthAdminIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/about': typeof AboutIndexRoute
+  '/auth': typeof AuthIndexRoute
   '/create': typeof CreateIndexRoute
   '/faq': typeof FaqIndexRoute
   '/policy': typeof PolicyIndexRoute
   '/terms': typeof TermsIndexRoute
-  '/auth/admin/login': typeof AuthAdminLoginRoute
+  '/events/category/$categoryId': typeof EventsCategoryCategoryIdRoute
+  '/auth/admin': typeof AuthAdminIndexRoute
 }
 
 export interface FileRoutesById {
@@ -162,11 +194,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/about/': typeof AboutIndexRoute
+  '/auth/': typeof AuthIndexRoute
   '/create/': typeof CreateIndexRoute
   '/faq/': typeof FaqIndexRoute
   '/policy/': typeof PolicyIndexRoute
   '/terms/': typeof TermsIndexRoute
-  '/auth/admin/login': typeof AuthAdminLoginRoute
+  '/events/category/$categoryId': typeof EventsCategoryCategoryIdRoute
+  '/auth/admin/': typeof AuthAdminIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -175,31 +209,37 @@ export interface FileRouteTypes {
     | '/'
     | '/events/$eventId'
     | '/about'
+    | '/auth'
     | '/create'
     | '/faq'
     | '/policy'
     | '/terms'
-    | '/auth/admin/login'
+    | '/events/category/$categoryId'
+    | '/auth/admin'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/events/$eventId'
     | '/about'
+    | '/auth'
     | '/create'
     | '/faq'
     | '/policy'
     | '/terms'
-    | '/auth/admin/login'
+    | '/events/category/$categoryId'
+    | '/auth/admin'
   id:
     | '__root__'
     | '/'
     | '/events/$eventId'
     | '/about/'
+    | '/auth/'
     | '/create/'
     | '/faq/'
     | '/policy/'
     | '/terms/'
-    | '/auth/admin/login'
+    | '/events/category/$categoryId'
+    | '/auth/admin/'
   fileRoutesById: FileRoutesById
 }
 
@@ -207,22 +247,26 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
   AboutIndexRoute: typeof AboutIndexRoute
+  AuthIndexRoute: typeof AuthIndexRoute
   CreateIndexRoute: typeof CreateIndexRoute
   FaqIndexRoute: typeof FaqIndexRoute
   PolicyIndexRoute: typeof PolicyIndexRoute
   TermsIndexRoute: typeof TermsIndexRoute
-  AuthAdminLoginRoute: typeof AuthAdminLoginRoute
+  EventsCategoryCategoryIdRoute: typeof EventsCategoryCategoryIdRoute
+  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EventsEventIdRoute: EventsEventIdRoute,
   AboutIndexRoute: AboutIndexRoute,
+  AuthIndexRoute: AuthIndexRoute,
   CreateIndexRoute: CreateIndexRoute,
   FaqIndexRoute: FaqIndexRoute,
   PolicyIndexRoute: PolicyIndexRoute,
   TermsIndexRoute: TermsIndexRoute,
-  AuthAdminLoginRoute: AuthAdminLoginRoute,
+  EventsCategoryCategoryIdRoute: EventsCategoryCategoryIdRoute,
+  AuthAdminIndexRoute: AuthAdminIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -238,11 +282,13 @@ export const routeTree = rootRoute
         "/",
         "/events/$eventId",
         "/about/",
+        "/auth/",
         "/create/",
         "/faq/",
         "/policy/",
         "/terms/",
-        "/auth/admin/login"
+        "/events/category/$categoryId",
+        "/auth/admin/"
       ]
     },
     "/": {
@@ -253,6 +299,9 @@ export const routeTree = rootRoute
     },
     "/about/": {
       "filePath": "about/index.tsx"
+    },
+    "/auth/": {
+      "filePath": "auth/index.tsx"
     },
     "/create/": {
       "filePath": "create/index.tsx"
@@ -266,8 +315,11 @@ export const routeTree = rootRoute
     "/terms/": {
       "filePath": "terms/index.tsx"
     },
-    "/auth/admin/login": {
-      "filePath": "auth.admin.login.tsx"
+    "/events/category/$categoryId": {
+      "filePath": "events/category/$categoryId.tsx"
+    },
+    "/auth/admin/": {
+      "filePath": "auth/admin/index.tsx"
     }
   }
 }

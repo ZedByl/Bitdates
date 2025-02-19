@@ -12,11 +12,16 @@ import {
   UploadedFile,
   Inject,
   UsePipes,
-  Req,
+  NotFoundException,
+  HttpStatus,
 } from '@nestjs/common';
 import { EventsService } from './event.service';
 import { Event } from '../db/event.entity';
-import { GetEventsBodyDto, GetEventsDto } from './dto/get-events.dto';
+import {
+  GetEventsBodyDto,
+  GetEventsDBDto,
+  GetEventsDto,
+} from './dto/get-events.dto';
 import {
   ApiBody,
   ApiConsumes,
@@ -52,6 +57,11 @@ export class EventsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: CreateEventDto,
   ): Promise<Event> {
+    console.log(body, 'body');
+    if (!body.title) {
+      throw new NotFoundException(`Body not found`);
+    }
+
     if (image) {
       const domain = this.appService.getDomain();
       body.image_url = `${domain}/api/uploads/images/${image.filename}`;
@@ -69,24 +79,42 @@ export class EventsController {
     return { body: result };
   }
 
+  @Get()
+  async getAllEventsAdmin(@Query() queryDto: GetEventsDBDto) {
+    return await this.eventsService.getAllEventsDB(queryDto);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Event> {
     return this.eventsService.getEvent(id);
   }
 
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Изменение события с загрузкой изображения',
+    type: CreateEventDto,
+  })
+  @UsePipes(new ParseFormDataJsonPipe())
   async update(
+    @UploadedFile() image: Express.Multer.File,
     @Param('id', ParseIntPipe) id: string,
     @Body() updateData: Partial<Event>,
   ): Promise<Event> {
+    if (image) {
+      const domain = this.appService.getDomain();
+      updateData.image_url = `${domain}/api/uploads/images/${image.filename}`;
+    }
+
     return this.eventsService.updateEvent(id, updateData);
   }
 
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: string,
-    @Req() req: any,
-  ): Promise<void> {
-    return this.eventsService.deleteEvent(id, req?.userId);
+  ): Promise<{ statusCode: HttpStatus.OK; message: 'Deleted successfully' }> {
+    await this.eventsService.deleteEvent(id);
+    return { statusCode: HttpStatus.OK, message: 'Deleted successfully' };
   }
 }

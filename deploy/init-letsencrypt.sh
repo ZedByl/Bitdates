@@ -6,7 +6,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # set domains
-domains=(cryptocalendar.ai,www.cryptocalendar.ai)
+domains=(cryptocalendar.ai)
 rsa_key_size=4096
 data_path="./certbot"
 email="blackjug87@gmail.com" # Adding a valid address is strongly recommended

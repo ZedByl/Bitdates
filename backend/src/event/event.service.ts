@@ -1,8 +1,12 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindOptionsWhere, Raw, Repository } from 'typeorm';
 import { Event } from '../db/event.entity';
-import { GetEventsBodyDto, GetEventsDto } from './dto/get-events.dto';
+import {
+  GetEventsBodyDto,
+  GetEventsDBDto,
+  GetEventsDto,
+} from './dto/get-events.dto';
 import { AppService } from '../app/app.service';
 
 @Injectable()
@@ -16,6 +20,18 @@ export class EventsService {
   async createEvent(data: Partial<Event>): Promise<Event> {
     const event = this.eventRepository.create(data);
     return this.eventRepository.save(event);
+  }
+
+  async getAllEventsDB(@Query() queryDto: GetEventsDBDto) {
+    const { _page = 1, _limit = 10, _sort, _order } = queryDto;
+
+    const [data, total] = await this.eventRepository.findAndCount({
+      order: { [_sort]: _order.toUpperCase() as 'ASC' | 'DESC' },
+      skip: (_page - 1) * _limit,
+      take: _limit,
+    });
+
+    return { items: data, total };
   }
 
   async getAllEvents(
@@ -171,14 +187,11 @@ export class EventsService {
     return this.eventRepository.save(event);
   }
 
-  async deleteEvent(id: string, userId: string): Promise<void> {
+  async deleteEvent(id: string): Promise<void> {
     const event = await this.getEvent(id);
 
-    if (event.user_id !== userId) {
-      throw new NotFoundException('You cannot delete this event');
-    }
-
     const result = await this.eventRepository.delete(event.page_id);
+
     if (result.affected === 0) {
       throw new NotFoundException(`Event with id ${id} not found`);
     }

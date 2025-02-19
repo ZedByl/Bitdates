@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { Box, HStack, VStack, Text, Stack, Separator, Button } from '@chakra-ui/react';
 import { EventCardProps } from "./types.ts";
 import { CalendarIcon } from "@/assets/icons/icons.tsx";
-import { categories as categoriesMock } from "@/components/categorySelect/CategorySelect.tsx";
+import { categories as categoriesMock } from "@/admin/events/Create/mock.tsx";
 import { EventModal } from '@/components/eventModal';
 import { useEventStore } from "@/stores/event/eventStore.ts";
 import { Link } from '@tanstack/react-router';
@@ -23,7 +23,7 @@ export const EventCard: FC<EventCardProps> = (props) => {
       categories.find(({ id }) => mockId === id))
   );
   const defaultIcon = categoriesMock[0].icon;
-  const url = `/events/${id.toString()}`;
+  const url = `/events/${id.toString()}#`;
 
   return (
     <Link style={{ width: '100%' }} to={url} onClick={() => setEvent(props)} >

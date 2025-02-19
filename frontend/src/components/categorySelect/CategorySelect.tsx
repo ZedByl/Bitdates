@@ -7,38 +7,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  AirdropIcon,
-  AllianceIcon,
-  EducationalIcon,
-  ExchangesEventsIcon,
-  HardForksIcon,
-  ListingIcon,
-  MeetupIcon, OtherIcon,
-  ProtocolUpdatesIcon,
-  ServiceLaunchIcon,
-  TokenSaleIcon,
-  VotingIcon
-} from '@/assets/icons/icons.tsx';
 import { FC, useEffect, useRef, useState } from "react";
 import { CategorySelectProps, CategorySelectState } from "@/components/categorySelect/typings.ts";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import { categories as categoriesMock } from "@/admin/events/Create/mock.tsx";
 
-export const categories: CategorySelectState[] = [
-  { value: null, label: "All" },
-  { value: [17], label: "Staking/Farming", icon: <ListingIcon w="100%" h="100%" /> },
-  { value: [1], label: "Release", icon: <ProtocolUpdatesIcon w="100%" h="100%" /> },
-  { value: [14], label: "Fork/Swap", icon: <HardForksIcon w="100%" h="100%" /> },
-  { value: [8], label: "Airdrop/Snapshot", icon: <AirdropIcon w="100%" h="100%" /> },
-  { value: [2], label: "Branding", icon: <VotingIcon w="100%" h="100%" /> },
-  { value: [11,18], label: "Partnership/Integration", icon: <AllianceIcon w="100%" h="100%" /> },
-  { value: [5,6], label: "Conference/Meetup", icon: <MeetupIcon w="100%" h="100%" /> },
-  { value: [3], label: "Tokenomics", icon: <TokenSaleIcon w="100%" h="100%" /> },
-  { value: [13,15], label: "Roadmap/Whitepaper update", icon: <ServiceLaunchIcon w="100%" h="100%" /> },
-  { value: [4], label: "Exchange", icon: <ExchangesEventsIcon w="100%" h="100%" /> },
-  { value: [9,16], label: "TeamUpdate/AMA", icon: <EducationalIcon w="100%" h="100%" /> },
-  { value: [7], label: "Other", icon: <OtherIcon w="100%" h="100%" /> },
-];
+export const categories: CategorySelectState[] = categoriesMock;
 
 export const CategorySelect: FC<CategorySelectProps> = ({ onChange, border, size, defaultValue }) => {
   const { open, onToggle, onClose } = useDisclosure();

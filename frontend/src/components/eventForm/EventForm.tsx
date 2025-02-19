@@ -10,6 +10,7 @@ import axios from "axios";
 import { CoinApi } from "@/models/coin.ts";
 import { useUserStore } from "@/stores/user/userStore.ts";
 import { formatDateForApi } from "@/utils/helpers";
+import { fetchAPI } from "@/service/http.service.ts";
 
 export const EventForm = () => {
   const [step, setStep] = useState(1);
@@ -66,9 +67,7 @@ export const EventForm = () => {
     if (!input) return [];
 
     try {
-      const { data } = await axios.post<CoinApi[]>('/api/coins', { search: input });
-
-      return data;
+      return await fetchAPI.post<CoinApi[]>('/api/coins', { search: input });
     } catch (e) {
       console.error(e);
     }

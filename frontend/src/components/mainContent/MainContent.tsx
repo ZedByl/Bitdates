@@ -1,9 +1,10 @@
-import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react';
-// import {SearchInput} from "@/components/searchInpunt";
+import { Box, Button, Heading, HStack, Icon, Stack, Text } from '@chakra-ui/react';
 import { FC, useRef, useState } from 'react';
 import { MainContentProps } from "@/components/mainContent/typings.ts";
 import { Calendar } from '@/components/calendar';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { categories } from "@/admin/events/Create/mock.tsx";
+import { Link } from "@tanstack/react-router";
 
 export const MainContent:FC<MainContentProps> = ({
   currentDate,
@@ -21,12 +22,12 @@ export const MainContent:FC<MainContentProps> = ({
   useOnClickOutside([refCalendar, refButton], () => setOpenCalendar(false));
 
   return (
-    <Box textAlign={{ base: 'left', md: 'center' }} backgroundColor='#fff' >
+    <Box textAlign={{ base: 'left', md: 'center' }} backgroundColor='#fff' px={{ base: '20px', md: '30px', lg: '30px' }} >
       <Stack
         justifyContent={'space-between'}
-        maxW="900px"
+        maxW="1100px"
         mx="auto"
-        pb="100px"
+        pb="44px"
         pt={{ base: '100px', md: '120px' }}
         gap={{ base: '100px', md: 0 }}
       >
@@ -60,6 +61,27 @@ export const MainContent:FC<MainContentProps> = ({
                       Open Calendar
           </Button>
         </Stack>
+
+        <HStack flexWrap='wrap' margin='36px auto 0'>
+          {categories.map(({ id, icon, label, value }) => {
+            if (!value) return;
+            const url = `/events/category/${id.toString()}#`;
+            return (
+              <Link key={id} to={url}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  h="48px"
+                  p={"8px 12px"}
+                  borderRadius={"12px"}
+                  onClick={() => null}
+                >
+                  <Icon boxSize="32px">{icon}</Icon> {label}
+                </Button>
+              </Link>
+            );
+          })}
+        </HStack>
       </Stack>
     </Box>
   );
