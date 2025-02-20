@@ -52,10 +52,10 @@ services:
 
   nginx:
     build: nginx
-#    depends_on:
-#      - frontend
-#      - backend
-#      - postgres
+    depends_on:
+      - frontend
+      - backend
+      - postgres
     restart: always
     ports:
       - "80:80"
