@@ -151,7 +151,6 @@ export const Form: FC<Props> = ({ fetchData }) => {
         source="image"
         label="New Image"
         accept={{ "image/*": [".png", ".jpg", ".webp"] }}
-        validate={!record?.image_url ? required() : []}
       >
         <ImageField source="src" title="title" />
       </ImageInput>
@@ -196,7 +195,6 @@ export const Form: FC<Props> = ({ fetchData }) => {
           key={field.name}
           source={field.name}
           label={field.label}
-          validate={required()}
           fullWidth
         />
       ))}

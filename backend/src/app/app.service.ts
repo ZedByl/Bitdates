@@ -23,7 +23,7 @@ export class AppService {
   }
 
   getDomain(): string {
-    return this.configService.get<string>('WEB_APP_URL');
+    return this.configService.get<string>('VITE_WEB_APP_URL');
   }
 
   async getCoinMarketApi(url: string): Promise<any> {

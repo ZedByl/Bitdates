@@ -57,7 +57,6 @@ export class EventsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: CreateEventDto,
   ): Promise<Event> {
-    console.log(body, 'body');
     if (!body.title) {
       throw new NotFoundException(`Body not found`);
     }
