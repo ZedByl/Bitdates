@@ -19,11 +19,14 @@ import { FaTelegram } from "react-icons/fa";
 
 const ShareEvent = () => {
   const isDescktop = useBreakpointValue({ lg: true });
+  const { origin, pathname } = location;
+  const url = origin + pathname;
+  const message = encodeURIComponent(url);
 
   const shareLinks = {
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`,
-    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`,
-    email: `mailto:?subject=Check%20this%20event&body=${encodeURIComponent(window.location.href)}`,
+    telegram: `https://t.me/share/url?url=${message}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${message}`,
+    email: `mailto:?subject=Check%20this%20event&body=${message}`,
   };
 
   const handleLink = (link: string) => {

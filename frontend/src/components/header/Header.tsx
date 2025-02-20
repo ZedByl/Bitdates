@@ -19,8 +19,8 @@ export const Header = () => {
 
   const isDark = useMemo(() => colorMode === 'dark', [colorMode]);
 
-  const goCreateEvent = async () => {
-    await navigation({ to: '/create' });
+  const goAdmin = async () => {
+    await navigation({ to: '/auth/admin' });
   };
 
   const goHome = async () => {
@@ -63,13 +63,13 @@ export const Header = () => {
             {user?.id && (
               <HStack gap={{ base: '12px' }}>
                 <Button
-                  onClick={goCreateEvent}
+                  onClick={goAdmin}
                   size={'sm'}
                   borderRadius={'10px'}
                   colorScheme="gray"
                   variant="outline"
                 >
-                                    Add event
+                  Admin
                 </Button>
 
                 <IconButton

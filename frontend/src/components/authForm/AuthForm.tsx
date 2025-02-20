@@ -14,6 +14,8 @@ import { useUserStore } from "@/stores/user/userStore.ts";
 import { UserApi } from "@/models/user.ts";
 import { CloseButton } from "@/components/ui/close-button.tsx";
 import { useNavigate } from "@tanstack/react-router";
+import { fetchAPI } from "@/service/http.service.ts";
+import { APIEndpoints } from "@/api/constants.ts";
 
 type AuthForm = {
     email: string,
@@ -22,7 +24,7 @@ type AuthForm = {
 
 export const AuthForm = () => {
   const navigation = useNavigate();
-  const { setUser } = useUserStore();
+  const { user, setUser } = useUserStore();
   const [isLogin, setIsLogin] = useState(true);
 
   const {
@@ -39,14 +41,22 @@ export const AuthForm = () => {
   });
 
   const toHome = () => {
-    navigation({ to: '/auth/admin' });
+    navigation({ to: '/' });
+  };
+
+  console.log(user, 'user');
+
+  const toAdmin = async () => {
+    await navigation({ to: '/auth/admin' });
   };
 
   const handleLogin = async (form: AuthForm) => {
     try {
-      const { data } = await axios.post<UserApi>(`/api/auth/login`, form);
+      const data = await fetchAPI.post<UserApi>(APIEndpoints.LOGIN, form);
+      console.log(data);
       setUser(data);
-      toHome();
+
+      await toAdmin();
     } catch (e: any) {
       const message = e?.response?.data?.message || '';
       setError('email', { type: "custom", message });
@@ -55,9 +65,9 @@ export const AuthForm = () => {
 
   const handleRegister = async (form: AuthForm) => {
     try {
-      const { data } = await axios.post<UserApi>(`/api/auth/register`, form);
+      const { data } = await axios.post<UserApi>(APIEndpoints.REGISTER, form);
       setUser(data);
-      toHome();
+      toAdmin();
     } catch (e: any) {
       const message = e?.response?.data?.message || '';
       setError('email', { type: "custom", message });

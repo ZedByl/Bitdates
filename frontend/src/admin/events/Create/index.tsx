@@ -11,7 +11,7 @@ import { APIEndpoints } from "@/api/constants.ts";
 export const EventCreate: FC = () => {
   const handleSubmit = (formData: FormData) => new Promise<EventAPI>((resolve, reject) => {
     try {
-      const data = fetchAPI.post(APIEndpoints.EVENTS + '/create', {}, { body: formData });
+      const data = fetchAPI.post(APIEndpoints.EVENTS + '/create', {}, { body: formData,  });
       return resolve(data);
     } catch (e) {
       return reject(e);
