@@ -33,7 +33,7 @@ async function bootstrap() {
   setupSwagger(app);
 
   app.enableCors({
-    origin: [process.env.WEB_APP_URL || 'https://pavel-5000.1n.baby'],
+    origin: [process.env.VITE_WEB_APP_URL],
   });
 
   app.use(cookieParser());

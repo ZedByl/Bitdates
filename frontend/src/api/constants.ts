@@ -1,4 +1,4 @@
-export const baseEndpoint = import.meta.env.WEB_APP_URL || 'http://localhost:8000';
+export const baseEndpoint = import.meta.env.VITE_WEB_APP_URL;
 
 export enum APIEndpoints {
     USER = '/api/auth/info',
