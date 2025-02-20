@@ -14,6 +14,7 @@ import { APIEndpoints } from "@/api/constants.ts";
 import { fetchAPI } from "@/service/http.service.ts";
 import { FiEdit } from "react-icons/fi";
 import ShareEvent from "@/components/ShareEvent/ShareEvent.tsx";
+import { useQueryParams } from "@/hooks/useFrom";
 
 export const Route = createFileRoute('/events/$eventId')({
   component: Event,
@@ -28,7 +29,12 @@ export const Route = createFileRoute('/events/$eventId')({
       const formData = new FormData();
       const newEvent = useEventStore.getState().event;
 
-      if (!newEvent) return {};
+      if (!newEvent) return {
+        redirect: {
+          to: "/",
+          replace: true,
+        },
+      };
 
       Object.entries(newEvent).forEach(([key, value]) => {
         if (key === 'image') {
@@ -58,6 +64,7 @@ function Event() {
   const { eventId } = useParams({ from: '/events/$eventId' });
   const { context } = useMatch({ from: '/events/$eventId' });
   const navigation = useNavigate();
+  const { params } = useQueryParams<{ from: string }>();
 
   const { event, user } = context;
 
@@ -154,7 +161,7 @@ function Event() {
           size="xs"
           variant="subtle"
           rounded="full"
-          onClick={() => navigation({ to: "/" })}
+          onClick={() => navigation({ to: params.from || "/" })}
         />
       </HStack>
       <VStack maxW={{ lg: "440px" }} w="100%" align="start">

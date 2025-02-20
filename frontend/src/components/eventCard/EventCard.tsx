@@ -8,12 +8,14 @@ import { useEventStore } from "@/stores/event/eventStore.ts";
 import { Link } from '@tanstack/react-router';
 
 import LazyImageWithFallback from "@/components/image/Image.tsx";
+import { useQueryParams } from "@/hooks/useFrom";
 import defaultImage from '../../assets/default-coin.png';
 
 export const EventCard: FC<EventCardProps> = (props) => {
   const { title, description, coins, categories, id } = props || {};
   const [open, setOpen] = useState<boolean>(false);
   const { setEvent } = useEventStore();
+  const { currentPath } = useQueryParams();
 
   const coin = coins ? coins[0] : null;
   const coinImage = coin ? `https://cryptologos.cc/logos/thumbs/${coin?.id}.png?v=034` : '';
@@ -23,10 +25,10 @@ export const EventCard: FC<EventCardProps> = (props) => {
       categories.find(({ id }) => mockId === id))
   );
   const defaultIcon = categoriesMock[0].icon;
-  const url = `/events/${id.toString()}#`;
+  const url = `/events/${id.toString()}`;
 
   return (
-    <Link style={{ width: '100%' }} to={url} onClick={() => setEvent(props)} >
+    <Link style={{ width: '100%' }} to={url} search={{ from: currentPath }} onClick={() => setEvent(props)} >
       <Box
         borderRadius="lg"
         boxShadow="sm"
