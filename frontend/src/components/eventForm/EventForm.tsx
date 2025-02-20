@@ -6,7 +6,6 @@ import { SecondStep } from "@/components/eventForm/components/SecondStep";
 import { UploadEvent } from "@/components/eventForm/components/UploadEvent";
 import { CategorySelectState } from "@/components/categorySelect/typings.ts";
 import { Toaster, toaster } from "@/components/ui/toaster";
-import axios from "axios";
 import { CoinApi } from "@/models/coin.ts";
 import { useUserStore } from "@/stores/user/userStore.ts";
 import { formatDateForApi } from "@/utils/helpers";
@@ -108,8 +107,8 @@ export const EventForm = () => {
     }
 
     const promise = new Promise((resolve, reject) => {
-      axios.post('/api/events/create', formData)
-        .then(({ data }) => {
+      fetchAPI.post('/api/events/create', formData)
+        .then((data) => {
           resolve({ response: data, error: null });
           setStep(3);
         })

@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button.tsx";
 import { FC, lazy, useEffect, useRef, useState } from "react";
 import { EventAPI } from "@/models/event.ts";
 import { CategorySelectState } from "@/components/categorySelect/typings.ts";
-import axios from "axios";
 import { useObserver } from "@/hooks/useObserver";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { fetchAPI } from "@/service/http.service.ts";
 
 const SubscriptionCard = lazy(() =>
   import("@/components/subscriptionCard").then((module) => ({ default: module.SubscriptionCard }))
@@ -79,7 +79,7 @@ export const EventList: FC<EventListProps> = ({ category, search, selectedDate, 
         searchParams.append('categories', categoryValues);
       }
 
-      const { data } = await axios.post(`/api/events${searchParams ? '?' + searchParams.toString() : ''}`, {
+      const data = await fetchAPI.post(`/api/events${searchParams ? '?' + searchParams.toString() : ''}`, {
         excludeIds
       });
 

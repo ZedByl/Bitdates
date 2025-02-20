@@ -17,6 +17,7 @@ export default defineConfig({
         manualChunks: {
           react: ["react", "react-dom"],
           tanstack: ["@tanstack/react-router", "@tanstack/react-query"],
+          react_admin: ["react-admin", "@mui/material", "@mui/icons-material"],
         },
       },
     },

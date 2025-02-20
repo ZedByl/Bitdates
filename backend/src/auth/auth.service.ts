@@ -71,8 +71,6 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await this.userRepository.findOneBy({ email });
 
-    console.log(password, user.password, 'password, user.password');
-
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Incorrect email or password');
     }

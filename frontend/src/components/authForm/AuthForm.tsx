@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/ui/field.tsx";
-import axios from "axios";
 import { useUserStore } from "@/stores/user/userStore.ts";
 import { UserApi } from "@/models/user.ts";
 import { CloseButton } from "@/components/ui/close-button.tsx";
@@ -44,19 +43,16 @@ export const AuthForm = () => {
     navigation({ to: '/' });
   };
 
-  console.log(user, 'user');
-
-  const toAdmin = async () => {
-    await navigation({ to: '/auth/admin' });
-  };
+  // const toAdmin = async () => {
+  //   await navigation({ to: '/auth/admin' });
+  // };
 
   const handleLogin = async (form: AuthForm) => {
     try {
-      const data = await fetchAPI.post<UserApi>(APIEndpoints.LOGIN, form);
-      console.log(data);
-      setUser(data);
-
-      await toAdmin();
+      if (!user) {
+        const data = await fetchAPI.post<UserApi>(APIEndpoints.LOGIN, form);
+        setUser(data);
+      }
     } catch (e: any) {
       const message = e?.response?.data?.message || '';
       setError('email', { type: "custom", message });
@@ -65,9 +61,8 @@ export const AuthForm = () => {
 
   const handleRegister = async (form: AuthForm) => {
     try {
-      const { data } = await axios.post<UserApi>(APIEndpoints.REGISTER, form);
+      const data = await fetchAPI.post<UserApi>(APIEndpoints.REGISTER, form);
       setUser(data);
-      toAdmin();
     } catch (e: any) {
       const message = e?.response?.data?.message || '';
       setError('email', { type: "custom", message });
@@ -85,6 +80,12 @@ export const AuthForm = () => {
   const switchMode = () => {
     setIsLogin((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (user?.id) {
+      window.location.reload();
+    }
+  }, [user]);
 
   return (
     <Box

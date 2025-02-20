@@ -7,7 +7,6 @@ import usePageMeta from "@/hooks/usePageMeta";
 export const Route = createFileRoute('/auth/admin/')({
   component: AdminRoute,
   beforeLoad: async ({ context }) => {
-    console.log(context, 'context');
     if (!context.user) {
       throw redirect({
         to: '/auth',

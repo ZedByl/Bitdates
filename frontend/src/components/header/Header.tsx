@@ -4,12 +4,12 @@ import { useMemo } from "react";
 import { Logo } from "@/components/logo";
 import { useUserStore } from "@/stores/user/userStore.ts";
 import { IoIosLogOut } from "react-icons/io";
-import axios from "axios";
 import { useNavigate } from "@tanstack/react-router";
+import { fetchAPI } from "@/service/http.service.ts";
 
 export const Header = () => {
   const navigation = useNavigate();
-  const { user, clearUser } = useUserStore();
+  const { user } = useUserStore();
 
   // const onLogIn = () => {
   //     navigation('/login')
@@ -29,8 +29,8 @@ export const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`/api/auth/logout`);
-      clearUser();
+      await fetchAPI.get(`/api/auth/logout`);
+      window.location.reload();
     } catch (e) {
       console.error(e);
     }
